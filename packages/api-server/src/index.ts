@@ -16,6 +16,7 @@ server.get("/", (request, reply) => {
 const start = async () => {
   try {
     await server.listen({
+      host: "0.0.0.0",
       port: 8001,
     });
   } catch (err) {
