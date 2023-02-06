@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./packages/web-server/Dockerfile
+    # Container 이름
+    container_name: web-server
+    # 최초 한번 실행 후 재부팅 시 자동 재실행
+    restart: always
+    ports:
+      - 11083:80
+
+  back:
+    build:
+      context: .
+      dockerfile: ./packages/api-server/Dockerfile
+    # Container 이름
+    container_name: api-server
+    # 최초 한번 실행 후 재부팅 시 자동 재실행
+    restart: always
+    ports:
+      - 13003:8001
+
+  db:
+    image: postgres:latest
+    # 최초 한번 실행 후 재부팅 시 자동 재실행
+    restart: always
+    ports:
+      - "14003:5432"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "1q2w3e4r!"
+    volumes:
+      - pgpersistence:/var/lib/postgresql/data
+
+volumes:
+  pgpersistence:
