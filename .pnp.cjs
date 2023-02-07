@@ -4237,6 +4237,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@silevis/reactgrid", [\
+        ["npm:4.0.4", {\
+          "packageLocation": "./.yarn/cache/@silevis-reactgrid-npm-4.0.4-4950ac702c-a66a21cfb0.zip/node_modules/@silevis/reactgrid/",\
+          "packageDependencies": [\
+            ["@silevis/reactgrid", "npm:4.0.4"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:b49c794edcadc9fd00c612439d952c42ffa18420f1b8a33d93e8cf4fe505aba1d3c18da8324f9182e467b7a335e0f76faa1480f349a0d9d3b45f6359828a3179#npm:4.0.4", {\
+          "packageLocation": "./.yarn/__virtual__/@silevis-reactgrid-virtual-b62a413dc3/0/cache/@silevis-reactgrid-npm-4.0.4-4950ac702c-a66a21cfb0.zip/node_modules/@silevis/reactgrid/",\
+          "packageDependencies": [\
+            ["@silevis/reactgrid", "virtual:b49c794edcadc9fd00c612439d952c42ffa18420f1b8a33d93e8cf4fe505aba1d3c18da8324f9182e467b7a335e0f76faa1480f349a0d9d3b45f6359828a3179#npm:4.0.4"],\
+            ["@types/react", "npm:18.0.18"],\
+            ["@types/react-dom", "npm:18.0.6"],\
+            ["react", "npm:18.3.0-next-e61fd91f5-20220630"],\
+            ["react-dom", "virtual:b49c794edcadc9fd00c612439d952c42ffa18420f1b8a33d93e8cf4fe505aba1d3c18da8324f9182e467b7a335e0f76faa1480f349a0d9d3b45f6359828a3179#npm:18.3.0-next-e61fd91f5-20220630"],\
+            ["tslib", "npm:2.5.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-dom",\
+            "@types/react",\
+            "react-dom",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@sinclair/typebox", [\
         ["npm:0.24.34", {\
           "packageLocation": "./.yarn/cache/@sinclair-typebox-npm-0.24.34-198c2e07fb-35adcc7698.zip/node_modules/@sinclair/typebox/",\
@@ -19308,6 +19335,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["tslib", "npm:2.4.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:2.5.0", {\
+          "packageLocation": "./.yarn/cache/tslib-npm-2.5.0-bb364efebd-ae3ed5f9ce.zip/node_modules/tslib/",\
+          "packageDependencies": [\
+            ["tslib", "npm:2.5.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["tsutils", [\
@@ -19861,6 +19895,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["web-server", "workspace:packages/web-server"],\
             ["@metamask/providers", "npm:10.2.1"],\
+            ["@silevis/reactgrid", "virtual:b49c794edcadc9fd00c612439d952c42ffa18420f1b8a33d93e8cf4fe505aba1d3c18da8324f9182e467b7a335e0f76faa1480f349a0d9d3b45f6359828a3179#npm:4.0.4"],\
             ["@types/classnames", "npm:2.3.1"],\
             ["@types/lodash", "npm:4.14.191"],\
             ["@types/node", "npm:16.11.56"],\
