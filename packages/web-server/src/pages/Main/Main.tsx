@@ -37,7 +37,7 @@ function Main(props: MainProps) {
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
     <DivisionBox data-page="main" template="80px 80px auto" direction="VERTICAL" horizonAlign="center">
-      <button onClick={() => connectMetamask()}>Connect Your Wallet</button>
+      <button onClick={() => connectMetamask()}>Wow CI is activated</button>
     </DivisionBox>
   );
 }
