@@ -1,0 +1,22 @@
+name: docker-deploy
+
+on: 
+  push:            
+    branches:
+      - main
+
+jobs:
+  docker-ssh-action:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4        
+        with:
+          host: ${{ secrets.HOST }}          
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          timeout: 30s        
+          script: |
+            echo "테스트 출력"
