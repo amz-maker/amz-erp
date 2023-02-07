@@ -8,9 +8,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="" element={<Pages.Main />} />
-        <Route path="block-chain" element={<Pages.Main />} />
-        <Route path="/*" element={<Pages.Main />} />
+        <Route path="" element={<Pages.Main.Root />} />
       </Routes>
     </div>
   );

@@ -40,7 +40,6 @@ interface ITemplateCombine {
   direction?: 'VERTICAL' | 'HORIZON';
 }
 // ========================================
-
 interface DivisionBoxProps {
   gap?: React.CSSProperties['gap'];
   rowGap?: React.CSSProperties['rowGap'];
@@ -60,7 +59,7 @@ interface DivisionBoxProps {
   className?: HTMLAttributes<HTMLDivElement>['className'];
   style?: React.CSSProperties;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
-  reference?: React.LegacyRef<HTMLDivElement>;
+  reference?: React.ClassAttributes<HTMLDivElement>['ref'];
   children?: React.ReactNode;
 }
 
@@ -199,8 +198,11 @@ function ExportComponent(props: DivisionBoxProps & ITemplateCombine) {
 }
 
 namespace ExportComponent {
-  interface SpanProps extends DivisionBoxProps, IEat {}
-  export function Span(props: SpanProps) {
+  interface SpanProps extends IEat {}
+
+  export function Span(props: SpanProps & DivisionBoxProps & ITemplateA): JSX.Element;
+  export function Span(props: SpanProps & DivisionBoxProps & ITemplateB): JSX.Element;
+  export function Span(props: SpanProps & DivisionBoxProps & ITemplateCombine) {
     return <DivisionBox compType="SPAN" {...props} />;
   }
 }

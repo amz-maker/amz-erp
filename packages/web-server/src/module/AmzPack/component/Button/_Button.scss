@@ -1,0 +1,21 @@
+[data-component='button'] {
+  cursor: pointer;
+  padding: 5px 15px;
+  background-color: getColor(white);
+
+  &.default {
+    border: 1px solid getColor(gray-7);
+  }
+  &.dashed {
+    border: 1px dashed getColor(gray-7);
+  }
+  &.text {
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
