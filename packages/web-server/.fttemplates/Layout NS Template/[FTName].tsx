@@ -12,11 +12,11 @@ interface <FTName | capitalize>Props {};
 
 function <FTName | capitalize> (props: <FTName | capitalize>Props) { 
   /* ――――――――――――――― Variable ――――――――――――――― */
-  /* ===== Props ===== */
+  /* Props ――――― */
   const {} = props;
-  /* ===== State ===== */
-  /* ===== Const ===== */
-  /* ====== API ====== */
+  /* State ――――― */
+  /* Const ――――― */
+  /* API ――――――― */
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
 
