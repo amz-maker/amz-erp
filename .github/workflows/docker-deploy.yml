@@ -19,4 +19,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           timeout: 30s        
           script: |
-            echo "테스트 출력"
+            cd ~/git/amz-erp
+            git pull
+            yarn run docker-down
+            yarn run docker-up
+            
