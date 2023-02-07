@@ -21,6 +21,6 @@ jobs:
           script: |
             cd ~/git/amz-erp
             git pull
-            yarn run docker-down
-            yarn run docker-up
+            docker compose -p amz-erp down --rmi all -v
+            docker compose -p amz-erp up -d
             
