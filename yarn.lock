@@ -12706,15 +12706,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.3.0-next-3ddbedd05-20220719":
-  version: 18.3.0-next-e61fd91f5-20220630
-  resolution: "react-dom@npm:18.3.0-next-e61fd91f5-20220630"
+"react-dom@npm:^17.0.0":
+  version: 17.0.2
+  resolution: "react-dom@npm:17.0.2"
   dependencies:
     loose-envify: ^1.1.0
-    scheduler: 0.24.0-next-e61fd91f5-20220630
+    object-assign: ^4.1.1
+    scheduler: ^0.20.2
   peerDependencies:
-    react: 18.3.0-next-e61fd91f5-20220630
-  checksum: 1406aa95d57fce79c08142f127b1a47abd39f7000e5042597e71aa45f3b061b58abe48972334b897f82fdfbf3349444b067010eed2728253ebee40eef444c925
+    react: 17.0.2
+  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
+  languageName: node
+  linkType: hard
+
+"react-dom@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
   languageName: node
   linkType: hard
 
@@ -12857,11 +12870,11 @@ __metadata:
   linkType: hard
 
 "react@npm:^18.3.0-next-3ddbedd05-20220719":
-  version: 18.3.0-next-e61fd91f5-20220630
-  resolution: "react@npm:18.3.0-next-e61fd91f5-20220630"
+  version: 18.3.0-next-fecc288b7-20221025
+  resolution: "react@npm:18.3.0-next-fecc288b7-20221025"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 8f95151ea567bb1c110c7bde6276500489b202f3f0d407570ec3fa19cd1d3abe45b48dc026a31bc5fe9e789822e47a412735ca7c907b763ef9311af9376235a2
+  checksum: 860e2a595be0f3c75707ae4850490b367f1e6fb4275c1af9a33f234a9d47d9202ad49c51366a3b9d43d145c6fe106dde1089d93d7227efaadcaa4b8432122cb7
   languageName: node
   linkType: hard
 
@@ -13432,12 +13445,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.24.0-next-e61fd91f5-20220630":
-  version: 0.24.0-next-e61fd91f5-20220630
-  resolution: "scheduler@npm:0.24.0-next-e61fd91f5-20220630"
+"scheduler@npm:^0.20.2":
+  version: 0.20.2
+  resolution: "scheduler@npm:0.20.2"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 74ef2213728e74123355f277e9f14de8f368b5fd691dea8bfa1618a4a3121fec45a2d52199117c967adf24d0460ad37e82c7ba5a1afc0217050f15c19dea04c1
+    object-assign: ^4.1.1
+  checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
   languageName: node
   linkType: hard
 
@@ -15133,7 +15156,7 @@ __metadata:
     lodash: ^4.17.21
     react: ^18.3.0-next-3ddbedd05-20220719
     react-datasheet-grid: ^4.10.0
-    react-dom: ^18.3.0-next-3ddbedd05-20220719
+    react-dom: ^18.2.0
     react-router-dom: ^6.3.0
     react-scripts: 5.0.1
     recoil: ^0.7.6

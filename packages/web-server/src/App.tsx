@@ -9,6 +9,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="" element={<Pages.Main.Root />} />
+        <Route path="/laboratory" element={<Pages.Main.Laboratory />} />
       </Routes>
     </div>
   );
