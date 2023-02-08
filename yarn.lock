@@ -2755,6 +2755,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-virtual@npm:^3.0.0-beta.18":
+  version: 3.0.0-beta.45
+  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.45"
+  dependencies:
+    "@tanstack/virtual-core": 3.0.0-beta.45
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 9c93b940a0c96c703668aceb581822d17874bb04f25d950ee542eb0b234a30f102dab30831f0610ddc7cefb88a22d69c4c58fbe7e9d13b59cb901c53d6a671f6
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.0.0-beta.45":
+  version: 3.0.0-beta.45
+  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.45"
+  checksum: 8e25e3cf6b99c1c9d9dc87d707b8c48e4042e7efa92d60e4d057b0eb046d8f0982b94f31ecab184f35d70c23b2043bb9f18f8ccae580912cff09ba7db7d8166e
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -12641,6 +12659,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-datasheet-grid@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "react-datasheet-grid@npm:4.10.0"
+  dependencies:
+    "@tanstack/react-virtual": ^3.0.0-beta.18
+    classnames: ^2.3.1
+    fast-deep-equal: ^3.1.3
+    react-resize-detector: ^7.1.2
+    throttle-debounce: ^3.0.1
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 3a68af73816fd4811776bf8e16ebecc8f6732799c370d49853f9a2f769ccf3168486f7e58362db83d23d230ea073fedab3d87598955218c783ca8fc9077aa47a
+  languageName: node
+  linkType: hard
+
 "react-dev-utils@npm:^12.0.1":
   version: 12.0.1
   resolution: "react-dev-utils@npm:12.0.1"
@@ -12717,6 +12750,18 @@ __metadata:
   version: 0.11.0
   resolution: "react-refresh@npm:0.11.0"
   checksum: 112178a05b1e0ffeaf5d9fb4e56b4410a34a73adeb04dbf13abdc50d9ac9df2ada83e81485156cca0b3fa296aa3612751b3d6cd13be4464642a43679b819cbc7
+  languageName: node
+  linkType: hard
+
+"react-resize-detector@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "react-resize-detector@npm:7.1.2"
+  dependencies:
+    lodash: ^4.17.21
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 55f4abad7f7523d16b081b5ab20f75c539a54a08253ce7e9df473d48386f42ceca6c31584ba9fa26e3528b498ef6685ec77fb9a22cffc97df05fb326d0bf1b26
   languageName: node
   linkType: hard
 
@@ -14430,6 +14475,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"throttle-debounce@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "throttle-debounce@npm:3.0.1"
+  checksum: e34ef638e8df3a9154249101b68afcbf2652a139c803415ef8a2f6a8bc577bcd4d79e4bb914ad3cd206523ac78b9fb7e80885bfa049f64fbb1927f99d98b5736
+  languageName: node
+  linkType: hard
+
 "thunky@npm:^1.0.2":
   version: 1.1.0
   resolution: "thunky@npm:1.1.0"
@@ -15080,6 +15132,7 @@ __metadata:
     gsap: ^3.11.0
     lodash: ^4.17.21
     react: ^18.3.0-next-3ddbedd05-20220719
+    react-datasheet-grid: ^4.10.0
     react-dom: ^18.3.0-next-3ddbedd05-20220719
     react-router-dom: ^6.3.0
     react-scripts: 5.0.1
