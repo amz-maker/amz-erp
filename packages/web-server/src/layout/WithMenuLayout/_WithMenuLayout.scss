@@ -1,0 +1,10 @@
+[data-layout='withMenuLayout'] {
+  width: 100%;
+  height: 100%;
+
+  & > .menu-area {
+  }
+  & > .contents-area {
+    overflow: scroll;
+  }
+}

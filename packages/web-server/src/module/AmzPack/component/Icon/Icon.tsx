@@ -9,7 +9,7 @@
 import React, { HTMLAttributes } from 'react';
 import classNames from 'classnames';
 
-interface IconProps {
+export interface IconProps {
   type: 'solid' | 'regular' | 'light' | 'thin' | 'duotone';
   name: string;
   rotate?: '90' | '180' | '270';
