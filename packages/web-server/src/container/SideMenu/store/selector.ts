@@ -1,20 +1,20 @@
 import { selectorFamily } from 'recoil';
-import { menuState, IMenuState, IMenuStateId } from './atom';
+import { sideMenuState, ISideMenuState, ISideMenuStateId } from './atom';
 
-// Menu State
-export namespace MenuStateSelector {
-  export const modeSelector = selectorFamily<IMenuState['mode'], IMenuStateId>({
+// SideMenu State
+export namespace SideMenuStateSelector {
+  export const modeSelector = selectorFamily<ISideMenuState['mode'], ISideMenuStateId>({
     key: 'menuStateSelector.modeSelector',
     get:
       (id) =>
       ({ get }) => {
-        const data = get(menuState(id));
+        const data = get(sideMenuState(id));
         return data.mode;
       },
     set:
       (id) =>
       ({ set }, newValue) => {
-        set(menuState(id), (s) => {
+        set(sideMenuState(id), (s) => {
           return {
             ...s,
             mode: newValue as number,

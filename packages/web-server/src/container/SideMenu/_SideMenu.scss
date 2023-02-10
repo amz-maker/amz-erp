@@ -1,13 +1,11 @@
-[data-container='menu'] {
+[data-container='sideMenu'] {
   width: 280px;
   height: 100%;
   border-right: 1px solid getColor(map-gray-3);
 
-  & > .logo-area {
+  & > .toggle-area {
     position: relative;
     box-sizing: border-box;
-    height: 60px;
-    margin: 16px 0;
 
     & > em {
       font-size: 18px;
@@ -16,15 +14,15 @@
 
     & > .toggle-button {
       position: absolute;
-      right: -16px;
-
+      top: 18px;
+      right: -14px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       padding: 0;
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
 
       border: 0;
       border-radius: 50%;
@@ -38,7 +36,7 @@
   }
 
   & > .list-area {
-    padding: 0 16px;
+    padding: 8px 16px;
   }
 
   & > .shortcut-area {
@@ -51,11 +49,11 @@
   }
 }
 
-[data-container='menu.list'] {
+[data-container='sideMenu.list'] {
   cursor: pointer;
   padding: 12px 16px;
   border-radius: 16px;
-  margin-top: 8px;
+  margin-bottom: 8px;
 
   & > .list-wrapper {
     .icon-box {

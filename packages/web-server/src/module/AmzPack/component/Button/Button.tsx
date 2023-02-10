@@ -10,11 +10,22 @@ import React from 'react';
 import classNames from 'classnames';
 import { useTest, useAmzComponent } from '../../hook';
 
-type Variation = 'SOME_TYPE';
+type Variation = 'ROUND';
 
 /*====================
   VARIATION
 ====================*/
+const variationCreator = useAmzComponent.makeVariationCreator<unknown, Variation, IStyledProps, ButtonCoreProps>(ButtonCore);
+
+// Variation - Round
+interface ButtonRoundProps {}
+const ButtonRound = variationCreator.build<ButtonRoundProps, unknown>((props) => {
+  return {
+    ...props,
+    variation: 'ROUND',
+    defaultValue: props.defaultValue ?? 10,
+  } as ButtonCoreProps;
+});
 
 /*====================
   DEFAULT
@@ -41,7 +52,7 @@ export function ButtonCore(props: ButtonCoreProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return useAmzComponent.selectView(variation, viewProps, viewComponent, <ButtonView {...viewProps} />, {
-    variation: 'SOME_TYPE',
+    variation: 'ROUND',
     component: <ButtonView {...viewProps} />,
   });
 }
@@ -70,6 +81,8 @@ function ButtonView(props: ButtonViewProps) {
 /*====================
   NAMESPACE
 ====================*/
-namespace Button {}
+namespace Button {
+  export const Round = ButtonRound;
+}
 
 export default Button;

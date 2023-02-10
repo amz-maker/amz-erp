@@ -11,25 +11,24 @@ import { Button, DivisionBox, Icon } from 'module/AmzPack/component';
 import { useTest, useToggle } from 'module/AmzPack/hook';
 import { useRecoilState } from 'recoil';
 import { IListInfo } from './define';
-import { IMenuStateId } from './store/atom';
-import { MenuStateSelector } from './store/selector';
+import { ISideMenuStateId } from './store/atom';
+import { SideMenuStateSelector } from './store/selector';
 
-interface MenuProps {
-  id: IMenuStateId;
-  title: string;
+interface SideMenuProps {
+  id: ISideMenuStateId;
   listInfo: IListInfo[];
 }
-export function Menu(props: MenuProps) {
+export function SideMenu(props: SideMenuProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
-  const { id, title, listInfo } = props;
-  const { moduleName, naming, makeName } = useTest('menu');
+  const { id, listInfo } = props;
+  const { moduleName, naming, makeName } = useTest('sideMenu');
   const [miniMode, toggleMiniMode] = useToggle(true);
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
   function printList() {
     return listInfo.map((ele, idx) => {
       const key = makeName('li', idx);
-      return <Menu.List key={key} id={id} idx={idx} info={ele} miniMode={miniMode} />;
+      return <SideMenu.List key={key} id={id} idx={idx} info={ele} miniMode={miniMode} />;
     });
   }
 
@@ -41,11 +40,10 @@ export function Menu(props: MenuProps) {
       className={classNames({ mini: miniMode })}
       data-container={moduleName}
       direction="VERTICAL"
-      template={'max-content max-content auto'}
+      template={'max-content auto'}
       {...naming()}
     >
-      <DivisionBox className="logo-area" verticalAlign={'center'} horizonAlign={'center'}>
-        <em>{title}</em>
+      <DivisionBox className="toggle-area" verticalAlign={'center'} horizonAlign={'center'}>
         <Button className="toggle-button" onClick={toggleMiniMode}>
           {miniMode ? <Icon className="icon" name="chevron-right" type="solid" /> : <Icon className="icon" name="chevron-left" type="solid" />}
         </Button>
@@ -57,17 +55,17 @@ export function Menu(props: MenuProps) {
   );
 }
 
-export namespace Menu {
+export namespace SideMenu {
   interface ListProps {
-    id: IMenuStateId;
+    id: ISideMenuStateId;
     idx: number;
     info: IListInfo;
     miniMode: boolean;
   }
   export function List(props: ListProps) {
     const { id, idx, info, miniMode } = props;
-    const { moduleName, naming } = useTest('menu.list');
-    const [mode, setMode] = useRecoilState(MenuStateSelector.modeSelector(id));
+    const { moduleName, naming } = useTest('sideMenu.list');
+    const [mode, setMode] = useRecoilState(SideMenuStateSelector.modeSelector(id));
 
     return (
       <li
@@ -90,4 +88,4 @@ export namespace Menu {
   }
 }
 
-export default Menu;
+export default SideMenu;

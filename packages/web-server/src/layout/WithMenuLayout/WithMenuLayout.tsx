@@ -2,12 +2,13 @@
  * WithMenuLayout.tsx
  * WRITER : 최정근
  * DATE : 2022-12-19
- * DISCRIPTION : TopMenu가 포함된 Layout
+ * DISCRIPTION : SideMenu, TopMenu가 포함된 Layout
  * TYPE : Layout
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
-import Menu from 'container/Menu';
-import { IListInfo } from 'container/Menu/define';
+import SideMenu from 'container/SideMenu';
+import { IListInfo } from 'container/SideMenu/define';
+import TopMenu from 'container/TopMenu';
 import { DivisionBox, Icon } from 'module/AmzPack/component';
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -26,11 +27,21 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <DivisionBox data-layout="withMenuLayout" template={'max-content auto'}>
-      <div className="menu-area">
-        <Menu
+    <DivisionBox
+      data-layout="withMenuLayout"
+      template={{
+        row: '60px auto',
+        col: 'max-content auto',
+      }}
+    >
+      <DivisionBox.Span className="span-box" colSpan={2}>
+        <div className="top-menu-area">
+          <TopMenu />
+        </div>
+      </DivisionBox.Span>
+      <div className="side-menu-area">
+        <SideMenu
           id={'navigator'}
-          title={'ERP'}
           listInfo={menuInfo.map((ele): IListInfo => {
             return {
               name: ele.name,
@@ -40,6 +51,7 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
           })}
         />
       </div>
+
       <div className="contents-area">
         <Outlet />
       </div>
