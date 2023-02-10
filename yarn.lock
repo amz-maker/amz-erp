@@ -2755,6 +2755,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-virtual@npm:^3.0.0-beta.18":
+  version: 3.0.0-beta.45
+  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.45"
+  dependencies:
+    "@tanstack/virtual-core": 3.0.0-beta.45
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 9c93b940a0c96c703668aceb581822d17874bb04f25d950ee542eb0b234a30f102dab30831f0610ddc7cefb88a22d69c4c58fbe7e9d13b59cb901c53d6a671f6
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.0.0-beta.45":
+  version: 3.0.0-beta.45
+  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.45"
+  checksum: 8e25e3cf6b99c1c9d9dc87d707b8c48e4042e7efa92d60e4d057b0eb046d8f0982b94f31ecab184f35d70c23b2043bb9f18f8ccae580912cff09ba7db7d8166e
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -3090,6 +3108,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.191":
+  version: 4.14.191
+  resolution: "@types/lodash@npm:4.14.191"
+  checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
+  languageName: node
+  linkType: hard
+
 "@types/mime@npm:*":
   version: 3.0.1
   resolution: "@types/mime@npm:3.0.1"
@@ -3204,6 +3229,15 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 6d72d35ab3eecf382a5e0f225923f5a2c753045fce02e4e29713f36c99a24f0f770666a49dde96167f37c86271f93339d1b7e2b8969d011b137a9ebd24ee6806
+  languageName: node
+  linkType: hard
+
+"@types/recoil@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@types/recoil@npm:0.0.9"
+  dependencies:
+    recoil: "*"
+  checksum: f4209a72dbbef74f3ba128678b0e9a24752273e5ae468c8ed51a6e5562561c214c250218224664410ca4d7f5f3764c1f657264bca0e09e63d52bfb53412e7cac
   languageName: node
   linkType: hard
 
@@ -8103,6 +8137,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hamt_plus@npm:1.0.2":
+  version: 1.0.2
+  resolution: "hamt_plus@npm:1.0.2"
+  checksum: af26ea32db03009019cc83dfa9411521a2fa16079443de1a502c9be46d8b3c975acda8ed93fc5750ef08d3186d35901e2d8cfe717dd54bea67b358601fa74e4c
+  languageName: node
+  linkType: hard
+
 "handle-thing@npm:^2.0.0":
   version: 2.0.1
   resolution: "handle-thing@npm:2.0.1"
@@ -12618,6 +12659,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-datasheet-grid@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "react-datasheet-grid@npm:4.10.0"
+  dependencies:
+    "@tanstack/react-virtual": ^3.0.0-beta.18
+    classnames: ^2.3.1
+    fast-deep-equal: ^3.1.3
+    react-resize-detector: ^7.1.2
+    throttle-debounce: ^3.0.1
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 3a68af73816fd4811776bf8e16ebecc8f6732799c370d49853f9a2f769ccf3168486f7e58362db83d23d230ea073fedab3d87598955218c783ca8fc9077aa47a
+  languageName: node
+  linkType: hard
+
 "react-dev-utils@npm:^12.0.1":
   version: 12.0.1
   resolution: "react-dev-utils@npm:12.0.1"
@@ -12650,15 +12706,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.3.0-next-3ddbedd05-20220719":
-  version: 18.3.0-next-e61fd91f5-20220630
-  resolution: "react-dom@npm:18.3.0-next-e61fd91f5-20220630"
+"react-dom@npm:^17.0.0":
+  version: 17.0.2
+  resolution: "react-dom@npm:17.0.2"
   dependencies:
     loose-envify: ^1.1.0
-    scheduler: 0.24.0-next-e61fd91f5-20220630
+    object-assign: ^4.1.1
+    scheduler: ^0.20.2
   peerDependencies:
-    react: 18.3.0-next-e61fd91f5-20220630
-  checksum: 1406aa95d57fce79c08142f127b1a47abd39f7000e5042597e71aa45f3b061b58abe48972334b897f82fdfbf3349444b067010eed2728253ebee40eef444c925
+    react: 17.0.2
+  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
+  languageName: node
+  linkType: hard
+
+"react-dom@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
   languageName: node
   linkType: hard
 
@@ -12694,6 +12763,18 @@ __metadata:
   version: 0.11.0
   resolution: "react-refresh@npm:0.11.0"
   checksum: 112178a05b1e0ffeaf5d9fb4e56b4410a34a73adeb04dbf13abdc50d9ac9df2ada83e81485156cca0b3fa296aa3612751b3d6cd13be4464642a43679b819cbc7
+  languageName: node
+  linkType: hard
+
+"react-resize-detector@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "react-resize-detector@npm:7.1.2"
+  dependencies:
+    lodash: ^4.17.21
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 55f4abad7f7523d16b081b5ab20f75c539a54a08253ce7e9df473d48386f42ceca6c31584ba9fa26e3528b498ef6685ec77fb9a22cffc97df05fb326d0bf1b26
   languageName: node
   linkType: hard
 
@@ -12789,11 +12870,11 @@ __metadata:
   linkType: hard
 
 "react@npm:^18.3.0-next-3ddbedd05-20220719":
-  version: 18.3.0-next-e61fd91f5-20220630
-  resolution: "react@npm:18.3.0-next-e61fd91f5-20220630"
+  version: 18.3.0-next-fecc288b7-20221025
+  resolution: "react@npm:18.3.0-next-fecc288b7-20221025"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 8f95151ea567bb1c110c7bde6276500489b202f3f0d407570ec3fa19cd1d3abe45b48dc026a31bc5fe9e789822e47a412735ca7c907b763ef9311af9376235a2
+  checksum: 860e2a595be0f3c75707ae4850490b367f1e6fb4275c1af9a33f234a9d47d9202ad49c51366a3b9d43d145c6fe106dde1089d93d7227efaadcaa4b8432122cb7
   languageName: node
   linkType: hard
 
@@ -12857,6 +12938,22 @@ __metadata:
   version: 0.2.0
   resolution: "real-require@npm:0.2.0"
   checksum: fa060f19f2f447adf678d1376928c76379dce5f72bd334da301685ca6cdcb7b11356813332cc243c88470796bc2e2b1e2917fc10df9143dd93c2ea608694971d
+  languageName: node
+  linkType: hard
+
+"recoil@npm:*, recoil@npm:^0.7.6":
+  version: 0.7.6
+  resolution: "recoil@npm:0.7.6"
+  dependencies:
+    hamt_plus: 1.0.2
+  peerDependencies:
+    react: ">=16.13.1"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 2b31dd29a7e0b369bc986a16f7253006776845144684c9e38bb6760e4ea954c5d7dc682aaf88e815e69098b8dea3ff62b6fa4e6c156157a29d2d9cb824db1779
   languageName: node
   linkType: hard
 
@@ -13348,12 +13445,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.24.0-next-e61fd91f5-20220630":
-  version: 0.24.0-next-e61fd91f5-20220630
-  resolution: "scheduler@npm:0.24.0-next-e61fd91f5-20220630"
+"scheduler@npm:^0.20.2":
+  version: 0.20.2
+  resolution: "scheduler@npm:0.20.2"
   dependencies:
     loose-envify: ^1.1.0
-  checksum: 74ef2213728e74123355f277e9f14de8f368b5fd691dea8bfa1618a4a3121fec45a2d52199117c967adf24d0460ad37e82c7ba5a1afc0217050f15c19dea04c1
+    object-assign: ^4.1.1
+  checksum: c4b35cf967c8f0d3e65753252d0f260271f81a81e427241295c5a7b783abf4ea9e905f22f815ab66676f5313be0a25f47be582254db8f9241b259213e999b8fc
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
   languageName: node
   linkType: hard
 
@@ -14391,6 +14498,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"throttle-debounce@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "throttle-debounce@npm:3.0.1"
+  checksum: e34ef638e8df3a9154249101b68afcbf2652a139c803415ef8a2f6a8bc577bcd4d79e4bb914ad3cd206523ac78b9fb7e80885bfa049f64fbb1927f99d98b5736
+  languageName: node
+  linkType: hard
+
 "thunky@npm:^1.0.2":
   version: 1.1.0
   resolution: "thunky@npm:1.1.0"
@@ -15030,17 +15144,22 @@ __metadata:
   dependencies:
     "@metamask/providers": ^10.2.1
     "@types/classnames": ^2.3.1
+    "@types/lodash": ^4.14.191
     "@types/node": ^16.11.45
     "@types/react": ^18.0.15
     "@types/react-dom": ^18.0.6
+    "@types/recoil": ^0.0.9
     "@types/web3": ^1.2.2
     axios: ^0.27.2
     classnames: ^2.3.1
     gsap: ^3.11.0
+    lodash: ^4.17.21
     react: ^18.3.0-next-3ddbedd05-20220719
-    react-dom: ^18.3.0-next-3ddbedd05-20220719
+    react-datasheet-grid: ^4.10.0
+    react-dom: ^18.2.0
     react-router-dom: ^6.3.0
     react-scripts: 5.0.1
+    recoil: ^0.7.6
     sass: ^1.53.0
     typescript: ^4.7.4
     web-vitals: ^2.1.4

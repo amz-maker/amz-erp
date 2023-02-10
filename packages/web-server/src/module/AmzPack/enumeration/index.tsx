@@ -1,0 +1,6 @@
+export enum AmzEnvMode {
+  UNDEFINED = '',
+  DEVELOPMENT = 'DEVELOPMENT',
+  TEST = 'TEST',
+  PRODUCTION = 'PRODUCTION',
+}

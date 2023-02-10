@@ -1,0 +1,103 @@
+[data-container='sideMenu'] {
+  width: 280px;
+  height: 100%;
+  border-right: 1px solid getColor(map-gray-3);
+
+  & > .toggle-area {
+    position: relative;
+    box-sizing: border-box;
+
+    & > em {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    & > .toggle-button {
+      position: absolute;
+      top: 18px;
+      right: -14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0;
+      width: 28px;
+      height: 28px;
+
+      border: 0;
+      border-radius: 50%;
+      background-color: getColor(map-blue-5);
+
+      & > .icon {
+        color: getColor(white);
+        font-size: 12px;
+      }
+    }
+  }
+
+  & > .list-area {
+    padding: 8px 16px;
+  }
+
+  & > .shortcut-area {
+    box-sizing: border-box;
+    padding-bottom: 68px;
+  }
+
+  &.mini {
+    width: auto;
+  }
+}
+
+[data-container='sideMenu.list'] {
+  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 16px;
+  margin-bottom: 8px;
+
+  & > .list-wrapper {
+    .icon-box {
+      color: getColor(map-gray-5);
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .name-box {
+      display: block;
+      margin-left: 16px;
+
+      color: getColor(map-gray-5);
+      font-size: 14px;
+      text-align: left;
+    }
+  }
+
+  & > .list-wrapper.mini {
+    .name-box {
+      display: none;
+    }
+  }
+
+  &:hover {
+    background-color: getColor(map-gray-1);
+
+    & > .list-wrapper {
+      .icon-box,
+      .name-box {
+        color: getColor(map-gray-7);
+      }
+    }
+  }
+
+  &.selected {
+    background-color: getColor(map-blue-0);
+
+    & > .list-wrapper {
+      .icon-box,
+      .name-box {
+        color: getColor(map-blue-5);
+        font-weight: bold;
+      }
+    }
+  }
+}
