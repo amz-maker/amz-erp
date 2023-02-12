@@ -1,0 +1,21 @@
+[data-page='laboratory'] {
+}
+
+[data-container='laboratory.lab'] {
+  width: 100%;
+
+  & > .title-area {
+    height: 40px;
+    border-bottom: 2px solid getColor(geekblue-6);
+    background-color: getColor(geekblue-1);
+    padding-left: 10px;
+
+    & > em {
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  & > .contents-area {
+  }
+}
