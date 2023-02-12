@@ -8,12 +8,12 @@
 --------------------------------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 
-interface RootProps { }
+interface RootProps {}
 
 function Root(props: RootProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   /* Props ――――― */
-  const { } = props;
+  const {} = props;
   /* State ――――― */
   /* Const ――――― */
   /* API ――――――― */
@@ -26,6 +26,6 @@ function Root(props: RootProps) {
   return <div data-page="root">New Page</div>;
 }
 
-namespace Root { }
+namespace Root {}
 
 export default Root;
