@@ -36,12 +36,12 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
     >
       <DivisionBox.Span className="span-box" colSpan={2}>
         <div className="top-menu-area">
-          <TopMenu />
+          <TopMenu id={'topMenu'} />
         </div>
       </DivisionBox.Span>
       <div className="side-menu-area">
         <SideMenu
-          id={'navigator'}
+          id={'sideMenu'}
           listInfo={menuInfo.map((ele): IListInfo => {
             return {
               name: ele.name,

@@ -53,7 +53,7 @@
 
   & > .list-wrapper {
     .icon-box {
-      color: getColor(map-gray-5);
+      color: getColor(map-gray-6);
       font-size: 24px;
       text-align: center;
     }
@@ -62,7 +62,7 @@
       display: block;
       margin-left: 16px;
 
-      color: getColor(map-gray-5);
+      color: getColor(map-gray-6);
       font-size: 14px;
       text-align: left;
     }
@@ -80,7 +80,7 @@
     & > .list-wrapper {
       .icon-box,
       .name-box {
-        color: getColor(map-gray-7);
+        color: getColor(map-gray-8);
       }
     }
   }

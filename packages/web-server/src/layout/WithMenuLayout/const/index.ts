@@ -4,7 +4,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '매출계약 정보관리',
     icon: {
-      name: 'table',
+      name: 'file-signature',
       type: 'solid',
     },
     uri: '/',
@@ -12,7 +12,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '매출발행 입금내역 관리',
     icon: {
-      name: 'table',
+      name: 'wallet',
       type: 'solid',
     },
     uri: '/',
@@ -20,7 +20,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '인력투입 실적관리',
     icon: {
-      name: 'table',
+      name: 'person',
       type: 'solid',
     },
     uri: '/',
@@ -28,7 +28,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '임직원 급여관리',
     icon: {
-      name: 'table',
+      name: 'sack-dollar',
       type: 'solid',
     },
     uri: '/',
@@ -36,7 +36,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '계약직 급여관리',
     icon: {
-      name: 'table',
+      name: 'sack-dollar',
       type: 'solid',
     },
     uri: '/',
@@ -44,7 +44,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '기타 매입관리',
     icon: {
-      name: 'table',
+      name: 'cart-shopping',
       type: 'solid',
     },
     uri: '/',
@@ -52,7 +52,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '월간 매입내역조회',
     icon: {
-      name: 'table',
+      name: 'cart-shopping',
       type: 'solid',
     },
     uri: '/',
@@ -60,7 +60,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '매입-매출현황',
     icon: {
-      name: 'table',
+      name: 'comments-dollar',
       type: 'solid',
     },
     uri: '/',
@@ -68,7 +68,7 @@ export const menuInfo: IMenuInfo[] = [
   {
     name: '통장 잔고관리',
     icon: {
-      name: 'table',
+      name: 'piggy-bank',
       type: 'solid',
     },
     uri: '/',

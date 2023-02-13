@@ -25,4 +25,7 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+
+  border: 1px solid getColor(map-gray-3);
+  color: getColor(map-gray-5);
 }
