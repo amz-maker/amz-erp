@@ -2,7 +2,7 @@
  * UseComponent.tsx
  * WRITER : 최정근
  * DATE : 2022-11-04
- * DISCRIPTION : 
+ * DISCRIPTION : AMZ Component를 만들기 위한 가이드라인 서포터
  * TYPE : Hook
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -126,8 +126,9 @@ namespace useAmzComponent {
   export interface IComponentCore<VARIATION extends string, V> extends ComponentCoreCommonType<VARIATION>, IComponent<V>, IChildren {}
   export interface IComponentCoreMinimal<VARIATION extends string> extends ComponentCoreCommonType<VARIATION>, IComponentMinimal, IChildren {}
 
-  export interface IComponentView extends IChildren {
+  export interface IComponentView<VARIATION extends string> extends IChildren {
     className?: string;
+    variation?: VARIATION | (string & Record<never, never>);
   }
 
   export function makeVariationCreator<
@@ -138,6 +139,23 @@ namespace useAmzComponent {
   >(core: (props: CORE_PROPS) => JSX.Element) {
     return {
       build<P extends object, V extends VALUE_TYPE, PE = P & Omit<useAmzComponent.IComponent<V>, keyof P> & Omit<STYLED_PROPS, keyof P>>(
+        handler: (props: PE) => CORE_PROPS,
+      ) {
+        return (props: PE) => {
+          const CoreComponent = core;
+          return <CoreComponent {...(handler(props) as CORE_PROPS)} />;
+        };
+      },
+    };
+  }
+
+  export function makeVariationCreatorMinimal<
+    VARIATION extends string,
+    STYLED_PROPS extends object,
+    CORE_PROPS extends useAmzComponent.IComponentCoreMinimal<VARIATION> & STYLED_PROPS,
+  >(core: (props: CORE_PROPS) => JSX.Element) {
+    return {
+      build<P extends object, PE = P & Omit<useAmzComponent.IComponentMinimal, keyof P> & Omit<STYLED_PROPS, keyof P>>(
         handler: (props: PE) => CORE_PROPS,
       ) {
         return (props: PE) => {

@@ -85,16 +85,16 @@ interface IStyledProps {
   design?: 'default' | 'text';
   placeholder?: string;
 }
-export interface InputViewProps extends useAmzComponent.IComponentView, IStyledProps {
+export interface InputViewProps extends useAmzComponent.IComponentView<Variation>, IStyledProps {
   value: ValueType;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 function InputView(props: InputViewProps) {
   const { moduleName, naming } = useTest('input');
-  const { placeholder = '', className, design = 'default', value, onChange } = props;
+  const { variation, placeholder = '', className, design = 'default', value, onChange } = props;
 
   return (
-    <div data-component={moduleName} {...naming()}>
+    <div data-component={moduleName} data-variation={variation} {...naming()}>
       <div className={classNames('input-box', className, design)}>
         <input placeholder={placeholder} type="text" value={value} onChange={onChange} {...naming('core')} />
       </div>

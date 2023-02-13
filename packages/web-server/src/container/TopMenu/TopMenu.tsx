@@ -27,7 +27,7 @@ function TopMenu(props: TopMenuProps) {
       </DivisionBox>
       <div></div>
       <DivisionBox className="info-area" template={'max-content'} verticalAlign={'center'} repeat>
-        <Button.Round value={100}>
+        <Button.Round borderRadius={'50%'} width={'40px'} height={'40px'}>
           <Icon name="user" type="solid" />
         </Button.Round>
       </DivisionBox>

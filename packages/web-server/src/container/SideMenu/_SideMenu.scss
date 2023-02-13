@@ -4,13 +4,9 @@
   border-right: 1px solid getColor(map-gray-3);
 
   & > .toggle-area {
+    width: auto;
     position: relative;
     box-sizing: border-box;
-
-    & > em {
-      font-size: 18px;
-      font-weight: bold;
-    }
 
     & > .toggle-button {
       position: absolute;
@@ -45,7 +41,7 @@
   }
 
   &.mini {
-    width: auto;
+    width: max-content;
   }
 }
 
