@@ -77,7 +77,7 @@ export namespace SideMenu {
         className={classNames({ selected: mode === idx })}
         {...naming('li', idx)}
       >
-        <DivisionBox className={classNames('list-wrapper', { mini: miniMode })} template="max-content auto" verticalAlign={'center'}>
+        <DivisionBox className={classNames('list-wrapper', { mini: miniMode })} template="40px auto" verticalAlign={'center'}>
           <span className="icon-box">{info.icon}</span>
           <span className="name-box">
             <em>{info.name}</em>

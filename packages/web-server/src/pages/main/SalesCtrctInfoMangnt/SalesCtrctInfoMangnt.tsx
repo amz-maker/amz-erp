@@ -23,7 +23,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* ―――――――――――――― Use Effect ―――――――――――――― */
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
-  return <div data-page="salesCtrctInfoMangnt">Sales</div>;
+  return <div data-page="salesCtrctInfoMangnt" className="erp-design"></div>;
 }
 
 namespace SalesCtrctInfoMangnt {}
