@@ -13,5 +13,12 @@
   }
 
   & > .info-area {
+    & > .info-box {
+      padding: 0 20px;
+
+      button {
+        font-size: 12px;
+      }
+    }
   }
 }

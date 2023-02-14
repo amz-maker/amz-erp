@@ -15,15 +15,16 @@ type Variation = 'ROUND';
 /*====================
   VARIATION
 ====================*/
-const variationCreator = useAmzComponent.makeVariationCreator<unknown, Variation, IStyledProps, ButtonCoreProps>(ButtonCore);
+const variationCreator = useAmzComponent.makeVariationCreatorMinimal<Variation, IStyledProps, ButtonCoreProps>(ButtonCore);
 
 // Variation - Round
-interface ButtonRoundProps {}
-const ButtonRound = variationCreator.build<ButtonRoundProps, unknown>((props) => {
+interface ButtonRoundProps {
+  borderRadius: React.CSSProperties['borderRadius'];
+}
+const ButtonRound = variationCreator.build<ButtonRoundProps>((props) => {
   return {
     ...props,
     variation: 'ROUND',
-    defaultValue: props.defaultValue ?? 10,
   } as ButtonCoreProps;
 });
 
@@ -32,7 +33,7 @@ const ButtonRound = variationCreator.build<ButtonRoundProps, unknown>((props) =>
 ====================*/
 interface ButtonProps extends useAmzComponent.IComponentMinimal, IStyledProps {}
 function Button(props: ButtonProps) {
-  return <ButtonCore {...props} />;
+  return <ButtonCore variation={'DEFAULT'} {...props} />;
 }
 
 /*====================
@@ -62,17 +63,30 @@ export function ButtonCore(props: ButtonCoreProps) {
 ====================*/
 interface IStyledProps {
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  width?: React.CSSProperties['width'];
+  height?: React.CSSProperties['height'];
+  borderRadius?: React.CSSProperties['borderRadius'];
+  borderStyle?: React.CSSProperties['borderStyle'];
+  borderWidth?: React.CSSProperties['borderWidth'];
+  borderColor?: React.CSSProperties['borderColor'];
   design?: 'default' | 'dashed' | 'text';
   onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick'];
 }
-export interface ButtonViewProps extends useAmzComponent.IComponentView, IStyledProps {}
+export interface ButtonViewProps extends useAmzComponent.IComponentView<Variation>, IStyledProps {}
 function ButtonView(props: ButtonViewProps) {
-  const { onClick, className, children } = props;
   const { moduleName, naming } = useTest('button');
-  const { type = 'button', design = 'default' } = props;
+  const { variation, onClick, className, children, type = 'button', design = 'default' } = props;
 
   return (
-    <button data-component={moduleName} {...naming()} onClick={onClick} type={type} className={classNames(className, design)}>
+    <button
+      data-component={moduleName}
+      data-variation={variation}
+      {...naming()}
+      onClick={onClick}
+      type={type}
+      className={classNames(className, design)}
+      style={{ ...props }}
+    >
       {children}
     </button>
   );

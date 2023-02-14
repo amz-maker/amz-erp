@@ -13,6 +13,9 @@ export interface IDataComponent {
 export interface IDataSpecial {
   'data-special'?: string;
 }
+export interface IDataVariation {
+  'data-variation'?: string;
+}
 
 export interface IChildren {
   children?: React.ReactNode;

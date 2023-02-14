@@ -18,7 +18,7 @@
       box-sizing: border-box;
       border: 0;
 
-      color: getColor(map-gray-7);
+      color: getColor(map-gray-8);
       font-size: 14px;
 
       &:focus {
@@ -34,7 +34,7 @@
 
       & > input {
         &::placeholder {
-          color: getColor(map-gray-7);
+          color: getColor(map-gray-8);
           font-weight: bold;
         }
       }

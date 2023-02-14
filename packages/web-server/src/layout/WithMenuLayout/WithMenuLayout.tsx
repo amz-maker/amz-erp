@@ -30,18 +30,16 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
     <DivisionBox
       data-layout="withMenuLayout"
       template={{
-        row: '60px auto',
-        col: 'max-content auto',
+        row: '60px 1fr',
+        col: 'max-content 1fr',
       }}
     >
-      <DivisionBox.Span className="span-box" colSpan={2}>
-        <div className="top-menu-area">
-          <TopMenu />
-        </div>
+      <DivisionBox.Span className="top-menu-area" colSpan={2}>
+        <TopMenu id={'topMenu'} />
       </DivisionBox.Span>
       <div className="side-menu-area">
         <SideMenu
-          id={'navigator'}
+          id={'sideMenu'}
           listInfo={menuInfo.map((ele): IListInfo => {
             return {
               name: ele.name,
@@ -51,7 +49,6 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
           })}
         />
       </div>
-
       <div className="contents-area">
         <Outlet />
       </div>
