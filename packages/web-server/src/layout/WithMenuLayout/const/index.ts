@@ -7,7 +7,7 @@ export const menuInfo: IMenuInfo[] = [
       name: 'file-signature',
       type: 'solid',
     },
-    uri: '/',
+    uri: '/sales',
   },
   {
     name: '매출발행 입금내역 관리',

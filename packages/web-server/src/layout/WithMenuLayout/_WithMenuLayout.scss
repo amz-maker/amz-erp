@@ -2,13 +2,11 @@
   width: 100%;
   height: 100%;
 
-  & > .span-box {
-    & > .side-menu-area {
-    }
-  }
   & > .top-menu-area {
   }
+  & > .side-menu-area {
+  }
   & > .contents-area {
-    overflow: scroll;
+    overflow: auto;
   }
 }

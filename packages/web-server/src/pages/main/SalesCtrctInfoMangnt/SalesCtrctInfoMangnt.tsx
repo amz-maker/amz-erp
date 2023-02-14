@@ -1,16 +1,16 @@
 /*------------------------------------------------------------------------------------------------------------------------------------------
- * LoginPop.tsx
- * WRITER : 모시깽이
- * DATE : 20XX-XX-XX
+ * SalesCtrctInfoMangnt.tsx
+ * WRITER : 최정근
+ * DATE : 2023-02-14
  * DISCRIPTION : 
  * TYPE : Page
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 
-interface LoginPopProps {}
+interface SalesCtrctInfoMangntProps {}
 
-function LoginPop(props: LoginPopProps) {
+function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   /* Props ――――― */
   const {} = props;
@@ -23,9 +23,9 @@ function LoginPop(props: LoginPopProps) {
   /* ―――――――――――――― Use Effect ―――――――――――――― */
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
-  return <div data-page="loginPop">Login Page</div>;
+  return <div data-page="salesCtrctInfoMangnt">Sales</div>;
 }
 
-namespace LoginPop {}
+namespace SalesCtrctInfoMangnt {}
 
-export default LoginPop;
+export default SalesCtrctInfoMangnt;
