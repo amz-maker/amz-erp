@@ -1,25 +1,19 @@
 /*------------------------------------------------------------------------------------------------------------------------------------------
- * SalesCtrctInfoMangnt.tsx
+ * ERPDesign.tsx
  * WRITER : 최정근
- * DATE : 2023-02-14
+ * DATE : 2023-02-15
  * DISCRIPTION : 
- * TYPE : Page
+ * TYPE : Container
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
-import React from 'react';
-import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
+import React from 'react';
 
-interface SalesCtrctInfoMangntProps {}
-
-function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
+interface ERPDesignProps extends IChildren, IDataPage {}
+function ERPDesign(props: ERPDesignProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
-  /* Props ――――― */
-  const {} = props;
-  /* State ――――― */
-  /* Const ――――― */
-  /* API ――――――― */
+  const { 'data-page': dataPage, children } = props;
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
 
@@ -27,17 +21,24 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt">
-      <ERPDesign.ConditionArea size={4}>
-        <em>계약기간</em>
-        <em>발주사</em>
-        <em>계약사</em>
-        <em>프로젝트명</em>
-      </ERPDesign.ConditionArea>
-    </ERPDesign>
+    <div data-page={dataPage} data-container="erpDesign">
+      {children}
+    </div>
   );
 }
 
-namespace SalesCtrctInfoMangnt {}
+namespace ERPDesign {
+  interface ConditionArea extends IChildren {
+    size: number;
+  }
+  export function ConditionArea(props: ConditionArea) {
+    const { size, children } = props;
+    return (
+      <DivisionBox data-container="erpDesign.ConditionArea" template={`repeat(${size}, max-content 1fr)`} gap={5}>
+        {children}
+      </DivisionBox>
+    );
+  }
+}
 
-export default SalesCtrctInfoMangnt;
+export default ERPDesign;

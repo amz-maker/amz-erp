@@ -6,10 +6,11 @@
  * TYPE : Container
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
+import React from 'react';
 import classNames from 'classnames';
 import { Button, DivisionBox, Icon } from 'module/AmzPack/component';
 import { useTest, useToggle } from 'module/AmzPack/hook';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { IListInfo } from './define';
 import { ISideMenuStateId } from './store/atom';
 import { SideMenuStateSelector } from './store/selector';
@@ -23,6 +24,7 @@ export function SideMenu(props: SideMenuProps) {
   const { id, listInfo } = props;
   const { moduleName, naming, makeName } = useTest('sideMenu');
   const [miniMode, toggleMiniMode] = useToggle(true);
+  const mode = useRecoilValue(SideMenuStateSelector.modeSelector(id));
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
   function printList() {
@@ -33,6 +35,13 @@ export function SideMenu(props: SideMenuProps) {
   }
 
   /* ―――――――――――――― Use Effect ―――――――――――――― */
+  React.useEffect(() => {
+    // 처음 설정된 메뉴 선택
+    const info = listInfo[mode];
+    if (info.onClick) {
+      info.onClick();
+    }
+  }, []);
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
