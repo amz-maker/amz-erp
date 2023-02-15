@@ -10,6 +10,7 @@ import React from 'react';
 import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
+import { DatePicker, DatePickerProps } from 'antd';
 
 interface SalesCtrctInfoMangntProps {}
 
@@ -22,17 +23,21 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* API ――――――― */
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    // 와
+  };
 
   /* ―――――――――――――― Use Effect ―――――――――――――― */
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
     <ERPDesign data-page="salesCtrctInfoMangnt">
-      <ERPDesign.ConditionArea size={4}>
-        <em>계약기간</em>
-        <em>발주사</em>
-        <em>계약사</em>
-        <em>프로젝트명</em>
+      <ERPDesign.ConditionArea size={'1fr 1fr 1fr 1fr'}>
+        <ERPDesign.Condition title="계약기간">
+          <DatePicker onChange={onChange} />
+        </ERPDesign.Condition>
+        <ERPDesign.Condition title="계약사"></ERPDesign.Condition>
+        <ERPDesign.Condition title="프로젝트명"></ERPDesign.Condition>
       </ERPDesign.ConditionArea>
     </ERPDesign>
   );
