@@ -1,0 +1,68 @@
+{
+  "Black-box Testing Template": {
+    "scope": "python",
+    "prefix": "bbtemplate",
+    "body": [
+      "from selenium.webdriver.chrome.webdriver import WebDriver",
+      "from selenium.webdriver.common.by import By",
+      "from common.util import *",
+      "from common.enum import LogType",
+      "",
+      "\"\"\"────────────────────────────────────────",
+      "[Test] $1",
+      "────────────────────────────────────────\"\"\"",
+      "def test (driver: WebDriver):",
+      "    # 『 $1 』",
+      "    log_format('$1', LogType.TITLE)",
+      "",
+      "    # $2",
+      "    print(log_format('$2'))",
+      "",
+      "",
+      "# __all__ 정의",
+      "__all__ = ['test']"
+    ],
+    "description": "Black-box testing template"
+  },
+  "Load Web Page": {
+    "scope": "python",
+    "prefix": "bbload",
+    "body": ["# web 로드 - $1", "driver.get('https://dev0.koreaats.com/$1')"],
+    "description": "Load web page"
+  },
+  "Wait Until Load Page": {
+    "scope": "python",
+    "prefix": "bbwait-page",
+    "body": ["driver.implicitly_wait(5) # wait until load page"],
+    "description": "Wait until load page"
+  },
+  "Wait Until load Element": {
+    "scope": "python",
+    "prefix": "bbwait-element",
+    "body": [
+      "wait_element(driver, ${1:By.XPATH, f'//*[text()=\"$3\"]'}${2:By.CSS_SELECTOR, f'$4'}, 5) # wait until load element"
+    ],
+    "description": "Wait until load element"
+  },
+  "Find Element By CSS Selector": {
+    "scope": "python",
+    "prefix": "bbfind-css",
+    "body": [
+      "# $1",
+      "log_format('$1')",
+      "driver.find_element(By.CSS_SELECTOR, f'$2')"
+    ],
+    "description": "Find element by CSS selector"
+  },
+
+  "Find Element By XPath": {
+    "scope": "python",
+    "prefix": "bbfind-xpath",
+    "body": [
+      "# $1",
+      "log_format('$1')",
+      "driver.find_element(By.XPATH, ${2:f'//*[text()=\"$4\"]'}${3:f'//*[contains(text(), \"$5\"]'})"
+    ],
+    "description": "Find element by XPath"
+  }
+}
