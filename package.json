@@ -10,6 +10,7 @@
     "web-build": "cd packages/web-server && env-cmd -f .env.ops react-scripts build",
     "----- API Server -----": "",
     "api-start": "cd packages/api-server && ts-node src/index.ts",
+    "api-watch": "cd packages/api-server && nodemon src/index.ts",
     "------- Docker -------": "",
     "docker-up": "docker compose -p amz-erp up -d",
     "docker-down": "docker compose -p amz-erp down --rmi all -v"
@@ -17,6 +18,8 @@
   "devDependencies": {
     "@types/node": "^18.11.18",
     "env-cmd": "^10.1.0",
+    "global": "^4.4.0",
+    "nodemon": "^2.0.20",
     "react-scripts": "5.0.1",
     "sass": "^1.53.0",
     "ts-node": "^10.9.1",

@@ -1,3 +1,5 @@
-import { createWallet } from "./createWallet";
+// import { createWallet } from "./createWallet";
+import { cGetWithParam } from "./get-with-param";
+import { cGetWithQuery } from "./get-with-query";
 
-export { createWallet };
+export { cGetWithParam, cGetWithQuery };

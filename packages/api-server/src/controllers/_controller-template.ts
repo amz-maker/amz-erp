@@ -1,12 +1,16 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { pg } from "../config/scheme";
+import { pg } from "../config/db";
 
-interface UserParams {
+interface Input {
   id: string;
 }
 
+interface Output {
+
+}
+
 export async function createWallet(
-  request: FastifyRequest<{ Params: UserParams }>,
+  request: FastifyRequest<{ Params: Input }>,
   reply: FastifyReply
 ) {
   try {
@@ -14,6 +18,7 @@ export async function createWallet(
       request.params.id,
     ]);
     reply.send(result.rows[0]);
+
   } catch (error) {
     reply.send(error);
   }
