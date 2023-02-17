@@ -10,7 +10,7 @@ export const menuInfo: IMenuInfo[] = [
     uri: '/sales',
   },
   {
-    name: '매출발행 입금내역 관리',
+    name: '매출 발행/입금내역 관리',
     icon: {
       name: 'wallet',
       type: 'solid',

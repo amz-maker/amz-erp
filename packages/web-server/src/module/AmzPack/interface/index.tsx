@@ -17,6 +17,10 @@ export interface IDataVariation {
   'data-variation'?: string;
 }
 
+export interface IDataDesign {
+  'data-design'?: string;
+}
+
 export interface IChildren {
   children?: React.ReactNode;
 }

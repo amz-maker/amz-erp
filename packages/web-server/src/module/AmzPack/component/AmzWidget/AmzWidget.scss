@@ -1,0 +1,166 @@
+/* Import Layout */
+@import './layout/WidgetLayout/WidgetLayout.scss';
+
+/* Import Container */
+
+/* Import Component */
+
+[data-container='amzWidget'] {
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background-color: getColor(white);
+
+  @mixin TransparentBack {
+    background-color: transparent;
+  }
+
+  @include boxShadow;
+
+  &:not(.react-draggable-dragging) {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  @keyframes anim-widget-maximize {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    100% {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  @keyframes anim-widget-default {
+    0% {
+      width: 100%;
+      height: 100%;
+    }
+    100% {
+      width: 0;
+      height: 0;
+    }
+  }
+
+  &.top-layer {
+    z-index: 10000;
+  }
+
+  &.maximize {
+    animation-name: anim-widget-maximize;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+    transform: translate(0px, 0px) !important;
+  }
+
+  &.default {
+    animation-name: anim-widget-default;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: none;
+  }
+
+  &.minimize {
+    display: none;
+  }
+
+  &.widgetlize {
+    box-shadow: none;
+    position: absolute;
+    transform: none !important;
+    pointer-events: none;
+    @include TransparentBack;
+  }
+
+  & > .wrapper {
+    & > .controller-area {
+      display: grid;
+      grid-template-columns: auto max-content max-content max-content;
+      gap: 10px;
+      align-items: center;
+
+      background-color: getColor(gray-3);
+      padding: 0 10px;
+      cursor: pointer;
+
+      &.top-layer {
+        background-color: getColor(gray-5);
+      }
+
+      &.widgetlize {
+        @include TransparentBack;
+      }
+
+      & > * {
+        & > span {
+          @include flexAlign(center, center);
+          height: 100%;
+          padding: 0 5px;
+          border-radius: 2px;
+
+          &.title-box {
+            font-size: 12px;
+          }
+
+          & > .icon {
+            font-size: 12px;
+            color: getColor(gray-9);
+            pointer-events: auto;
+
+            &.fixed {
+              color: getColor(red-4);
+            }
+
+            &.widgetlize {
+              color: getColor(gold-6);
+            }
+
+            &.maximize {
+              color: getColor(lime-6);
+            }
+
+            &.direction {
+              color: getColor(blue-3);
+            }
+
+            &.disabled {
+              color: getColor(gray-6);
+            }
+          }
+
+          &:not(.title-box):hover {
+            background-color: getColor(gray-7);
+          }
+        }
+      }
+    }
+    & > .content-area {
+      position: relative;
+      background-color: getColor(white);
+      min-width: 250px;
+      min-height: 50px;
+
+      &.widgetlize {
+        @include TransparentBack;
+        pointer-events: none;
+
+        & * {
+          pointer-events: auto;
+        }
+      }
+
+      &.maximize,
+      &.animation {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      & > .content-box {
+      }
+    }
+  }
+}

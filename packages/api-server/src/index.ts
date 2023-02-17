@@ -10,7 +10,11 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
 server.register(routes);
 
 server.get("/", (request, reply) => {
-  reply.send({ hello: "world" });
+  reply.send({ hello: "world@" });
+});
+
+server.get("/test", (request, reply) => {
+  reply.send({ test: "SS", id:"1234567" });
 });
 
 const start = async () => {

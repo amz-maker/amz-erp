@@ -1,0 +1,17 @@
+[data-container='erpDesign'] {
+}
+
+[data-container='erpDesign.ConditionArea'] {
+  height: max-content;
+
+  & > .label-box {
+    & > em {
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  & > .component-box {
+    padding-right: 10px;
+  }
+}
