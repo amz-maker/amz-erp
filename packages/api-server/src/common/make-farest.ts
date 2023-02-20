@@ -18,21 +18,21 @@ type GenReply<O> = {
     Reply: GenReplyInside<O>;
 }
 
-type GenRequestInside<RO extends RestMethod, I> = 
-    RO extends 'Get-param' ? { Params     : I } :
-    RO extends 'Get-query' ? { Querystring: I } :
-    RO extends 'Post-body' ? { Body       : I } :
+type GenRequestInside<RM extends RestMethod, I> = 
+    RM extends 'Get-param' ? { Params     : I } :
+    RM extends 'Get-query' ? { Querystring: I } :
+    RM extends 'Post-body' ? { Body       : I } :
     never
 ;
 
-type GenFarestIO<RO extends RestMethod, I, O> = 
-    GenRequestInside<RO, I> & 
+type GenFarestIO<RM extends RestMethod, I, O> = 
+    GenRequestInside<RM, I> & 
     GenReply<O> & 
     RouteGenericInterface
 ;
 
 // Controller Request Param 1
-type GenFastifyRequest<RO extends RestMethod, I> = FastifyRequest<GenRequestInside<RO, I>>;
+type GenFastifyRequest<RM extends RestMethod, I> = FastifyRequest<GenRequestInside<RM, I>>;
 
 // Controller Request Param 2
 type GenFastifyReply<IO extends RouteGenericInterface> = FastifyReply<
@@ -45,18 +45,18 @@ type GenFastifyReply<IO extends RouteGenericInterface> = FastifyReply<
 export type GenFarestBody<I, O> = (input: I) => Promise<GenReplyInside<O>>;
 
 // =================================================================
-export function makeFarestController<I, O>(ro: RestMethod, controllerBody: GenFarestBody<I, O>) {
-    type RO = typeof ro;
-    type IO = GenFarestIO<RO, I, O>;
+export function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBody<I, O>) {
+    type RM = typeof rm;
+    type IO = GenFarestIO<RM, I, O>;
 
     const controller = async function (
-        request: GenFastifyRequest<RO, I>,
+        request: GenFastifyRequest<RM, I>,
         reply: GenFastifyReply<IO>
       ) {
           try {
             const result = await controllerBody(
-                (ro === 'Get-param' ? request.params : 
-                ro === 'Get-query' ? request.query : 
+                (rm === 'Get-param' ? request.params : 
+                rm === 'Get-query' ? request.query : 
                 request.body) as any
             );
             reply.send(result as any);

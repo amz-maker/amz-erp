@@ -1,4 +1,4 @@
-// import { pgCurrent } from "config";
+import { pgCurrent } from "../../config/db-config";
 import { FastifyInstance, FastifyRequest, FastifyReply, RouteGenericInterface, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression } from "fastify";
 import { Pool } from "pg";
 import { GenFarestBody, makeFarestController } from '../../common/make-farest';
@@ -17,13 +17,6 @@ type QueryReturn =  {
 // GET 출력
 type Output = QueryReturn;
 
-const pgCurrent = new Pool({
-    host: "localhost",
-    user: "root",
-    password: "1234",
-    database: "erp",
-    port: 25432,
-  });
 // =================================================================
 export const getUser = makeFarestController<Input, Output>(
     'Get-query', 
