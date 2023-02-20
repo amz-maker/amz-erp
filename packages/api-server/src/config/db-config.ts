@@ -27,4 +27,4 @@ const pgLocal = new Pool({
 });
 
 // 현재 연결
-export const pgCurrent = pgRemote;
+export const pgCurrent = pgLocal;

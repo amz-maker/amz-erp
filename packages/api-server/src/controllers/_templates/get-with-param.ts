@@ -1,17 +1,14 @@
 import { FastifyInstance, FastifyRequest, FastifyReply, RouteGenericInterface, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression } from "fastify";
-import { pg, pgCurrent } from "../config/db";
+import { pg, pgCurrent } from "../../config/db-config";
 
 // ======================= 변동 =================================
-// interface IParam {
-//     value: number;
-// }
-
-interface IQuery {
-    a: number;
-    b: number;
+// GET 입력: 파라미터(/)
+interface IInputParam {
+    value: number;
 }
 
-interface IQueryOutput {
+// DB 쿼리 출력
+interface IQueryReturn {
     first : number;
     second: number;
 }
@@ -20,22 +17,21 @@ interface IQueryOutput {
 type ErrorString = string;
 
 interface IOutput {
-    result: IQueryOutput[] | ErrorString;
+    result: IQueryReturn[] | ErrorString;
 }
 
 interface IFastifyIO  extends RouteGenericInterface {
-    // Params: IParam;
-    Querystring: IQuery;
+    Params: IInputParam;
     Reply: IOutput;
 }
 
-// ==============================================================
-async function controllerBody(input: IQuery): Promise<IOutput> {
+// ===================== 컨트롤러 구현 ==========================
+async function controllerBody(input: IInputParam): Promise<IOutput> {
 
-    const qr = await pgCurrent.query<IQueryOutput>(
+    const qr = await pgCurrent.query<IQueryReturn>(
     `
-        SELECT gs * ${input.a} as first,
-               gs * ${input.b} as second
+        SELECT gs * ${input.value} as first,
+               gs * ${input.value} as second
 
           FROM GENERATE_SERIES(1, 2) AS gs
     `);
@@ -47,8 +43,9 @@ async function controllerBody(input: IQuery): Promise<IOutput> {
     };
 }
 
-export async function cGetWithQuery(
-  request: FastifyRequest<{ Querystring:IQuery }>,
+// ===================== 컨트롤러 전달 ==========================
+export async function cGetWithParam(
+  request: FastifyRequest<{ Params: IInputParam }>,
   reply: FastifyReply<
     RawServerDefault,
     RawRequestDefaultExpression,
@@ -57,8 +54,8 @@ export async function cGetWithQuery(
   >
 ) {
     try {
-        const result = await controllerBody(request.query);
-        reply.send(result);
+      const result = await controllerBody(request.params);
+      reply.send(result);
   
     } catch (error: any) {
 

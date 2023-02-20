@@ -1,5 +1,12 @@
-// import { createWallet } from "./createWallet";
-import { cGetWithParam } from "./get-with-param";
-import { cGetWithQuery } from "./get-with-query";
 
-export { cGetWithParam, cGetWithQuery };
+// TEMPLATES
+// import { cGetWithParam } from "./.templates/_OLD_get-with-param";
+// import { cGetWithQuery } from "./.templates/_OLD_get-with-query";
+// import { cPostWithBody } from "./.templates/_OLD_post-with-body";
+// export { cGetWithParam, cGetWithQuery, cPostWithBody, cGetUser };
+
+import { getUser } from "./user/get-user";
+
+export { getUser as cGetUser };
+
+
