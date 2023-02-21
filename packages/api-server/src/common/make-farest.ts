@@ -1,22 +1,15 @@
 // ===========================================================
-//  Fastify IO/Controller Body 제네릭 템플릿화
+//  Fastify IO/Controller Body 제네릭화
 // ===========================================================
 // - 작성일: 2023. 02. 20
 // - 작성자: 홍사민
 // ===========================================================
-
 import { FastifyRequest, FastifyReply, RouteGenericInterface, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression } from "fastify";
-
-type ErrorString = string;
-type RestMethod = 'Get-param' | 'Get-query' | 'Post-body';
-
-type GenReplyInside<O> = {
-    result: O[] | ErrorString;
-};
+import { ApiResponse, RestMethod } from "./common-types";
 
 type GenReply<O> = {
-    Reply: GenReplyInside<O>;
-}
+    Reply: ApiResponse<O>;
+};
 
 type GenRequestInside<RM extends RestMethod, I> = 
     RM extends 'Get-param' ? { Params     : I } :
@@ -40,9 +33,9 @@ type GenFastifyReply<IO extends RouteGenericInterface> = FastifyReply<
     RawRequestDefaultExpression,
     RawReplyDefaultExpression,
     IO
->
+>;
 
-export type GenFarestBody<I, O> = (input: I) => Promise<GenReplyInside<O>>;
+export type GenFarestBody<I, O> = (input: I) => Promise<ApiResponse<O>>;
 
 // =================================================================
 export function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBody<I, O>) {
@@ -59,12 +52,14 @@ export function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFa
                 rm === 'Get-query' ? request.query : 
                 request.body) as any
             );
-            reply.send(result as any);
+
+            reply.send(result);
         
           } catch (error: any) {
       
             reply.send({
-              result: `${error}`
+                result: null,
+                error: `${error}`
             });
           }
       }

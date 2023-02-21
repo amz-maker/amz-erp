@@ -1,24 +1,19 @@
 import { pgCurrent } from "../../config/db-config";
-import { FastifyInstance, FastifyRequest, FastifyReply, RouteGenericInterface, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression } from "fastify";
-import { Pool } from "pg";
-import { GenFarestBody, makeFarestController } from '../../common/make-farest';
+import { makeFarestController } from '../../common/make-farest';
 
-// GET 입력: 파라미터(/)
-type Input = {
+type ApiInput = {
     value: number;
 }
 
-// DB 쿼리 출력
-type QueryReturn =  {
+type ApiOutput = {
     first : number;
     second: number;
 }
 
-// GET 출력
-type Output = QueryReturn;
+type QueryOutput = ApiOutput;
 
 // =================================================================
-export const getUser = makeFarestController<Input, Output>(
+export const getUser = makeFarestController<ApiInput, ApiOutput>(
     'Get-query', 
     async (input) => 
 {
@@ -28,16 +23,9 @@ export const getUser = makeFarestController<Input, Output>(
               ,${input.value} * 200 AS "second"
     `;
 
-    const qr = await pgCurrent.query<QueryReturn>(strQuery);
+    const qr = await pgCurrent.query<QueryOutput>(strQuery);
 
     return {
-        result: qr.rows
+        results: qr.rows
     };
-
-    // return {
-    //     result: [{
-    //         first: input.value * 2,
-    //         second: input.value * 4,
-    //     }]
-    // };
 });

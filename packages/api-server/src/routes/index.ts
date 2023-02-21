@@ -6,13 +6,9 @@ import * as Controllers from "../controllers";
 
 export default function routes(server: FastifyInstance, opts: any, next: any) {
 
-  // TEMPLATES =====================================
-  // server.get("/param/:value", cGetWithParam);
-  // server.get("/query",        cGetWithQuery);
-  // server.post("/post",        cPostWithBody);
-  // ===============================================
-
-  server.get("/user", Controllers.cGetUser);
+  server.get("/user", Controllers.getUser);
+  server.get("/user2", Controllers.getUser2);
+  server.get("/user3", Controllers.getUser3);
 
   next();
 }
