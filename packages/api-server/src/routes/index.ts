@@ -13,8 +13,8 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   
   routeFarest(server, routeTree.user.complex, Controllers.getUserComplex);
   routeFarest(server, routeTree.user.find, Controllers.getUserFind);     // http://127.0.0.1:8001/user/find/123
-  routeFarest(server, routeTree.user.search, Controllers.getUserSearch); // http://127.0.0.1:8001/user/search?in=123
-  routeFarest(server, routeTree.user.login, Controllers.postUserLogin);  // http://127.0.0.1:8001/user/login  // body: { "in":123 }
+  routeFarest(server, routeTree.user.search, Controllers.getUserSearch); // http://127.0.0.1:8001/user/search?in1=100&in2=200
+  routeFarest(server, routeTree.user.login, Controllers.postUserLogin);  // http://127.0.0.1:8001/user/login  // body: { "in1":123, "in2":456 }
   routeFarest(server, routeTree.user.modify, Controllers.putUserModify); // http://127.0.0.1:8001/user/modify // body: { "in":123 }
 
   next();

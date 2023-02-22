@@ -12,8 +12,8 @@ export type RestMethod = 'Get-param' | 'Get-query' | 'Post' | 'Put';
 
 // API 응답 형태
 export type ApiResponse<O> = {
-    // null: 단건 - 결과 없음
-    // O   : 단건 - 결과 있음
+    // undefined: 단건 - 결과 없음
+    // O        : 단건 - 결과 있음
     result: undefined | O;
     error?: ErrorString
 } | {
