@@ -1,14 +1,16 @@
+// ===========================================================
+//  [ // TODO ] 컨트롤러 통합 익스포트
+// ===========================================================
+// - 작성일: 2023. 02. 22
+// - 작성자: 홍사민
+// ===========================================================
 
 // TEMPLATES
-// import { cGetWithParam } from "./.templates/_OLD_get-with-param";
-// import { cGetWithQuery } from "./.templates/_OLD_get-with-query";
-// import { cPostWithBody } from "./.templates/_OLD_post-with-body";
-// export { cGetWithParam, cGetWithQuery, cPostWithBody, cGetUser };
+import { getUserFind } from "./user/get-user-find";
+import { getUserSearch } from "./user/get-user-search";
+import { postUserLogin } from "./user/post-user-login";
+import { putUserModify } from "./user/put-user-modify";
 
-import { getUser } from "./user/get-user";
-import { getUser2 } from "./user/get-user2";
-import { getUser3 } from "./user/get-user3";
-
-export { getUser, getUser2, getUser3 };
+export { getUserFind, getUserSearch, postUserLogin, putUserModify };
 
 

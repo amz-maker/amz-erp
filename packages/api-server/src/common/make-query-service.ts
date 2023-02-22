@@ -47,6 +47,40 @@ export function makeQueryService<I extends object, O extends QueryResultRow>(
     }
 }
 
+// export function makeQueryService2<I extends object, O extends QueryResultRow>(
+//     queryResultOption: QueryResultOption,
+//     query: BaseQueryDefine<O>
+// ): ((input: I, queryResultOption: QueryResultOption) => (Promise<O | undefined | O[]>)) 
+// {
+//     if(queryResultOption)
+
+//     return async function<I extends {}, O extends QueryResultRow>(input: I, ): Promise<O | undefined | O[]> {
+
+//         const inputKeys = Object.keys(input);
+//         let queryString = query as string;
+
+//         inputKeys.map((v) => {
+//             queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
+//         });
+
+//         // console.log(input);
+//         // console.log(query);
+//         // console.log(queryString);
+
+//         const queryResult = await pgCurrent.query<O>(queryString);
+//         if(queryResultOption === 'One') {
+//             if(queryResult.rowCount > 0) {
+//                 return queryResult.rows[0];
+//             }
+//             else {
+//                 return undefined;
+//             }
+//         } else {
+//             return queryResult.rows;
+//         }
+//     }
+// }
+
 // 컨트롤러 내에서 쿼리 단독 호출 및 단순 반환하는 경우 사용
 // QueryResultFrame<O> => ApiResponse<O> 변환
 export function wrapQueryReturnToApiResponse<O>(queryResultType: QueryResultOption, queryResult: QueryResultFrame<O>): ApiResponse<O> {

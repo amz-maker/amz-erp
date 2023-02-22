@@ -8,7 +8,7 @@ export type QueryResultFrame<O> = O | O[] | null;
 export type QueryResultOption = 'One' | 'Many';
 
 export type ErrorString = string;
-export type RestMethod = 'Get-param' | 'Get-query' | 'Post-body';
+export type RestMethod = 'Get-param' | 'Get-query' | 'Post' | 'Put';
 
 // API 응답 형태
 export type ApiResponse<O> = {

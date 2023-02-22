@@ -6,7 +6,7 @@
 // ===========================================================
 
 // =============================
-// Handle Unions
+//  Unions
 // =============================
 export type ArrayToUnion<T extends any[]> = T[number];
 
@@ -26,6 +26,8 @@ export type UnionToArray<T, A extends unknown[] = []> = IsUnion<T> extends true
 : [T, ...A]; // 
 
 // =============================
+//  Mapped
+// =============================
 export type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type KeysWithout<T, F> = {
@@ -38,6 +40,8 @@ export type ReverseMap<T extends Record<keyof T, keyof any>> = {
     }[keyof T]
 };
 
+// =============================
+//  String
 // =============================
 export type Concat<T extends string[]> = T extends [
     infer F,
@@ -74,6 +78,8 @@ type GenColumnStmtsInternal<TArr extends string[], TOut extends string[]> =
 ;
 export type GenColumnStmts<TArr extends string[]> = GenColumnStmtsInternal<TArr, []>;
 
+// =============================
+//  Object, Array
 // =============================
 export type MinusOne<T extends number> = 
 T extends 1 ? 0 :
