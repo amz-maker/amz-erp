@@ -25,7 +25,7 @@ const queryServiceName = makeQueryService<
     QueryInput, 
     QueryOutput
 >(
-    'One', // 단건 or 다건 
+    'MustOne', // 단건 or 다건 
     `
     SELECT 
         {in1}      AS "out1",

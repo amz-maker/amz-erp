@@ -4,8 +4,8 @@
 // - 작성일: 2023. 02. 21
 // - 작성자: 홍사민
 // ===========================================================
-export type QueryResultFrame<O> = O | O[] | null;
-export type QueryResultOption = 'One' | 'Many';
+export type QueryResultFrame<O> = O | O[] | undefined;
+export type ReturnCardinality = 'ZeroOrOne' | 'MustOne' | 'Many'; // 리턴 Row 개수
 
 export type ErrorString = string;
 export type RestMethod = 'Get-param' | 'Get-query' | 'Post' | 'Put';
@@ -14,7 +14,7 @@ export type RestMethod = 'Get-param' | 'Get-query' | 'Post' | 'Put';
 export type ApiResponse<O> = {
     // null: 단건 - 결과 없음
     // O   : 단건 - 결과 있음
-    result: null | O;
+    result: undefined | O;
     error?: ErrorString
 } | {
     // O[] : 다건

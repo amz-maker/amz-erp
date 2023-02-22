@@ -10,7 +10,8 @@ import { getUserFind } from "./user/get-user-find";
 import { getUserSearch } from "./user/get-user-search";
 import { postUserLogin } from "./user/post-user-login";
 import { putUserModify } from "./user/put-user-modify";
+import { getUserComplex } from "./user/get-user-complex";
 
-export { getUserFind, getUserSearch, postUserLogin, putUserModify };
+export { getUserFind, getUserSearch, postUserLogin, putUserModify, getUserComplex };
 
 

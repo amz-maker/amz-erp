@@ -6,7 +6,7 @@
 // ===========================================================
 import { QueryResultRow } from "pg";
 import { pgCurrent } from "../config/db-config";
-import { ApiResponse, QueryResultFrame, QueryResultOption } from "./common-types";
+import { ReturnCardinality } from "./common-types";
 import { ArrayOfKeys, GenColumnStmts, Join } from "./utility-types";
 
 type InputStrArr<T> = ArrayOfKeys<T>;
@@ -15,113 +15,100 @@ type ColumnsArrDefine<T> = GenColumnStmts<InputStrArr<T>>;
 type BaseQueryDefine<T> = Join<ColumnsArrDefine<T>, `,`>;
 // type SelectQueryDefine<T> = `${string}SELECT${BaseQueryDefine<T>}FROM${string}${('WHERE') | ''}${string}`;
 
-export function makeQueryService<I extends object, O extends QueryResultRow>(
-    queryResultOption: QueryResultOption, 
+// Override 1
+export function makeQueryService<I extends {}, O extends QueryResultRow>(
+    returnCardinality: 'MustOne',
     query: BaseQueryDefine<O>
-): ((input: I) => (Promise<QueryResultFrame<O>>)) 
+): ((input: I) => (Promise<O>)); // MustOne
+
+// Override 2
+export function makeQueryService<I extends {}, O extends QueryResultRow>(
+    returnCardinality: 'ZeroOrOne',
+    query: BaseQueryDefine<O>
+): ((input: I) => (Promise<undefined | O>)); // ZeroOrOne
+
+// Override 3
+export function makeQueryService<I extends {}, O extends QueryResultRow>(
+    returnCardinality: 'Many',
+    query: BaseQueryDefine<O>
+): ((input: I) => (Promise<O[]>)); // Many
+
+// Implement
+// 쿼리 스트링을 기반으로, 호출 가능한 쿼리 서비스 함수 생성
+export function makeQueryService<I extends {}, O extends QueryResultRow>(
+    returnCardinality: ReturnCardinality,
+    query: BaseQueryDefine<O>
+): 
+| ((input: I) => (Promise<O>)) // MustOne
+| ((input: I) => (Promise<undefined | O>)) // ZeroOrOne
+| ((input: I) => (Promise<O[]>)) // Many
 {
-    return async function<I extends {}, O extends QueryResultRow>(input: I): Promise<QueryResultFrame<O>> {
+    switch(returnCardinality) {
 
-        const inputKeys = Object.keys(input);
-        let queryString = query as string;
-
-        inputKeys.map((v) => {
-            queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
-        });
-
-        // console.log(input);
-        // console.log(query);
-        // console.log(queryString);
-
-        const queryResult = await pgCurrent.query<O>(queryString);
-        if(queryResultOption == 'One') {
-            if(queryResult.rowCount > 0) {
-                return queryResult.rows[0];
-            }
-            else {
-                return null;
-            }
-        } else {
-            return queryResult.rows;
-        }
-    }
-}
-
-// export function makeQueryService2<I extends object, O extends QueryResultRow>(
-//     queryResultOption: QueryResultOption,
-//     query: BaseQueryDefine<O>
-// ): ((input: I, queryResultOption: QueryResultOption) => (Promise<O | undefined | O[]>)) 
-// {
-//     if(queryResultOption)
-
-//     return async function<I extends {}, O extends QueryResultRow>(input: I, ): Promise<O | undefined | O[]> {
-
-//         const inputKeys = Object.keys(input);
-//         let queryString = query as string;
-
-//         inputKeys.map((v) => {
-//             queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
-//         });
-
-//         // console.log(input);
-//         // console.log(query);
-//         // console.log(queryString);
-
-//         const queryResult = await pgCurrent.query<O>(queryString);
-//         if(queryResultOption === 'One') {
-//             if(queryResult.rowCount > 0) {
-//                 return queryResult.rows[0];
-//             }
-//             else {
-//                 return undefined;
-//             }
-//         } else {
-//             return queryResult.rows;
-//         }
-//     }
-// }
-
-// 컨트롤러 내에서 쿼리 단독 호출 및 단순 반환하는 경우 사용
-// QueryResultFrame<O> => ApiResponse<O> 변환
-export function wrapQueryReturnToApiResponse<O>(queryResultType: QueryResultOption, queryResult: QueryResultFrame<O>): ApiResponse<O> {
-    
-    if(queryResult === null || queryResult === undefined) {
-        return {
-            result: null
-        };
-    }
-    // Array
-    else if(Array.isArray(queryResult)) {
+        case "MustOne": {
+            return async function<I extends {}, O extends QueryResultRow>(input: I): Promise<O> {
         
-        if(queryResultType === 'One') {
-            return {
-                results: queryResult,
-                error: `Query must return a value, but returns array(length: ${queryResult.length})`
-            };
-
-        } else {
-            return {
-                results: queryResult
-            };
-        }
-    }
-    // One
-    else {
+                const inputKeys = Object.keys(input);
+                let queryString = query as string;
         
-        if(queryResultType === 'One') {
-            return {
-                result: queryResult
-            };
+                inputKeys.map((v) => {
+                    queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
+                });
+        
+                const qr = await pgCurrent.query<O>(queryString);
 
-        } else {
-            return {
-                result: queryResult,
-                error: `Query must return an array, but returns a single value`
+                if(qr.rowCount !== 1) {
+                    throw new Error(`[makeQueryService: MustOne] Must Return 1 Row, But Returns${qr.rowCount} Rows`);
+
+                } else {
+                    return qr.rows[0];
+                }
+            }
+        }
+
+        case "ZeroOrOne": {
+            return async function<I extends {}, O extends QueryResultRow>(input: I): Promise<undefined | O> {
+        
+                const inputKeys = Object.keys(input);
+                let queryString = query as string;
+        
+                inputKeys.map((v) => {
+                    queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
+                });
+        
+                const qr = await pgCurrent.query<O>(queryString);
+
+                if(qr.rowCount > 1) {
+                    throw new Error(`[makeQueryService: ZeroOrOne] Must Return 0 or 1 Rows, But Returns${qr.rowCount} Rows`);
+
+                } else if (qr.rowCount == 0) {
+                    return undefined;
+
+                } else {
+                    return qr.rows[0];
+                }
+            }
+        }
+
+        case "Many": {
+            return async function<I extends {}, O extends QueryResultRow>(input: I): Promise<O[]> {
+        
+                const inputKeys = Object.keys(input);
+                let queryString = query as string;
+        
+                inputKeys.map((v) => {
+                    queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
+                });
+        
+                const qr = await pgCurrent.query<O>(queryString);
+                return qr.rows;
             }
         }
     }
 }
 
+
+// example
 // I, O, 실제 입력값 넣으면 쿼리 실행시키고 리턴하는 서비스 함수 생성
 async function example() {
     
@@ -133,7 +120,7 @@ async function example() {
         name: number;
     };
     const queryService = makeQueryService<QueryInput, QueryOutput>(
-        'One',
+        'MustOne',
         `
         SELECT {id} AS "id",
                 200 AS "name"

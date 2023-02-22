@@ -73,7 +73,7 @@ type GenColumnStmtsInternal<TArr extends string[], TOut extends string[]> =
     TArr['length'] extends 0 ? 
         TOut : TArr extends [infer StringElement, ...infer Tails] ? 
             StringElement extends string ? Tails extends string[] ? 
-                GenColumnStmtsInternal<Tails, [...TOut, `${string}"${StringElement}"${string}`]> // 스트링 요소 편집하는 부분(수정 필요)
+                GenColumnStmtsInternal<Tails, [...TOut, `${string}"${StringElement}"${string}`]> // 스트링 요소 편집하는 부분
     : never : never : TOut
 ;
 export type GenColumnStmts<TArr extends string[]> = GenColumnStmtsInternal<TArr, []>;

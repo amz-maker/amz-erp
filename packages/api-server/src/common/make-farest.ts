@@ -67,7 +67,7 @@ function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBod
           } catch (error: any) {
       
             reply.send({
-                result: null,
+                result: undefined,
                 error: `${error}`
             });
           }
@@ -76,10 +76,16 @@ function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBod
       return controller;
 }
 
-// 각 컨트롤러에서 호출, 컨트롤러 프레임 생성
-export function makeFarestFrame<I, O>(rm: RestMethod, paramUri: keyof I | null | undefined, controllerBody: GenFarestBody<I, O>) {
+// Overrides
+export function makeFarestFrame<I, O>(rm: 'Get-param', controllerBody: GenFarestBody<I, O>, paramUri: keyof I) : FarestFrameDefine<RestMethod, I, O>;
+export function makeFarestFrame<I, O>(rm: 'Get-query' | 'Post' | 'Put', controllerBody: GenFarestBody<I, O>) : FarestFrameDefine<RestMethod, I, O>;
 
-    if(rm === 'Get-param' && (paramUri === undefined || paramUri === null) ) {
+// Implement
+// 각 컨트롤러에서 호출, 컨트롤러 프레임 생성
+export function makeFarestFrame<I, O>(rm: RestMethod, controllerBody: GenFarestBody<I, O>, paramUri?: keyof I) : FarestFrameDefine<RestMethod, I, O>
+{
+
+    if(rm === 'Get-param' && (paramUri === undefined) ) {
         throw new Error('Get-Param Method Need to Define URI Parameter');
     }
     
@@ -97,8 +103,8 @@ export type FarestFrameDefine<RM extends RestMethod, I, O> = {
     rm: RM,
 };
 
-// 라우트에서 호출
-export function farest<RM extends RestMethod, I, O>(server: FastifyInstance, routeNode:RouteNode, conFrame: FarestFrameDefine<RM, I, O>) {
+// 라우트 등록
+export function routeFarest<RM extends RestMethod, I, O>(server: FastifyInstance, routeNode:RouteNode, conFrame: FarestFrameDefine<RM, I, O>) {
 
     const uri = extractRouteNode(routeNode);
     const farestUri = `${uri}${conFrame.uriParam}`;
@@ -108,19 +114,19 @@ export function farest<RM extends RestMethod, I, O>(server: FastifyInstance, rou
         case 'Get-param':
         case 'Get-query':
         {
-          server.get(farestUri, farestFunc);
+            server.get(farestUri, farestFunc);
         }
         break;
   
         case 'Post':
         {
-          server.post(farestUri, farestFunc);
+            server.post(farestUri, farestFunc);
         }
         break;
   
         case 'Put':
         {
-          server.put(farestUri, farestFunc);
+            server.put(farestUri, farestFunc);
         }
         break;
     }

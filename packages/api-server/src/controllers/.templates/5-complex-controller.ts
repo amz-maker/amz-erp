@@ -5,7 +5,8 @@
 // - 작성자: 홍사민
 // ===========================================================
 import { makeFarestFrame } from '../../common/make-farest';
-import { makeQueryService, wrapQueryReturnToApiResponse } from "../../common/make-query-service";
+import { makeQueryService } from "../../common/make-query-service";
+import { wrapApiResponse } from '../../common/wrap-api-response';
 
 // =================================================================
 //  API I/O 정의
@@ -21,12 +22,13 @@ type ApiOutput = {
 };
 
 // =================================================================
-//  쿼리, I/O 정의 (or 서비스 파일 분리)
+//  쿼리, I/O 정의 (or 서비스 파일 별도 분리)
 // =================================================================
 type QueryInput = ApiInput;
 type QueryOutput = ApiOutput;
 
-const queryService = makeQueryService<
+// Many: n개 행 리턴하는 쿼리
+const queryService1 = makeQueryService<
     QueryInput, 
     QueryOutput
 >(
@@ -39,16 +41,58 @@ const queryService = makeQueryService<
     `
 );
 
+// MustOne: 반드시 1개 행만 리턴하는 쿼리
+const queryService2 = makeQueryService<
+    QueryInput, 
+    QueryOutput
+>(
+    'MustOne',
+    `
+    SELECT 
+        {in}      AS "out1",
+        {in} * 10 AS "out2",
+        {in} * 20 AS "out3"
+    `
+);
+
+// ZeroOrOne: 0개 pr 1개 행을 리턴하는 쿼리
+const queryService3 = makeQueryService<
+    QueryInput, 
+    QueryOutput
+>(
+    'ZeroOrOne',
+    `
+    SELECT 
+        {in}      AS "out1",
+        {in} * 10 AS "out2",
+        {in} * 20 AS "out3"
+    `
+);
+
 // =================================================================
-// FIXME: 이름 정의
-export const TEMPLATE_PUT = makeFarestFrame<ApiInput, ApiOutput>(
+export const TEMPLATE_COMPLEX = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-param', 
-    null,
     async (input) => 
-{
-    const qr = await queryService(input);
-    
+    {
+        const qrMany = await queryService1(input);
+        const qrMustOne = await queryService2(input);
+        const qrZeroOrOne = await queryService3(input);
 
-    return wrapQueryReturnToApiResponse('Many', qr);
+        console.log(qrMany);
+        console.log(qrMustOne);
+        console.log(qrZeroOrOne);
 
-});
+        return wrapApiResponse('Many', qrMany);
+        // return wrapApiResponse('Many', qrMustOne);   // Error
+        // return wrapApiResponse('Many', qrZeroOrOne); // Error
+
+        // return wrapApiResponse('MustOne', qrMany);   // Error
+        // return wrapApiResponse('MustOne', qrMustOne);
+        // return wrapApiResponse('MustOne', qrZeroOrOne); // Error
+        
+        // return wrapApiResponse('ZeroOrOne', qrMany); // Error
+        // return wrapApiResponse('ZeroOrOne', qrMustOne);
+        // return wrapApiResponse('ZeroOrOne', qrZeroOrOne);
+    },
+    'in' // Get-param
+);

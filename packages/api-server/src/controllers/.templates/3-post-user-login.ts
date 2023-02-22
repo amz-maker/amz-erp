@@ -5,7 +5,8 @@
 // - 작성자: 홍사민
 // ===========================================================
 import { makeFarestFrame } from '../../common/make-farest';
-import { makeQueryService, wrapQueryReturnToApiResponse } from "../../common/make-query-service";
+import { makeQueryService } from "../../common/make-query-service";
+import { wrapApiResponse } from "../../common/wrap-api-response";
 
 // =================================================================
 //  API I/O 정의
@@ -22,7 +23,7 @@ type ApiOutput = {
 };
 
 // =================================================================
-//  쿼리, I/O 정의 (or 서비스 파일 분리)
+//  쿼리, I/O 정의 (or 서비스 파일 별도 분리)
 // =================================================================
 type QueryInput = ApiInput;
 type QueryOutput = ApiOutput;
@@ -43,12 +44,12 @@ const queryService = makeQueryService<
 // =================================================================
 // FIXME: 이름 정의
 export const TEMPLATE_POST = makeFarestFrame<ApiInput, ApiOutput>(
-    'Post', 
-    null,
+    'Post',
     async (input) => 
-{
-    const qr = await queryService(input);
+    {
+        const qr = await queryService(input);
 
-    return wrapQueryReturnToApiResponse('Many', qr);
+        return wrapApiResponse('Many', qr);
 
-});
+    }
+);
