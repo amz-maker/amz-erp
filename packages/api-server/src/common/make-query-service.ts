@@ -16,6 +16,11 @@ type BaseQueryDefine<T> = Join<ColumnsArrDefine<T>, `,`>;
 // type SelectQueryDefine<T> = `${string}SELECT${BaseQueryDefine<T>}FROM${string}${('WHERE') | ''}${string}`;
 
 // Override 1
+/**
+ * SQL 쿼리 I/O 타입 및 쿼리 스트링을 기반으로, 호출 가능한 서비스 함수 생성
+ * @param returnCardinality ***MustOne***: 반드시 1개 행만 리턴 / ***ZeroOrOne***: 1개 또는 0개 행 리턴 / ***Many***: 0~N개 행 리턴(배열)
+ * @param query SQL 쿼리문 스트링. 출력 타입에 정의한 오브젝트 키들의 이름이 스트링 내에 "name" 형태로 작성되어야 한다.
+ */
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'MustOne',
     query: BaseQueryDefine<O>
@@ -34,7 +39,6 @@ export function makeQueryService<I extends {}, O extends QueryResultRow>(
 ): ((input: I) => (Promise<O[]>)); // Many
 
 // Implement
-// 쿼리 스트링을 기반으로, 호출 가능한 쿼리 서비스 함수 생성
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: ReturnCardinality,
     query: BaseQueryDefine<O>
@@ -107,7 +111,7 @@ export function makeQueryService<I extends {}, O extends QueryResultRow>(
     }
 }
 
-
+// =========================================================================================
 // example
 // I, O, 실제 입력값 넣으면 쿼리 실행시키고 리턴하는 서비스 함수 생성
 async function example() {

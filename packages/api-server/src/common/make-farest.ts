@@ -8,7 +8,7 @@
 // 2023. 02. 22.
 // - makeFarestFrame 추가
 //   - Query-param 메소드에서도 쿼리 파라미터 명시 없이
-//     uri에 자동으로 붙여주도록 표준 규격 완성
+//     uri에 자동으로 붙여주도록 구현
 // ===========================================================
 import { FastifyRequest, FastifyReply, RouteGenericInterface, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyInstance } from "fastify";
 import { extractRouteNode } from "../routes/route-tree-extractor";
@@ -77,6 +77,13 @@ function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBod
 }
 
 // Overrides
+/** 
+ * API 세부 내용 정의
+ * @param rm ***Get-param***: '/URI/param' 형태로 호출하는 GET Method, ***Get-query***: '/URI?query=&' 형태로 호출하는 GET Method, ***Post*** | ***Put***: Body를 사용하는 Method
+ * @param controllerBody API 호출 시 동작할 컨트롤러 함수.  `async (input) => { return ApiResponse<O> }` 형태로 작성한다. 
+ * @param paramUri ***rm***을 'Get-param'으로 설정했을 때만 작성한다. 쿼리 입력 타입의 키 이름을 명시한다.
+ * @returns-{@link FarestFrameDefine}
+ */
 export function makeFarestFrame<I, O>(rm: 'Get-param', controllerBody: GenFarestBody<I, O>, paramUri: keyof I) : FarestFrameDefine<RestMethod, I, O>;
 export function makeFarestFrame<I, O>(rm: 'Get-query' | 'Post' | 'Put', controllerBody: GenFarestBody<I, O>) : FarestFrameDefine<RestMethod, I, O>;
 
@@ -104,13 +111,19 @@ export type FarestFrameDefine<RM extends RestMethod, I, O> = {
 };
 
 // 라우트 등록
-export function routeFarest<RM extends RestMethod, I, O>(server: FastifyInstance, routeNode:RouteNode, conFrame: FarestFrameDefine<RM, I, O>) {
+/**
+ * API 라우트를 등록한다. 'routes/index.ts/route()' 내에서 호출한다.
+ * @param server {@link FastifyInstance}
+ * @param routeNode 'routes/route-tree.ts'에서 정의한 라우팅 트리 오브젝트 참조를 전달한다. '/a/b' 형태의 URI 문자열로 내부에서 파싱된다.
+ * @param farFrame {@link makeFarestFrame}의 리턴값을 전달한다.
+ */
+export function routeFarest<RM extends RestMethod, I, O>(server: FastifyInstance, routeNode:RouteNode, farFrame: FarestFrameDefine<RM, I, O>) {
 
     const uri = extractRouteNode(routeNode);
-    const farestUri = `${uri}${conFrame.uriParam}`;
-    const farestFunc = (conFrame.controller as any) as (request: FastifyRequest, reply: FastifyReply) => void;
+    const farestUri = `${uri}${farFrame.uriParam}`;
+    const farestFunc = (farFrame.controller as any) as (request: FastifyRequest, reply: FastifyReply) => void;
   
-    switch(conFrame.rm) {
+    switch(farFrame.rm) {
         case 'Get-param':
         case 'Get-query':
         {

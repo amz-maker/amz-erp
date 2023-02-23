@@ -27,12 +27,11 @@ type ApiOutput = {
 type QueryInput = ApiInput;
 type QueryOutput = ApiOutput;
 
-// Many: n개 행 리턴하는 쿼리
 const queryService1 = makeQueryService<
     QueryInput, 
     QueryOutput
 >(
-    'Many',
+    'Many', // Many: n개 행(배열) 리턴
     `
     SELECT 
         {in}      AS "out1",
@@ -41,12 +40,11 @@ const queryService1 = makeQueryService<
     `
 );
 
-// MustOne: 반드시 1개 행만 리턴하는 쿼리
 const queryService2 = makeQueryService<
     QueryInput, 
     QueryOutput
 >(
-    'MustOne',
+    'MustOne', // MustOne: 반드시 1개 행만 리턴
     `
     SELECT 
         {in}      AS "out1",
@@ -55,12 +53,11 @@ const queryService2 = makeQueryService<
     `
 );
 
-// ZeroOrOne: 0개 pr 1개 행을 리턴하는 쿼리
 const queryService3 = makeQueryService<
     QueryInput, 
     QueryOutput
 >(
-    'ZeroOrOne',
+    'ZeroOrOne', // ZeroOrOne: 0개 pr 1개 행 리턴
     `
     SELECT 
         {in}      AS "out1",

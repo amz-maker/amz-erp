@@ -7,17 +7,22 @@
 import { ApiResponse, ReturnCardinality } from "./common-types";
 
 // Overrides
-export function wrapApiResponse<T>(returnCardinality: 'ZeroOrOne', data: T | undefined): ApiResponse<T>;
-export function wrapApiResponse<T>(returnCardinality: 'MustOne', data: T): ApiResponse<T>;
-export function wrapApiResponse<T>(returnCardinality: 'Many', data: T[]): ApiResponse<T>;
+/**
+ * 데이터를 API 응답 오브젝트 형태로 래핑
+ * @param dataCardinality ***MustOne***: 반드시 1개 행만 리턴 / ***ZeroOrOne***: 1개 또는 0개 행 리턴 / ***Many***: 0~N개 행 리턴(배열)
+ * @param data 원본 데이터. {@link dataCardinality}에 따라서 사용 가능한 형태가 달라진다.
+ * @returns-{@link ApiResponse<T>}
+ */
+export function wrapApiResponse<T>(dataCardinality: 'ZeroOrOne', data: T | undefined): ApiResponse<T>;
+export function wrapApiResponse<T>(dataCardinality: 'MustOne', data: T): ApiResponse<T>;
+export function wrapApiResponse<T>(dataCardinality: 'Many', data: T[]): ApiResponse<T>;
 
 // Implement
-// 데이터를 API 응답 오브젝트 형태로 래핑
 // 오브젝트 | 배열 | undefined => ApiResponse<O> 변환
 // Note: 카디널리티에 맞게 예외 처리
-export function wrapApiResponse<T>(returnCardinality: ReturnCardinality, data: T | undefined | T[]): ApiResponse<T> {
+export function wrapApiResponse<T>(dataCardinality: ReturnCardinality, data: T | undefined | T[]): ApiResponse<T> {
     
-    switch(returnCardinality) {
+    switch(dataCardinality) {
         case 'ZeroOrOne': {
             
             // 0
