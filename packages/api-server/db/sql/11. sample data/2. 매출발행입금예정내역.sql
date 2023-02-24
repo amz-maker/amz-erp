@@ -1,5 +1,4 @@
-
--- 행: 12개
+-- 컬럼: 12개
 INSERT INTO SL001L1
 (
  CTRCT_NO             -- 계약번호 (매출계약정보 FK)
