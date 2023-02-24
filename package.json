@@ -11,6 +11,7 @@
     "----- API Server -----": "",
     "api-start": "cd packages/api-server && ts-node src/index.ts",
     "api-watch": "cd packages/api-server && nodemon src/index.ts",
+    "run-test-script": "cd packages/api-server && ts-node src/test-scripts/index.ts",
     "------- Docker -------": "",
     "docker-up": "docker compose -p amz-erp up -d",
     "docker-down": "docker compose -p amz-erp down --rmi all -v"
