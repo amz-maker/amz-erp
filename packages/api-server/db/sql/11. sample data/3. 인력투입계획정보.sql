@@ -1,4 +1,5 @@
 -- 컬럼: 15개
+-- 인력투입계획정보
 INSERT INTO MP001M1
 (
  CTRCT_NO

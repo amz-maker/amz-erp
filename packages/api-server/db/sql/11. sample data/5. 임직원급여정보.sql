@@ -1,4 +1,5 @@
 -- 컬럼: 25개
+-- 임직원급여정보
 INSERT INTO SF001M1
 (
  STAFF_ID

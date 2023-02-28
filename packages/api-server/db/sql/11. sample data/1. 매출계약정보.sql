@@ -1,4 +1,5 @@
 -- 컬럼: 16개
+-- 매출계약정보
 INSERT INTO SL001M1
 (
  CTRCT_NO         -- 계약번호

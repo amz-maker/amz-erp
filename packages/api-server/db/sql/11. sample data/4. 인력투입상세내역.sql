@@ -1,4 +1,5 @@
 -- 컬럼: 21개
+-- 인력투입상세내역
 INSERT INTO MP001L1
 (
  CTRCT_NO
