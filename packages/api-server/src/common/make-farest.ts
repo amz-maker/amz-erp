@@ -93,7 +93,7 @@ export function makeFarestFrame<I, O>(rm: RestMethod, controllerBody: GenFarestB
 {
 
     if(rm === 'Get-param' && (paramUri === undefined) ) {
-        throw new Error('Get-Param Method Need to Define URI Parameter');
+        throw new Error('Get-Param Method Must Define URI Parameter');
     }
     
     return {
