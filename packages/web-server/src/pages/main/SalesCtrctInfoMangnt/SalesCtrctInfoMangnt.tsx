@@ -16,33 +16,30 @@ interface SalesCtrctInfoMangntProps {}
 
 function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
-  /* Props ――――― */
   const {} = props;
-  /* State ――――― */
-  /* Const ――――― */
-  /* API ――――――― */
+  const erpDesing = ERPDesign.useERPDesign(
+    (values) => {
+      console.log('[Values]', values);
+    },
+    () => {},
+  );
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    // 와
-  };
 
   /* ―――――――――――――― Use Effect ―――――――――――――― */
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt">
+    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={3}>
-        <ERPDesign.Condition title="계약기간">
-          <DatePicker onChange={onChange} />
-          <em>~</em>
-          <DatePicker onChange={onChange} />
+        <ERPDesign.Condition label="계약기간" name="a">
+          <DatePicker.RangePicker />
         </ERPDesign.Condition>
-        <ERPDesign.Condition title="계약사">
+        <ERPDesign.Condition label="계약사" name="b">
           <Input />
         </ERPDesign.Condition>
-        <ERPDesign.Condition title="프로젝트명"></ERPDesign.Condition>
+        <ERPDesign.Condition label="프로젝트명" name="c"></ERPDesign.Condition>
       </ERPDesign.ConditionArea>
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>

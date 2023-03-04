@@ -6,10 +6,13 @@
  * TYPE : Container
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
-import { Button } from 'antd';
+import React from 'react';
+import { Button, Form } from 'antd';
+import { Rule } from 'antd/es/form';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
-import React from 'react';
+import { useERPDesign as _useERPDesign } from './hook/useERPDesign';
+
 import {
   checkboxColumn,
   Column,
@@ -25,9 +28,13 @@ import {
   textColumn,
 } from 'react-datasheet-grid';
 import { RecoilRoot } from 'recoil';
+import { CompoundedComponent } from 'antd/es/float-button/interface';
 
-interface ERPDesignProps extends IChildren, IDataPage {}
-function ERPDesign(props: ERPDesignProps) {
+interface ERPDesignProps<T extends object> extends IChildren, IDataPage {
+  onFinish?: ((values: T) => void) | undefined;
+  onFinishFailed?: ((errorInfo: any) => void) | undefined;
+}
+function ERPDesign<T extends object>(props: ERPDesignProps<T>) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   const { 'data-page': dataPage, children } = props;
 
@@ -37,13 +44,21 @@ function ERPDesign(props: ERPDesignProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <div data-page={dataPage} data-container="erpDesign">
-      {children}
-    </div>
+    <RecoilRoot>
+      <Form {...props}>
+        <div data-page={dataPage} data-container="erpDesign">
+          {children}
+        </div>
+      </Form>
+    </RecoilRoot>
   );
 }
 
 namespace ERPDesign {
+  // Hook
+  export const useERPDesign = _useERPDesign;
+
+  // Condition Area
   interface ConditionArea extends IChildren {
     size: number | string;
   }
@@ -51,53 +66,49 @@ namespace ERPDesign {
     const { size, children } = props;
 
     function makeTemplate() {
-      if (typeof size === 'number') return `repeat(${size}, max-content 1fr)`;
-      else {
-        let split = size.split(' ');
-        let t = '';
-        split.map((ele, idx) => {
-          t += `max-content ${ele}`;
-          if (split.length !== idx + 1) {
-            t += ' ';
-          }
-        });
-        return t;
+      if (typeof size === 'number') {
+        return `repeat(${size}, 1fr)`;
+      } else {
+        return size;
       }
     }
 
     return (
-      <RecoilRoot>
-        <DivisionBox data-container="erpDesign.ConditionArea" template={makeTemplate()} verticalAlign={'center'} gap={10}>
-          {children}
-        </DivisionBox>
-      </RecoilRoot>
+      <DivisionBox data-container="erpDesign.ConditionArea" template={makeTemplate()} verticalAlign={'center'} gap={10}>
+        {children}
+      </DivisionBox>
     );
   }
 
   interface ConditionProps extends IChildren {
-    title: string;
+    label: string;
+    name: string;
+    rules?: Rule[] | undefined;
   }
   export function Condition(props: ConditionProps) {
-    const { title, children } = props;
+    const { label, name, rules, children } = props;
     return (
-      <>
-        <span className="label-box">
-          <em>{title}</em>
-        </span>
-        <DivisionBox className="component-box" template={'max-content'} gap={5} repeat>
-          {children}
+      <Form.Item name={name} rules={rules}>
+        <DivisionBox className="condition-box" template="max-content auto" verticalAlign={'center'} gap={10}>
+          <span className="label-box">
+            <em>{label}</em>
+          </span>
+          <DivisionBox className="component-box" template={'max-content'} gap={5} repeat>
+            {children}
+          </DivisionBox>
         </DivisionBox>
-      </>
+      </Form.Item>
     );
   }
 
+  // Control Area
   interface ControlAreaProps extends IChildren {
     onClick?: () => void;
   }
   export function ControlArea(props: ControlAreaProps) {
     const { children } = props;
     return (
-      <DivisionBox data-container="erpDesign.controlArea" className="control-area" template={'max-content'} horizonAlign="right" gap={5} repeat>
+      <DivisionBox data-container="erpDesign.controlArea" template={'max-content'} horizonAlign="right" gap={5} repeat>
         {children}
       </DivisionBox>
     );
@@ -108,15 +119,16 @@ namespace ERPDesign {
   }
   export function Submit(props: SubmitProps) {
     const { children } = props;
-    return <Button>{children}</Button>;
+    return <Button htmlType="submit">{children}</Button>;
   }
 
+  // Table Area
   interface TableAreaProps extends IChildren {}
   export function TableArea(props: TableAreaProps) {
     const { children } = props;
 
     return (
-      <DivisionBox data-container="erpDesign.tableArea" className="control-area" template={'100%'} gap={5} repeat>
+      <DivisionBox data-container="erpDesign.tableArea" template={'100%'} gap={5} repeat>
         {children}
       </DivisionBox>
     );
