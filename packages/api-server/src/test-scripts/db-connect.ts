@@ -1,4 +1,4 @@
-import { pgCurrent } from "config/db";
+import { pgCurrent } from "config/db-config";
 
 
 export async function dbConnectTest() {
