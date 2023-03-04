@@ -10,7 +10,7 @@ import React from 'react';
 import { Button, Form } from 'antd';
 import { Rule } from 'antd/es/form';
 import { DivisionBox } from 'module/AmzPack/component';
-import { IChildren, IDataPage } from 'module/AmzPack/interface';
+import { IChildren, IChildrenElement, IDataPage } from 'module/AmzPack/interface';
 import { useERPDesign as _useERPDesign } from './hook/useERPDesign';
 
 import {
@@ -28,7 +28,7 @@ import {
   textColumn,
 } from 'react-datasheet-grid';
 import { RecoilRoot } from 'recoil';
-import { CompoundedComponent } from 'antd/es/float-button/interface';
+import { NamePath } from 'antd/es/form/interface';
 
 interface ERPDesignProps<T extends object> extends IChildren, IDataPage {
   onFinish?: ((values: T) => void) | undefined;
@@ -82,22 +82,20 @@ namespace ERPDesign {
 
   interface ConditionProps extends IChildren {
     label: string;
-    name: string;
+    name: NamePath | undefined;
     rules?: Rule[] | undefined;
   }
   export function Condition(props: ConditionProps) {
     const { label, name, rules, children } = props;
     return (
-      <Form.Item name={name} rules={rules}>
-        <DivisionBox className="condition-box" template="max-content auto" verticalAlign={'center'} gap={10}>
-          <span className="label-box">
-            <em>{label}</em>
-          </span>
-          <DivisionBox className="component-box" template={'max-content'} gap={5} repeat>
-            {children}
-          </DivisionBox>
-        </DivisionBox>
-      </Form.Item>
+      <DivisionBox className="condition-box" template="max-content auto" verticalAlign={'center'} gap={10}>
+        <span className="label-box">
+          <em>{label}</em>
+        </span>
+        <Form.Item name={name} rules={rules}>
+          {children}
+        </Form.Item>
+      </DivisionBox>
     );
   }
 

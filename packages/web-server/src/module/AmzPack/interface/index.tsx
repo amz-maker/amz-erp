@@ -24,6 +24,9 @@ export interface IDataDesign {
 export interface IChildren {
   children?: React.ReactNode;
 }
+export interface IChildrenElement {
+  children?: React.ReactElement;
+}
 
 export type SetterValueType<T = any> = T | ((currVal: T) => T);
 
