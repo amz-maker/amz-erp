@@ -6,16 +6,16 @@
 // ===========================================================
 import { FastifyInstance} from "fastify";
 import * as Controllers from "../controllers";
-import { routeTree } from "./route-tree";
 import { routeFarest} from "../common/make-farest";
+// import { routeTree } from "./route-tree";
 
 export default function routes(server: FastifyInstance, opts: any, next: any) {
   
-  routeFarest(server, routeTree.user.complex, Controllers.getUserComplex);
-  routeFarest(server, routeTree.user.find, Controllers.getUserFind);     // http://127.0.0.1:8001/user/find/123
-  routeFarest(server, routeTree.user.search, Controllers.getUserSearch); // http://127.0.0.1:8001/user/search?in1=100&in2=200
-  routeFarest(server, routeTree.user.login, Controllers.postUserLogin);  // http://127.0.0.1:8001/user/login  // body: { "in1":123, "in2":456 }
-  routeFarest(server, routeTree.user.modify, Controllers.putUserModify); // http://127.0.0.1:8001/user/modify // body: { "in":123 }
+  routeFarest(server, '/user/complex', Controllers.getUserComplex);
+  routeFarest(server, '/user/find',    Controllers.getUserFind);   // http://127.0.0.1:8001/user/find/123
+  routeFarest(server, '/user/search',  Controllers.getUserSearch); // http://127.0.0.1:8001/user/search?in1=100&in2=200
+  routeFarest(server, '/user/login',   Controllers.postUserLogin); // http://127.0.0.1:8001/user/login  // body: { "in1":123, "in2":456 }
+  routeFarest(server, '/user/modify',  Controllers.putUserModify); // http://127.0.0.1:8001/user/modify // body: { "in":123 }
 
   next();
 }

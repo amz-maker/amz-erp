@@ -18,4 +18,5 @@ import { StringUtil } from "../utils/string-util"
     console.log(StringUtil.pascalToKebab(strPasca) === strKebab);
     console.log(StringUtil.kebabToCamel (strKebab) === strCamel);
     console.log(StringUtil.kebabToPascal(strKebab) === strPasca);
+
 })();

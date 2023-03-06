@@ -8,7 +8,7 @@ export type QueryResultFrame<O> = O | O[] | undefined;
 export type ReturnCardinality = 'ZeroOrOne' | 'MustOne' | 'Many'; // 리턴 Row 개수
 
 export type ErrorString = string;
-export type RestMethod = 'Get-param' | 'Get-query' | 'Post' | 'Put';
+export type RestMethod = 'Get-param' | 'Get-query' | 'Post' | 'Put' | 'Patch' | 'Delete';
 
 // API 응답 형태
 export type ApiResponse<O> = {
@@ -22,3 +22,5 @@ export type ApiResponse<O> = {
     error?: ErrorString
 }
 ;
+
+export type UriString = `/${string}`;
