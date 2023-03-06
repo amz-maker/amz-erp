@@ -4,7 +4,7 @@
 // - 작성일: 2023. 02. 21
 // - 작성자: 홍사민
 // ===========================================================
-import { QueryResultRow } from "pg";
+import { QueryResult, QueryResultRow } from "pg";
 import { pgCurrent } from "../config/db-config";
 import { ReturnCardinality } from "./common-types";
 import { ArrayOfKeys, GenColumnStmts, Join } from "./utility-types";
@@ -47,6 +47,19 @@ export function makeQueryService<I extends {}, O extends QueryResultRow>(
 | ((input: I) => (Promise<undefined | O>)) // ZeroOrOne
 | ((input: I) => (Promise<O[]>)) // Many
 {
+    // // 내부 쿼리호출 공통 함수
+    // async function localFunc<I extends {}, O extends QueryResultRow>(input: I): Promise<QueryResult<O>> {
+    //     const inputKeys = Object.keys(input);
+    //     let queryString = query as string;
+
+    //     inputKeys.map((v) => {
+    //         queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
+    //     });
+
+    //     const qr = await pgCurrent.query<O>(queryString);
+    //     return qr;
+    // }
+
     switch(returnCardinality) {
 
         case "MustOne": {

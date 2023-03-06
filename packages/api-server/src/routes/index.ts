@@ -17,6 +17,9 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   routeFarest(server, '/user/login',   Controllers.postUserLogin); // http://127.0.0.1:8001/user/login  // body: { "in1":123, "in2":456 }
   routeFarest(server, '/user/modify',  Controllers.putUserModify); // http://127.0.0.1:8001/user/modify // body: { "in":123 }
 
+  
+  routeFarest(server, '/ctrct/sales-ctrct-info',  Controllers.salesCtrctInfo); // 
+
   next();
 }
 

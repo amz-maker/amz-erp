@@ -12,6 +12,8 @@ import { postUserLogin } from "./user/post-user-login";
 import { putUserModify } from "./user/put-user-modify";
 import { getUserComplex } from "./user/get-user-complex";
 
-export { getUserFind, getUserSearch, postUserLogin, putUserModify, getUserComplex };
+import { salesCtrctInfo } from "./ctrct/sales-ctrct-info";
+
+export { getUserFind, getUserSearch, postUserLogin, putUserModify, getUserComplex, salesCtrctInfo };
 
 

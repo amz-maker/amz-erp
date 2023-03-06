@@ -9,6 +9,10 @@ export namespace StringUtil {
         return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
     }
 
+    export function camelToLargeSnake(str: string) : string {
+        return str.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase();
+    }
+
     export function pascalToCamel(str: string) : string {
         return str[0].toLowerCase() + str.slice(1);
     }
