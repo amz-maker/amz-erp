@@ -4,7 +4,7 @@
 // - 작성일: 2023. 03. 09.
 // - 작성자: 홍사민
 // ===========================================================
-import { AccessToken, RefreshToken, TokenSet } from "../common-types/jwt-auth";
+import { AccessToken, RefreshToken } from "../common-types/jwt-auth";
 import JwtUtil from "./jwt-util";
 
 export default class JwtRestUtil {
@@ -71,7 +71,6 @@ export default class JwtRestUtil {
         }
     }
 
-    // 액세스 토큰 재발급
     /**
      * 헤더에서 액세스 토큰, 리프레시 토큰 꺼내어 액세스 토큰 재발급
      * @error 액세스 토큰, 리프레시 토큰이 유효하지 않은 경우

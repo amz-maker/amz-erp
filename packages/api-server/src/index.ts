@@ -14,18 +14,6 @@ server.get("/", (request, reply) => {
   reply.send({ heart: "beats" });
 });
 
-server.get("/jwt", (request, reply) => {
-
-  type T = typeof request.headers;
-
-  reply.send( {
-    ok: 'ok',
-    res: request.headers
-  });
-  
-}); 
-
-
 const start = async () => {
   try {
     await server.listen({

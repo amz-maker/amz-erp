@@ -4,11 +4,15 @@
 // - 작성일: 2023. 03. 06
 // - 작성자: 홍사민
 // ===========================================================
+// [기록]
+// 2023. 03. 09.
+// - JWT 인증 절차 추가
+// ===========================================================
 import { pgCurrent } from '../../config/db-config';
 import { StringUtil } from '../../utils/string-util';
 import { makeFarestFrame } from '../../common/make-farest';
-import { makeQueryService } from "../../common/make-query-service";
 import { wrapApiResponse } from "../../common/wrap-api-response";
+import JwtRestUtil from '../../utils/jwt-rest-util';
 
 // =================================================================
 //  API I/O 정의
@@ -80,6 +84,7 @@ export const salesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-query', 
     async (input, headers) => 
     {
+        JwtRestUtil.verifyHeaderAccessToken(headers);
         // console.log(input);
 
         const keys = Object.keys(input);

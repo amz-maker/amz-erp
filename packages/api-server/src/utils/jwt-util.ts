@@ -7,13 +7,13 @@
 import "dotenv/config";
 import { AccessToken, JwtPayload, JwtToken, JwtVerifyResult, RefreshToken, TokenSet, UserAuth } from "../common-types/jwt-auth";
 import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
-import DbUtil from "./db-util";
+import DbAuthUtil from "./db-auth-util";
 
 export default class JwtUtil {
 
     private static options = {
         issuedFrom: 'Ecredit',
-        accessExpire: '10s',
+        accessExpire: '2h',
         refreshExpire: '7d',
         signAlgorithm: 'HS256',
     } as const;
@@ -24,7 +24,7 @@ export default class JwtUtil {
      * @returns void
      */
     private static verifyUserAuth(userAuth: UserAuth): void {
-        const isVerified = DbUtil.checkUser(userAuth);
+        const isVerified = DbAuthUtil.checkUser(userAuth);
 
         if(!isVerified) {
             throw new Error(`Not Valid User : ${userAuth.id}`);
@@ -74,7 +74,7 @@ export default class JwtUtil {
             return decoded.knd === 'Access';
         }
         catch {
-            throw new Error("Access Token Validation - Decode Error")
+            throw new Error("Token Decode Error - Invalid Token");
         }
     }
 
@@ -90,7 +90,7 @@ export default class JwtUtil {
             return decoded.knd === 'Refresh';
         }
         catch {
-            throw new Error("Refresh Token Validation - Decode Error")
+            throw new Error("Token Decode Error -  Invalid Token");
         }
     }
 
@@ -217,7 +217,7 @@ export default class JwtUtil {
             }
 
             // DB에서 ID-리프레시 토큰 일치 여부 검증
-            if(!DbUtil.checkRefreshToken({
+            if(!DbAuthUtil.checkRefreshToken({
                 id: decoded.aud,
                 refreshToken: tokenSet.refresh,
             })) {
