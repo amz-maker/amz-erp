@@ -5,9 +5,9 @@
 // - 작성자: 홍사민
 // ===========================================================
 
-// =============================
+// -----------------------------------------------------------
 //  Unions
-// =============================
+// -----------------------------------------------------------
 export type ArrayToUnion<T extends any[]> = T[number];
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
@@ -25,9 +25,9 @@ export type UnionToArray<T, A extends unknown[] = []> = IsUnion<T> extends true
 ? UnionToArray<Exclude<T, PopUnion<T>>, [PopUnion<T>, ...A]>
 : [T, ...A]; // 
 
-// =============================
+// -----------------------------------------------------------
 //  Mapped
-// =============================
+// -----------------------------------------------------------
 export type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type KeysWithout<T, F> = {
@@ -40,9 +40,9 @@ export type ReverseMap<T extends Record<keyof T, keyof any>> = {
     }[keyof T]
 };
 
-// =============================
+// -----------------------------------------------------------
 //  String
-// =============================
+// -----------------------------------------------------------
 export type Concat<T extends string[]> = T extends [
     infer F,
     ...infer R
@@ -68,19 +68,9 @@ type JoinInternal<T extends string[], D extends string> = T extends [
 ;
 export type Join<T extends string[], D extends string> = JoinInternal<T, D> extends `${infer A}${D}` ? `${A}` : '';
 
-// `"컬럼1", "컬럼2"` 꼴 제네릭 생성
-type GenColumnStmtsInternal<TArr extends string[], TOut extends string[]> = 
-    TArr['length'] extends 0 ? 
-        TOut : TArr extends [infer StringElement, ...infer Tails] ? 
-            StringElement extends string ? Tails extends string[] ? 
-                GenColumnStmtsInternal<Tails, [...TOut, `${string}"${StringElement}"${string}`]> // 스트링 요소 편집하는 부분
-    : never : never : TOut
-;
-export type GenColumnStmts<TArr extends string[]> = GenColumnStmtsInternal<TArr, []>;
-
-// =============================
+// -----------------------------------------------------------
 //  Object, Array
-// =============================
+// -----------------------------------------------------------
 export type MinusOne<T extends number> = 
 T extends 1 ? 0 :
 T extends 2 ? 1 :
@@ -142,3 +132,16 @@ type omitFirstKeyOfObject = OmitFirstKey<{ a: number, b: string, c: boolean }>; 
 type objectHasKey1        = HasKey<{ a: number, b: string, c: boolean }>;       // true
 type objectHasKey2        = HasKey<{}>; // false
 */
+
+// -----------------------------------------------------------
+//  Custom
+// -----------------------------------------------------------
+// string[] => `"컬럼1", "컬럼2"` 꼴 제네릭 생성
+type GenColumnStmtsInternal<TArr extends string[], TOut extends string[]> = 
+    TArr['length'] extends 0 ? 
+        TOut : TArr extends [infer StringElement, ...infer Tails] ? 
+            StringElement extends string ? Tails extends string[] ? 
+                GenColumnStmtsInternal<Tails, [...TOut, `${string}"${StringElement}"${string}`]> // 스트링 요소 편집하는 부분
+    : never : never : TOut
+;
+export type GenColumnStmts<TArr extends string[]> = GenColumnStmtsInternal<TArr, []>;

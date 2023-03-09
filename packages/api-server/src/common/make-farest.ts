@@ -13,19 +13,19 @@
 import { FastifyRequest, FastifyReply, RouteGenericInterface, RawServerDefault, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyInstance } from "fastify";
 // import { extractRouteNode } from "../routes/route-tree-extractor";
 // import { RouteNode } from "../routes/route-tree";
-import { ApiResponse, RestMethod, UriString } from "./common-types";
+import { ApiResponse, RestMethod, UriString } from "../common-types/common";
 
 type GenReply<O> = {
     Reply: ApiResponse<O>;
 };
 
 type GenRequestInside<RM extends RestMethod, I> = 
-    RM extends 'Get-param' ? { Params     : I } :
-    RM extends 'Get-query' ? { Querystring: I } :
-    RM extends 'Post'      ? { Body       : I } :
-    RM extends 'Put'       ? { Body       : I } :
-    RM extends 'Patch'     ? { Body       : I } :
-    RM extends 'Delete'    ? { Body       : I } :
+    RM extends 'Get-param' ? { Params     : I , Headers: unknown} :
+    RM extends 'Get-query' ? { Querystring: I , Headers: unknown} :
+    RM extends 'Post'      ? { Body       : I , Headers: unknown} :
+    RM extends 'Put'       ? { Body       : I , Headers: unknown} :
+    RM extends 'Patch'     ? { Body       : I , Headers: unknown} :
+    RM extends 'Delete'    ? { Body       : I , Headers: unknown} :
     never
 ;
 
@@ -46,7 +46,7 @@ type GenFastifyReply<IO extends RouteGenericInterface = RouteGenericInterface> =
     IO
 >;
 
-export type GenFarestBody<I, O> = (input: I) => Promise<ApiResponse<O>>;
+export type GenFarestBody<I, O> = (input: I, headers: unknown) => Promise<ApiResponse<O>>;
 
 // =================================================================
 function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBody<I, O>) {
@@ -59,18 +59,23 @@ function makeFarestController<I, O>(rm: RestMethod, controllerBody: GenFarestBod
       ) {
           try {
             const result = await controllerBody(
-                (rm === 'Get-param' ? request.params : 
-                rm === 'Get-query' ? request.query : 
-                request.body) as any
+                (
+                    rm === 'Get-param' ? request.params : 
+                    rm === 'Get-query' ? request.query : 
+                    request.body
+                ) as any,
+
+                request.headers
             );
 
             reply.send(result);
         
           } catch (error: any) {
       
+            // 컨트롤러 내의 throw / 처리되지 않은 에러
             reply.send({
                 result: undefined,
-                error: `${error}`
+                error: `${error}`.replace('Error: ', '')
             });
           }
       }

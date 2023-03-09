@@ -4,7 +4,7 @@
 // - 작성일: 2023. 02. 22
 // - 작성자: 홍사민
 // ===========================================================
-import { ApiResponse, ReturnCardinality } from "./common-types";
+import { ApiResponse, ReturnCardinality } from "../common-types/common";
 
 // Overrides
 /**
@@ -91,4 +91,11 @@ export function wrapApiResponse<T>(dataCardinality: ReturnCardinality, data: T |
         }
     }
 
+}
+
+export function wrapErrorResponse(msg: string): ApiResponse<any> {
+    return {
+        result: undefined,
+        error: msg,
+    }
 }

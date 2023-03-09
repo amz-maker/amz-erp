@@ -6,8 +6,8 @@
 // ===========================================================
 import { QueryResult, QueryResultRow } from "pg";
 import { pgCurrent } from "../config/db-config";
-import { ReturnCardinality } from "./common-types";
-import { ArrayOfKeys, GenColumnStmts, Join } from "./utility-types";
+import { ReturnCardinality } from "../common-types/common";
+import { ArrayOfKeys, GenColumnStmts, Join } from "../common-types/utility";
 
 type InputStrArr<T> = ArrayOfKeys<T>;
 // @ts-ignore
@@ -125,6 +125,7 @@ export function makeQueryService<I extends {}, O extends QueryResultRow>(
 }
 
 // =========================================================================================
+/*
 // example
 // I, O, 실제 입력값 넣으면 쿼리 실행시키고 리턴하는 서비스 함수 생성
 async function example() {
@@ -146,3 +147,4 @@ async function example() {
 
     const ret = await queryService({ id: '123' });
 }
+*/

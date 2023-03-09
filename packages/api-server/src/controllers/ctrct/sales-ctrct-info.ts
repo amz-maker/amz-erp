@@ -78,7 +78,7 @@ type QueryOutput = ApiOutput;
 // =================================================================
 export const salesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-query', 
-    async (input) => 
+    async (input, headers) => 
     {
         // console.log(input);
 
