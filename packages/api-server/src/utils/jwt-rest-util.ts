@@ -41,7 +41,7 @@ export default class JwtRestUtil {
      * @error 액세스 토큰이 없거나 유효하지 않은 경우
      * @returns void
      */
-    public static verifyHeaderAccessToken(header: any): void 
+    public static verifyAccessTokenInHeader(header: any): void 
     {
         console.log(header);
 
