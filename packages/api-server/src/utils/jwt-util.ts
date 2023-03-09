@@ -12,10 +12,16 @@ import DbAuthUtil from "./db-auth-util";
 export default class JwtUtil {
 
     private static options = {
+        issuedFrom   : process.env.JWT_ISSUER!,
+        accessExpire : process.env.JWT_ACCESS_EXPIRE!,
+        refreshExpire: process.env.JWT_REFRESH_EXPIRE!,
+        signAlgorithm: process.env.JWT_SIGN_ALGORITHM! as jwt.Algorithm,
+        /*
         issuedFrom: 'Ecredit',
         accessExpire: '2h',
         refreshExpire: '7d',
         signAlgorithm: 'HS256',
+        */
     } as const;
 
     /**
