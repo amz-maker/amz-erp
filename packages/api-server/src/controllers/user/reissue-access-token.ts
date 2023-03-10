@@ -7,12 +7,12 @@
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse, wrapErrorResponse } from "../../common/wrap-api-response";
 import { AccessToken, RefreshToken, TokenSet } from '../../common-types/jwt-auth';
-import JwtRestUtil from '../../utils/jwt-rest-util';
+import JwtRestService from '../../services/jwt-rest.service';
 
 export const reissueAccessToken = makeFarestFrame<{}, AccessToken>(
     'Post', 
     async (input, headers) => 
     {
-        return wrapApiResponse('MustOne', JwtRestUtil.reissueAccessToken(headers));
+        return wrapApiResponse('MustOne', await JwtRestService.reissueAccessToken(headers));
     }, 
 );

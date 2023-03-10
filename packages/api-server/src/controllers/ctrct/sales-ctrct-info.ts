@@ -9,10 +9,10 @@
 // - JWT 인증 절차 추가
 // ===========================================================
 import { pgCurrent } from '../../config/db-config';
-import { StringUtil } from '../../utils/string-util';
+import { StringUtil } from '../../utils/string.util';
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse } from "../../common/wrap-api-response";
-import JwtRestUtil from '../../utils/jwt-rest-util';
+import JwtRestService from '../../services/jwt-rest.service';
 
 // =================================================================
 //  API I/O 정의
@@ -84,7 +84,7 @@ export const salesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-query', 
     async (input, headers) => 
     {
-        JwtRestUtil.verifyAccessTokenInHeader(headers);
+        JwtRestService.verifyAccessTokenInHeader(headers);
         // console.log(input);
 
         const keys = Object.keys(input);

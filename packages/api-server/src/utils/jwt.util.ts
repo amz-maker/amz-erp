@@ -4,10 +4,14 @@
 // - 작성일: 2023. 03. 09.
 // - 작성자: 홍사민
 // ===========================================================
+// [기록]
+// 2023. 03. 10.
+// - 책임 분리: 유저 검증 부분은 모두 DB 서비스로 분리
+// ===========================================================
 import "dotenv/config";
 import { AccessToken, JwtPayload, JwtToken, JwtVerifyResult, RefreshToken, TokenSet, UserAuth } from "../common-types/jwt-auth";
 import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
-import DbAuthUtil from "./db-auth-util";
+import JwtAuthService from "../services/jwt-auth.service";
 
 export default class JwtUtil {
 
@@ -23,19 +27,6 @@ export default class JwtUtil {
         signAlgorithm: 'HS256',
         */
     } as const;
-
-    /**
-     * 사용자 정보 검증
-     * @error 유저 정보가 유효하지 않은 경우
-     * @returns void
-     */
-    private static verifyUserAuth(userAuth: UserAuth): void {
-        const isVerified = DbAuthUtil.checkUser(userAuth);
-
-        if(!isVerified) {
-            throw new Error(`Not Valid User : ${userAuth.id}`);
-        }
-    }
 
     /**
      * 토큰 검증
@@ -102,17 +93,16 @@ export default class JwtUtil {
 
     /**
      * Access Token 발행
+     * @prerequisite 사용자 인증 필요
      * @error 유저 정보가 유효하지 않은 경우
      * @returns - 토큰 문자열
      */
-    public static issueAccessToken(userAuth: UserAuth): AccessToken {
-
-        JwtUtil.verifyUserAuth(userAuth);
+    public static issueAccessToken(audience: string): AccessToken {
         
         const payload: JwtPayload = {
             iss: JwtUtil.options.issuedFrom,
             knd: 'Access',
-            aud: userAuth.id,
+            aud: audience,
         };
 
         const token: AccessToken = jwt.sign(payload, process.env.JWT_SECRET!, {
@@ -125,17 +115,16 @@ export default class JwtUtil {
 
     /**
      * Refresh Token 발행
+     * @prerequisite 사용자 인증 필요
      * @error 유저 정보가 유효하지 않은 경우
      * @returns - 토큰 문자열
      */
-    public static issueRefreshToken(userAuth: UserAuth): RefreshToken {
-
-        JwtUtil.verifyUserAuth(userAuth);
+    public static issueRefreshToken(audience: string): RefreshToken {
         
         const payload: JwtPayload = {
             iss: JwtUtil.options.issuedFrom,
             knd: 'Refresh',
-            aud: userAuth.id,
+            aud: audience,
         };
 
         const token: RefreshToken = jwt.sign(payload, process.env.JWT_SECRET!, {
@@ -148,42 +137,16 @@ export default class JwtUtil {
 
     /**
      * Access Token, Refresh Token 발급
+     * @prerequisite 사용자 인증 필요
      * @error 유저 정보가 유효하지 않은 경우
      * @returns - { access: 토큰 문자열, refresh: 토큰 문자열 }
      */
-    public static issueTokens( userAuth: UserAuth ): TokenSet {
-        // 1. 유저 인증
-        JwtUtil.verifyUserAuth(userAuth);
+    public static issueTokens(audience: string): TokenSet {
 
-        // 2. 페이로드 정의
-        const commonPayload = {
-            iss: JwtUtil.options.issuedFrom,
-            aud: userAuth.id,
-        };
-        const accessPayload: JwtPayload = {
-            ...commonPayload,
-            knd: 'Access',
-        };
-        const refreshPayload: JwtPayload = {
-            ...commonPayload,
-            knd: 'Refresh',
-        };
-
-        // 3. 토큰 생성
-        const accessToken: AccessToken = jwt.sign(accessPayload, process.env.JWT_SECRET!, {
-            algorithm: JwtUtil.options.signAlgorithm,
-            expiresIn: JwtUtil.options.accessExpire,
-        });
-        const refreshToken: RefreshToken = jwt.sign(refreshPayload, process.env.JWT_SECRET!, {
-            algorithm: JwtUtil.options.signAlgorithm,
-            expiresIn: JwtUtil.options.refreshExpire,
-        });
-        const tokenSet: TokenSet = {
-            access: accessToken,
-            refresh: refreshToken,
+        return {
+            access: JwtUtil.issueAccessToken(audience),
+            refresh: JwtUtil.issueRefreshToken(audience),
         }
-
-        return tokenSet;
     }
 
     /**
@@ -223,7 +186,7 @@ export default class JwtUtil {
             }
 
             // DB에서 ID-리프레시 토큰 일치 여부 검증
-            if(!DbAuthUtil.checkRefreshToken({
+            if(!JwtAuthService.checkRefreshToken({
                 id: decoded.aud,
                 refreshToken: tokenSet.refresh,
             })) {

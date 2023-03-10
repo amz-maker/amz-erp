@@ -1,13 +1,17 @@
 // ===========================================================
-//  JWT RestAPI 활용 유틸
+//  JWT RestAPI 활용 서비스
 // ===========================================================
 // - 작성일: 2023. 03. 09.
 // - 작성자: 홍사민
 // ===========================================================
+// [기록]
+// 2023. 03. 10.
+// - 유틸리티 -> 서비스로 이동
+// ===========================================================
 import { AccessToken, RefreshToken } from "../common-types/jwt-auth";
-import JwtUtil from "./jwt-util";
+import JwtUtil from "../utils/jwt.util";
 
-export default class JwtRestUtil {
+export default class JwtRestService {
 
     private static getAccessTokenFromHeader(header: any): AccessToken | undefined {
         return header['access'] ?? 
@@ -45,7 +49,7 @@ export default class JwtRestUtil {
     {
         console.log(header);
 
-        const accessToken = JwtRestUtil.getAccessTokenFromHeader(header);
+        const accessToken = JwtRestService.getAccessTokenFromHeader(header);
         if(accessToken === undefined) {
             throw new Error("No Access Token in Header")
         }
@@ -78,8 +82,8 @@ export default class JwtRestUtil {
      */
     public static reissueAccessToken(header: any): AccessToken
     {
-        const accessToken  = JwtRestUtil.getAccessTokenFromHeader(header);
-        const refreshToken = JwtRestUtil.getRefreshTokenFromHeader(header);
+        const accessToken  = JwtRestService.getAccessTokenFromHeader(header);
+        const refreshToken = JwtRestService.getRefreshTokenFromHeader(header);
         const va = (accessToken  !== undefined);
         const vr = (refreshToken !== undefined);
         const ia = !va;

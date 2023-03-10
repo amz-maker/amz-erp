@@ -6,8 +6,8 @@
 // ===========================================================
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse, wrapErrorResponse } from "../../common/wrap-api-response";
-import JwtUtil from '../../utils/jwt-util';
 import { AccessToken, RefreshToken, TokenSet } from '../../common-types/jwt-auth';
+import JwtAuthService from '../../services/jwt-auth.service';
 
 // =================================================================
 //  API I/O 정의
@@ -35,7 +35,7 @@ export const userLogin = makeFarestFrame<ApiInput, ApiOutput>(
         // TODO: DB의 유저 테이블에 리프레시 토큰 저장
 
         try {
-            const tokens = JwtUtil.issueTokens(input);
+            const tokens = await JwtAuthService.issueTokens(input);
             return wrapApiResponse('MustOne', tokens);
         }
         catch {

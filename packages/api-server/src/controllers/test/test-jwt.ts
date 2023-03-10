@@ -4,7 +4,7 @@
 // - 작성일: 2023. 03. 09
 // - 작성자: 홍사민
 // ===========================================================
-import JwtRestUtil from '../../utils/jwt-rest-util';
+import JwtRestService from '../../services/jwt-rest.service';
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse, wrapErrorResponse } from "../../common/wrap-api-response";
 
@@ -20,7 +20,7 @@ export const testJwt = makeFarestFrame<ApiInput, ApiOutput>(
     'Post',
     async (input, headers) => 
     {
-        JwtRestUtil.verifyAccessTokenInHeader(headers);
+        await JwtRestService.verifyAccessTokenInHeader(headers);
 
         return wrapApiResponse('MustOne', 'Valid Access Token');
 
