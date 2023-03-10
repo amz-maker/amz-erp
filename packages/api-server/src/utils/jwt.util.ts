@@ -11,7 +11,6 @@
 import "dotenv/config";
 import { AccessToken, JwtPayload, JwtToken, JwtVerifyResult, RefreshToken, TokenSet, UserAuth } from "../common-types/jwt-auth";
 import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
-import JwtAuthService from "../services/jwt-auth.service";
 
 export default class JwtUtil {
 
@@ -29,11 +28,27 @@ export default class JwtUtil {
     } as const;
 
     /**
+     * 해당 토큰이 액세스 토큰인지 여부 검증
+     * @error JWT 디코드 실패 에러
+     * @returns boolean
+     */
+    public static decodeToken(token: JwtToken): JwtPayload {
+        
+        try {
+            const decoded = jwt.decode(token) as JwtPayload;
+            return decoded;
+        }
+        catch {
+            throw new Error("Token Decode Error - Invalid Token");
+        }
+    }
+
+    /**
      * 토큰 검증
      * @returns (1) ["Valid"   | "Expired",    JwtPayload]
      * @returns (2) ["Invalid" | "Unexpected", undefined]
      */
-    private static verifyTokenInternal(token: JwtToken): [JwtVerifyResult, JwtPayload | undefined] { 
+    public static verifyToken(token: JwtToken): [JwtVerifyResult, JwtPayload | undefined] { 
 
         let decoded = {} as any;
 
@@ -92,16 +107,14 @@ export default class JwtUtil {
     }
 
     /**
-     * Access Token 발행
-     * @prerequisite 사용자 인증 필요
-     * @error 유저 정보가 유효하지 않은 경우
+     * 새로운 토큰 발행
      * @returns - 토큰 문자열
      */
-    public static issueAccessToken(audience: string): AccessToken {
-        
+    private static _issueToken(audience: string, kind: 'Access' | 'Refresh'): JwtToken {
+
         const payload: JwtPayload = {
             iss: JwtUtil.options.issuedFrom,
-            knd: 'Access',
+            knd: kind,
             aud: audience,
         };
 
@@ -114,25 +127,21 @@ export default class JwtUtil {
     }
 
     /**
+     * Access Token 발행
+     * @prerequisite 사용자 인증 필요
+     * @returns - 토큰 문자열
+     */
+    public static issueAccessToken(audience: string): AccessToken {
+        return this._issueToken(audience, 'Access');
+    }
+
+    /**
      * Refresh Token 발행
      * @prerequisite 사용자 인증 필요
-     * @error 유저 정보가 유효하지 않은 경우
      * @returns - 토큰 문자열
      */
     public static issueRefreshToken(audience: string): RefreshToken {
-        
-        const payload: JwtPayload = {
-            iss: JwtUtil.options.issuedFrom,
-            knd: 'Refresh',
-            aud: audience,
-        };
-
-        const token: RefreshToken = jwt.sign(payload, process.env.JWT_SECRET!, {
-            algorithm: JwtUtil.options.signAlgorithm,
-            expiresIn: JwtUtil.options.refreshExpire,
-        });
-
-        return token;
+        return this._issueToken(audience, 'Refresh');
     }
 
     /**
@@ -154,8 +163,8 @@ export default class JwtUtil {
      * @returns (1) ["Valid"   | "Expired",    JwtPayload]
      * @returns (2) ["Invalid" | "Unexpected", undefined]
      */
-    public static verifyToken( accessToken: AccessToken ): JwtVerifyResult {
-        return JwtUtil.verifyTokenInternal(accessToken)[0];
+    public static checkTokenValidation( accessToken: AccessToken ): JwtVerifyResult {
+        return JwtUtil.verifyToken(accessToken)[0];
     }
 
     /**
@@ -167,8 +176,8 @@ export default class JwtUtil {
      */
     public static reissueAccessToken( tokenSet: TokenSet ) : AccessToken {
 
-        const [accessVerified, accessDecoded] = JwtUtil.verifyTokenInternal(tokenSet.access);
-        const [refreshVerified, ] = JwtUtil.verifyTokenInternal(tokenSet.refresh);
+        const [accessVerified, accessDecoded] = JwtUtil.verifyToken(tokenSet.access);
+        const [refreshVerified, ] = JwtUtil.verifyToken(tokenSet.refresh);
 
         if((accessVerified === 'Expired' || accessVerified === 'Valid') && 
             refreshVerified === 'Valid') 
@@ -183,14 +192,6 @@ export default class JwtUtil {
             // 리프레시 토큰이 리프레시 토큰인지 여부 검증
             if(!JwtUtil.isRefreshToken(tokenSet.refresh)) {
                 throw new Error("Given Refresh Token is NOT Refresh Token");
-            }
-
-            // DB에서 ID-리프레시 토큰 일치 여부 검증
-            if(!JwtAuthService.checkRefreshToken({
-                id: decoded.aud,
-                refreshToken: tokenSet.refresh,
-            })) {
-                throw new Error("Invalid Refresh Token");
             }
 
             // 새로운 액세스 토큰 발급

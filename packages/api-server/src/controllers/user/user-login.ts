@@ -30,16 +30,13 @@ export const userLogin = makeFarestFrame<ApiInput, ApiOutput>(
     'Post', 
     async (input, headers) => 
     {
-        // console.log(input);
+        const tokens = await JwtAuthService.issueTokens(input);
 
-        // TODO: DB의 유저 테이블에 리프레시 토큰 저장
+        await JwtAuthService.updateRefreshToken({
+            id: input.id,
+            refreshToken: tokens.refresh,
+        })
 
-        try {
-            const tokens = await JwtAuthService.issueTokens(input);
-            return wrapApiResponse('MustOne', tokens);
-        }
-        catch {
-            return wrapErrorResponse('Invalid User');
-        }
+        return wrapApiResponse('MustOne', tokens);
     }, 
 );

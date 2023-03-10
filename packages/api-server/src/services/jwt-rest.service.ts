@@ -4,12 +4,16 @@
 // - 작성일: 2023. 03. 09.
 // - 작성자: 홍사민
 // ===========================================================
+// [설명]
+// - HTTP 헤더 오브젝트를 전달받아 처리하는 함수 모음
+// ===========================================================
 // [기록]
 // 2023. 03. 10.
 // - 유틸리티 -> 서비스로 이동
 // ===========================================================
 import { AccessToken, RefreshToken } from "../common-types/jwt-auth";
 import JwtUtil from "../utils/jwt.util";
+import JwtAuthService from "./jwt-auth.service";
 
 export default class JwtRestService {
 
@@ -65,7 +69,7 @@ export default class JwtRestService {
         }
 
         // 액세스 토큰을 받음
-        switch(JwtUtil.verifyToken(accessToken)) {
+        switch(JwtUtil.checkTokenValidation(accessToken)) {
             case 'Valid': break;
             case 'Expired':
                 throw new Error("Expired Access Token");
@@ -77,10 +81,11 @@ export default class JwtRestService {
 
     /**
      * 헤더에서 액세스 토큰, 리프레시 토큰 꺼내어 액세스 토큰 재발급
-     * @error 액세스 토큰, 리프레시 토큰이 유효하지 않은 경우
+     * @error [1] 액세스 토큰, 리프레시 토큰이 유효하지 않은 경우
+     * @error [2] DB의 유저 리프레시 토큰이 일치하지 않는 경우
      * @returns 액세스 토큰 문자열
      */
-    public static reissueAccessToken(header: any): AccessToken
+    public static async reissueAccessToken(header: any): Promise<AccessToken>
     {
         const accessToken  = JwtRestService.getAccessTokenFromHeader(header);
         const refreshToken = JwtRestService.getRefreshTokenFromHeader(header);
@@ -89,16 +94,36 @@ export default class JwtRestService {
         const ia = !va;
         const ir = !vr;
 
-        if(va && vr) {
-            return JwtUtil.reissueAccessToken({
-                access: accessToken,
-                refresh: refreshToken,
-            });
+        if(ia && ir) throw Error("Invalid Token : Access, Refresh");
+        if(ia)       throw Error("Invalid Token : Access");
+        if(ir)       throw Error("Invalid Token : Refresh");
+
+        // 토큰 종류 검증
+        if(!JwtUtil.isAccessToken(accessToken))   throw new Error("Your Access Token is NOT Access Token");
+        if(!JwtUtil.isRefreshToken(refreshToken)) throw new Error("Your Refresh Token is NOT Refresh Token");
+
+        // 리프레시 토큰 검증
+        const [refreshStatus, decodedRefresh] = JwtUtil.verifyToken(refreshToken);
+        if(refreshStatus === "Valid") {
+            const id = decodedRefresh!.aud;
+            const dbCheck = await JwtAuthService.checkRefreshToken({ id, refreshToken });
+
+            if(dbCheck) {
+
+                // 재발급
+                return JwtUtil.reissueAccessToken({
+                    access: accessToken,
+                    refresh: refreshToken,
+                });
+            }
+            else {
+                // DB내 리프레시 토큰과 불일치
+                throw new Error("You Are Trying to Use Deleted Refresh Token");
+            }
         }
         else {
-            if(ia && ir) throw Error("Invalid Token : Access, Refresh");
-            else if(ia)  throw Error("Invalid Token : Access");
-            else         throw Error("Invalid Token : Refresh");
+            throw new Error("Expired Refresh Token");
         }
+
     }
 }

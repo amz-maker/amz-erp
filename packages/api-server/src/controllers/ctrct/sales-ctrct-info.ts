@@ -84,7 +84,7 @@ export const salesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-query', 
     async (input, headers) => 
     {
-        JwtRestService.verifyAccessTokenInHeader(headers);
+        await JwtRestService.verifyAccessTokenInHeader(headers);
         // console.log(input);
 
         const keys = Object.keys(input);
