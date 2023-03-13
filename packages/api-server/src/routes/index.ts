@@ -7,7 +7,6 @@
 import { FastifyInstance} from "fastify";
 import * as Controllers from "../controllers";
 import { routeFarest} from "../common/make-farest";
-// import { routeTree } from "./route-tree";
 
 export default function routes(server: FastifyInstance, opts: any, next: any) {
   
@@ -16,7 +15,7 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   // routeFarest(server, '/user/search',  Controllers.getUserSearch); // http://127.0.0.1:8001/user/search?in1=100&in2=200}
   // routeFarest(server, '/user/modify',  Controllers.putUserModify); // http://127.0.0.1:8001/user/modify // body: { "in":123 }
   
-  routeFarest(server, '/ctrct/sales-ctrct-info',  Controllers.salesCtrctInfo); // 매출계약기본정보조회
+  routeFarest(server, '/ctrct/find-sales-ctrct-info',  Controllers.findSalesCtrctInfo); // 매출계약기본정보조회
   routeFarest(server, '/user/login',  Controllers.userLogin);
   routeFarest(server, '/user/logout',  Controllers.userLogout);
   routeFarest(server, '/user/reissue-access-token',  Controllers.reissueAccessToken);

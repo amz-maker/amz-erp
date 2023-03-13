@@ -13,6 +13,7 @@ import { StringUtil } from '../../utils/string.util';
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse } from "../../common/wrap-api-response";
 import JwtRestService from '../../services/jwt-rest.service';
+import SqlUtil from '../../utils/sql.util';
 
 // =================================================================
 //  API I/O 정의
@@ -80,15 +81,13 @@ type QueryOutput = ApiOutput;
 // );
 
 // =================================================================
-export const salesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
+export const findSalesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-query', 
     async (input, headers) => 
     {
-        await JwtRestService.verifyAccessTokenFromHeader(headers);
-        // console.log(input);
+        JwtRestService.verifyAccessTokenFromHeader(headers);
 
-        const keys = Object.keys(input);
-        let queryString = 
+        const queryString = 
         `
 SELECT CTRCT_NO         AS "ctrctNo"       -- 계약번호
       ,BSNTYP_NM        AS "bsntypNm"      -- 업종명
@@ -108,33 +107,17 @@ SELECT CTRCT_NO         AS "ctrctNo"       -- 계약번호
       ,CTRCT_END_DT     AS "ctrctEndDt"    -- 계약종료일자
 
   FROM SL001M1
-        `;
-
-        const AddCond = (bucket: string[], input: ApiInput, key: string, keyName: keyof ApiInput & string, operator: '=' | '<' | '>' | 'LIKE') => {
-            const valPart = operator === 'LIKE' ? `%${input[keyName]}%` : `${input[keyName]}`;
-            if(key === keyName) {
-                bucket.push(`      ${StringUtil.camelToLargeSnake(key)} ${operator} '${valPart}'`);
-            }
-        };
-
-        // WHERE
-        if(keys.length > 0) {
-            queryString += '\n WHERE \n';
-            const conditions = [] as string[];
-
-            for(const key of keys) {
-                AddCond(conditions, input, key, 'ctrctStartDt', '>');
-                AddCond(conditions, input, key, 'ctrctEndDt', '<');
-                AddCond(conditions, input, key, 'ctrctCompn', 'LIKE');
-                AddCond(conditions, input, key, 'orderCompn', 'LIKE');
-                AddCond(conditions, input, key, 'prjctNm', 'LIKE');
-                AddCond(conditions, input, key, 'payGbCd', '=');
-                AddCond(conditions, input, key, 'ctrctTypeCd', '=');
-            }
-
-            const whereString = conditions.join('AND \n') + '\n';
-            queryString += whereString;
-        }
+        `
+        + 
+        SqlUtil.AddWhere(input, [
+            ['ctrctStartDt', '>'],
+            ['ctrctEndDt'  , '<'],
+            ['ctrctCompn'  , 'LIKE'],
+            ['orderCompn'  , 'LIKE'],
+            ['prjctNm'     , 'LIKE'],
+            ['payGbCd'     , '='],
+            ['ctrctTypeCd' , '='],
+        ]);
 
         console.log(queryString);
 

@@ -72,6 +72,7 @@ export default class JwtRestService {
         switch(JwtUtil.checkTokenValidation(accessToken)) {
             case 'Valid': 
                 return JwtUtil.decodeToken(accessToken);
+                
             case 'Expired':
                 throw new Error("Expired Access Token");
             
