@@ -20,7 +20,7 @@ export const testJwt = makeFarestFrame<ApiInput, ApiOutput>(
     'Post',
     async (input, headers) => 
     {
-        await JwtRestService.verifyAccessTokenInHeader(headers);
+        await JwtRestService.verifyAccessTokenFromHeader(headers);
 
         return wrapApiResponse('MustOne', 'Valid Access Token');
 

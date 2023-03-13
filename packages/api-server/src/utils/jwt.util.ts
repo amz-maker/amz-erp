@@ -28,7 +28,7 @@ export default class JwtUtil {
     } as const;
 
     /**
-     * 해당 토큰이 액세스 토큰인지 여부 검증
+     * 토큰 페이로드 복원
      * @error JWT 디코드 실패 에러
      * @returns boolean
      */
@@ -44,7 +44,7 @@ export default class JwtUtil {
     }
 
     /**
-     * 토큰 검증
+     * 토큰 검증/분석
      * @returns (1) ["Valid"   | "Expired",    JwtPayload]
      * @returns (2) ["Invalid" | "Unexpected", undefined]
      */
@@ -110,7 +110,7 @@ export default class JwtUtil {
      * 새로운 토큰 발행
      * @returns - 토큰 문자열
      */
-    private static _issueToken(audience: string, kind: 'Access' | 'Refresh'): JwtToken {
+    public static issueToken(audience: string, kind: 'Access' | 'Refresh'): JwtToken {
 
         const payload: JwtPayload = {
             iss: JwtUtil.options.issuedFrom,
@@ -127,30 +127,30 @@ export default class JwtUtil {
     }
 
     /**
-     * Access Token 발행
+     * 액세스 토큰 발행
      * @prerequisite 사용자 인증 필요
      * @returns - 토큰 문자열
      */
     public static issueAccessToken(audience: string): AccessToken {
-        return this._issueToken(audience, 'Access');
+        return this.issueToken(audience, 'Access');
     }
 
     /**
-     * Refresh Token 발행
+     * 리프레시 토큰 발행
      * @prerequisite 사용자 인증 필요
      * @returns - 토큰 문자열
      */
     public static issueRefreshToken(audience: string): RefreshToken {
-        return this._issueToken(audience, 'Refresh');
+        return this.issueToken(audience, 'Refresh');
     }
 
     /**
-     * Access Token, Refresh Token 발급
+     * 액세스 토큰, 리프레시 토큰 발행
      * @prerequisite 사용자 인증 필요
      * @error 유저 정보가 유효하지 않은 경우
      * @returns - { access: 토큰 문자열, refresh: 토큰 문자열 }
      */
-    public static issueTokens(audience: string): TokenSet {
+    public static issueTokenSet(audience: string): TokenSet {
 
         return {
             access: JwtUtil.issueAccessToken(audience),
@@ -159,16 +159,16 @@ export default class JwtUtil {
     }
 
     /**
-     * Access Token 검증
+     * 토큰 유효성 검증
      * @returns (1) ["Valid"   | "Expired",    JwtPayload]
      * @returns (2) ["Invalid" | "Unexpected", undefined]
      */
-    public static checkTokenValidation( accessToken: AccessToken ): JwtVerifyResult {
-        return JwtUtil.verifyToken(accessToken)[0];
+    public static checkTokenValidation( token: JwtToken ): JwtVerifyResult {
+        return JwtUtil.verifyToken(token)[0];
     }
 
     /**
-     * Access Token 재발급
+     * 액세스 토큰 재발급
      * - 만료된 Access Token, 만료되지 않은 Refresh Token 필요
      * @error (1) 토큰이 유효하지 않은 경우
      * @error (2) 리프레시 토큰이 리프레시 토큰이 아님

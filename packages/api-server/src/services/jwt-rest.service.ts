@@ -11,7 +11,7 @@
 // 2023. 03. 10.
 // - 유틸리티 -> 서비스로 이동
 // ===========================================================
-import { AccessToken, RefreshToken } from "../common-types/jwt-auth";
+import { AccessToken, JwtPayload, RefreshToken } from "../common-types/jwt-auth";
 import JwtUtil from "../utils/jwt.util";
 import JwtAuthService from "./jwt-auth.service";
 
@@ -19,27 +19,27 @@ export default class JwtRestService {
 
     private static getAccessTokenFromHeader(header: any): AccessToken | undefined {
         return header['access'] ?? 
-            header['Access'] ?? 
-            header['accesstoken'] ?? 
-            header['accessToken'] ?? 
-            header['AccessToken'] ?? 
-            header['access-token'] ?? 
-            header['access-Token'] ?? 
-            header['Access-token'] ?? 
-            header['Access-Token'] ?? 
+               header['Access'] ?? 
+               header['accesstoken'] ?? 
+               header['accessToken'] ?? 
+               header['AccessToken'] ?? 
+               header['access-token'] ?? 
+               header['access-Token'] ?? 
+               header['Access-token'] ?? 
+               header['Access-Token'] ?? 
         undefined;
     }
 
     private static getRefreshTokenFromHeader(header: any): RefreshToken | undefined {
         return header['refresh'] ?? 
-            header['Refresh'] ?? 
-            header['refreshtoken'] ?? 
-            header['refreshToken'] ?? 
-            header['RefreshToken'] ?? 
-            header['refresh-token'] ?? 
-            header['refresh-Token'] ?? 
-            header['Refresh-token'] ?? 
-            header['Refresh-Token'] ?? 
+               header['Refresh'] ?? 
+               header['refreshtoken'] ?? 
+               header['refreshToken'] ?? 
+               header['RefreshToken'] ?? 
+               header['refresh-token'] ?? 
+               header['refresh-Token'] ?? 
+               header['Refresh-token'] ?? 
+               header['Refresh-Token'] ?? 
         undefined;
     }
 
@@ -47,9 +47,9 @@ export default class JwtRestService {
      * 헤더에서 액세스 토큰 꺼내어 검증
      * 유효한 경우, 아무런 동작 하지 않음
      * @error 액세스 토큰이 없거나 유효하지 않은 경우
-     * @returns void
+     * @returns 액세스 토큰 페이로드
      */
-    public static verifyAccessTokenInHeader(header: any): void 
+    public static verifyAccessTokenFromHeader(header: any): JwtPayload 
     {
         console.log(header);
 
@@ -70,7 +70,8 @@ export default class JwtRestService {
 
         // 액세스 토큰을 받음
         switch(JwtUtil.checkTokenValidation(accessToken)) {
-            case 'Valid': break;
+            case 'Valid': 
+                return JwtUtil.decodeToken(accessToken);
             case 'Expired':
                 throw new Error("Expired Access Token");
             
@@ -85,7 +86,7 @@ export default class JwtRestService {
      * @error [2] DB의 유저 리프레시 토큰이 일치하지 않는 경우
      * @returns 액세스 토큰 문자열
      */
-    public static async reissueAccessToken(header: any): Promise<AccessToken>
+    public static async reissueAccessTokenFromHeader(header: any): Promise<AccessToken>
     {
         const accessToken  = JwtRestService.getAccessTokenFromHeader(header);
         const refreshToken = JwtRestService.getRefreshTokenFromHeader(header);

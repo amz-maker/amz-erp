@@ -17,8 +17,9 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   // routeFarest(server, '/user/modify',  Controllers.putUserModify); // http://127.0.0.1:8001/user/modify // body: { "in":123 }
   
   routeFarest(server, '/ctrct/sales-ctrct-info',  Controllers.salesCtrctInfo); // 매출계약기본정보조회
-  routeFarest(server, '/user/login',  Controllers.userLogin); // 
-  routeFarest(server, '/user/reissue-access-token',  Controllers.reissueAccessToken); // 
+  routeFarest(server, '/user/login',  Controllers.userLogin);
+  routeFarest(server, '/user/logout',  Controllers.userLogout);
+  routeFarest(server, '/user/reissue-access-token',  Controllers.reissueAccessToken);
 
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증
 

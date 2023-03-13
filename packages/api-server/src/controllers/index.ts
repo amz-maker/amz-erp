@@ -14,6 +14,7 @@ import { testJwt } from "./test/test-jwt";
 
 import { salesCtrctInfo } from "./ctrct/sales-ctrct-info";
 import { userLogin } from "./user/user-login";
+import { userLogout } from "./user/user-logout";
 import { reissueAccessToken } from "./user/reissue-access-token";
 
 export 
@@ -26,7 +27,7 @@ export
     salesCtrctInfo, 
     
     // user
-    userLogin, reissueAccessToken
+    userLogin, userLogout, reissueAccessToken
 };
 
 

@@ -53,6 +53,36 @@ export default class JwtAuthService {
     }
 
     /**
+     * 해당 유저의 리프레시 토큰 제거
+     * @error (1) 이미 리프레시 토큰이 제거됨
+     * @error (2) 유저가 존재하지 않음
+     */
+    public static async removeRefreshToken(userId: string): Promise<void> {
+
+        // 테이블 내 해당 유저의 리프레시 토큰 존재 여부 확인(없으면 이미 로그아웃된 것으로 간주)
+        const qr1 = await pgCurrent.query(`
+            SELECT 1
+              FROM US001M1
+             WHERE USER_ID = $1 AND RFRSH_TOKEN IS NOT NULL
+        `, [userId]);
+
+        if(qr1.rowCount === 0) {
+            throw new Error("The User Already Logged Out");
+        }
+
+        const qr2 = await pgCurrent.query(`
+            UPDATE US001M1
+               SET RFRSH_TOKEN = NULL
+             WHERE USER_ID = $1
+         RETURNING *
+        `, [userId]);
+
+        if(qr2.rowCount === 0) {
+            throw new Error(`Not Existent User ID: ${userId}`);
+        }
+    }
+
+    /**
      * 사용자 리프레시 토큰 유효성 검증
      */
     public static async checkRefreshToken(userRefresh: UserRefresh): Promise<boolean> {
@@ -74,7 +104,7 @@ export default class JwtAuthService {
     public static async issueTokens( userAuth: UserAuth ): Promise<TokenSet> {
 
         await JwtAuthService.verifyUserAuth(userAuth);
-        const newTokenSet = JwtUtil.issueTokens(userAuth.id);
+        const newTokenSet = JwtUtil.issueTokenSet(userAuth.id);
 
         return newTokenSet;
     }

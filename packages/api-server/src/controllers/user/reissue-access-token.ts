@@ -13,6 +13,6 @@ export const reissueAccessToken = makeFarestFrame<{}, AccessToken>(
     'Post', 
     async (input, headers) => 
     {
-        return wrapApiResponse('MustOne', await JwtRestService.reissueAccessToken(headers));
+        return wrapApiResponse('MustOne', await JwtRestService.reissueAccessTokenFromHeader(headers));
     }, 
 );
