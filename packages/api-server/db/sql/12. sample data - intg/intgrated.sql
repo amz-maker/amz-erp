@@ -1,3 +1,6 @@
+-- 회원정보
+INSERT INTO US001M1 (USER_ID, USER_PW) VALUES ('koreaats', '1234');
+
 -- 컬럼: 16개
 -- 매출계약정보
 INSERT INTO SL001M1

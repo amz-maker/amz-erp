@@ -12,7 +12,7 @@ import { putUserModify } from "./test/put-user-modify";
 import { getUserComplex } from "./test/get-user-complex";
 import { testJwt } from "./test/test-jwt";
 
-import { findSalesCtrctInfo } from "./ctrct/find-sales-ctrct-info";
+import { findSalesCtrctInfo } from "./sales/find-sales-ctrct-info";
 import { userLogin } from "./user/user-login";
 import { userLogout } from "./user/user-logout";
 import { reissueAccessToken } from "./user/reissue-access-token";
