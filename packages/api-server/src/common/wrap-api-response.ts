@@ -73,18 +73,21 @@ export function wrapApiResponse<T>(dataCardinality: ReturnCardinality, data: T |
             // 0
             if(data === undefined) {
                 return {
+                    resultCount: 0,
                     results: [],
                 };
             }
             // 1
             else if (!Array.isArray(data)) {
                 return {
+                    resultCount: 1,
                     results: [data],
                 }
             } 
             // Array
             else {
                 return {
+                    resultCount: data.length,
                     results: data,
                 };
             }

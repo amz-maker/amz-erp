@@ -15,11 +15,12 @@ export type ApiResponse<O> = {
     // undefined: 단건 - 결과 없음
     // O        : 단건 - 결과 있음
     result: undefined | O;
-    error?: ErrorString
+    error?: ErrorString;
 } | {
     // O[] : 다건
+    resultCount?: number;
     results: O[];
-    error?: ErrorString
+    error?: ErrorString;
 }
 ;
 
