@@ -1,5 +1,5 @@
 // ===========================================================
-//  매출발행/입금내역 월별 조회
+//  매출발행/입금내역 월별 조회 // TODO
 // ===========================================================
 // - 작성일: 2023. 03. 20.
 // - 작성자: 홍사민
@@ -9,6 +9,61 @@
 // ===========================================================
 // [기록]
 // ===========================================================
+
+// TODO: CTRCT_NO 단위로 길쭉하게 가로로 뽑을 예정
+/*
+{
+    results: 
+    // CTRCT_NO 단위 하나에 배열 엘리먼트 하나
+    {
+        계약번호,
+        업종,
+        ...,
+        총금액,
+        arr: {
+                발행년월,
+                발행일,
+                금액,
+                입금일,
+                진행상태,
+            }[]
+    }[]
+}
+*/
+// TODO: 총금액 집계 => 이렇게 할 필요 없을듯...? 어쨌든 집계 합 필요(요건참조)
+/*
+WITH CTE AS (
+SELECT
+    CTRCT_NO           AS CTRCT_NO
+    ,LEFT(ISSUE_DT, 6) AS ISSUE_YM
+    ,ISSUE_DT          AS ISSUE_DT
+    ,(CASE WHEN (DPST_PRC > 0::MONEY) THEN DPST_PRC ELSE ISSUE_SCHD_PRC END)::NUMERIC::INT AS ISSUE_DPST_PRC -- ISSUE_SCHD_PRC: 발행액/ DPST_PRC: 입금액
+    ,DPST_DT           AS DPST_DT
+    ,STAT_GB_CD        AS STAT_GB_CD
+FROM SL001L1
+WHERE ISSUE_DT IS NOT NULL
+  AND CTRCT_NO = '2022001'
+)
+SELECT
+    CTRCT_NO AS "계약번호"
+    ,ISSUE_YM AS "발행년월"
+    ,ISSUE_DT AS "발행일"
+--     ,ISSUE_DPST_PRC AS "발행/입금 금액" -- ISSUE_SCHD_PRC: 발행액/ DPST_PRC: 입금액
+    ,DPST_DT AS "입금일"
+    ,STAT_GB_CD AS "진행상태"
+    ,SUM(ISSUE_DPST_PRC) AS "발행/입금 금액"
+    ,(CASE WHEN GROUPING(CTRCT_NO) = 1 THEN 'Total' ELSE 'content' END) AS "Category"
+FROM CTE
+    GROUP BY ROLLUP(STAT_GB_CD, DPST_DT, ISSUE_DT, ISSUE_YM, CTRCT_NO)
+    HAVING (CTRCT_NO IS NOT NULL) OR (STAT_GB_CD IS NULL)
+;
+*/
+
+
+
+
+
+
 import { pgCurrent } from '../../config/db-config';
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse } from "../../common/wrap-api-response";
