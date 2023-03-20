@@ -67,7 +67,7 @@ export default class JwtAuthService {
         `, [userId]);
 
         if(qr1.rowCount === 0) {
-            throw new Error("The User Already Logged Out");
+            throw new Error("The User Has Already Logged Out");
         }
 
         const qr2 = await pgCurrent.query(`

@@ -1,13 +1,11 @@
 // ===========================================================
 //  매출발행/입금내역 조회
 // ===========================================================
-// - 작성일: //FIXME
+// - 작성일: 2023. 03. 20.
 // - 작성자: 홍사민
 // ===========================================================
 // [설명]
-// - 요건: [매출발행 입금내역관리 우상단 길쭉]
-// - INPUT: 
-// - OUTPUT: 
+// - 요건: 매출계약 정보관리 시트 - 매출발행/입금예정내역 등록
 // ===========================================================
 // [기록]
 // ===========================================================
@@ -21,32 +19,16 @@ import SqlUtil from '../../utils/sql.util';
 //  API I/O 정의
 // =================================================================
 type ApiInput = {
-    ctrctStartDt?: string; // 계약기간 시작
-    ctrctEndDt?: string; // 계약기간 종료
-    orderCompn?: string;// 발주사
-    ctrctCompn?: string;// 계약사
-    prjctNm?: string;// 프로젝트명
-    ctrctTypeCd?: string;// 계약유형
-    payGbCd?: string; // 지급구분
+    ctrctNo : string; // 계약번호
 };
 
 type ApiOutput = {
-    ctrctNo       : string; // 계약번호
-    bsntypNm      : string; // 업종명
-    orderCompn    : string; // 발주사
-    ctrctCompn    : string; // 계약사
-    prjctNm       : string; // 프로젝트명
-    prjctContn    : string; // 프로젝트내용
-    totalCtrctPrc : number; // 총계약금
-    ctrctTypeCd   : string; // 계약유형코드
-    chngYn        : string; // 변경여부
-    payGbCd       : string; // 지급구분코드
-    issueSchdGbCd : string; // 발행일구분코드
-    issueSchdDay  : string; // 발행예정일
-    rvrsIssueYn   : string; // 역발행여부
-    dpstSchdDay   : string; // 입금예정일
-    ctrctStartDt  : string; // 계약시작일자
-    ctrctEndDt    : string; // 계약종료일자
+    seqNo        : number; // [01] 순번(PK)
+    issueSchdDt  : string; // [02] 발행예정일자
+    issueSchdPrc : string; // [03] 발행예정금액
+    dpstSchdDt   : string; // [04] 입금예정일자
+    memo         : string; // [05] 메모
+    statGbCd     : string; // [06] 상태구분코드
 };
 
 // =================================================================
@@ -58,38 +40,26 @@ export const findSalesIssueDpstSchd = makeFarestFrame<ApiInput, ApiOutput>(
 
         const queryString = 
         `
-SELECT CTRCT_NO         AS "ctrctNo"       -- 계약번호
-      ,BSNTYP_NM        AS "bsntypNm"      -- 업종명
-      ,ORDER_COMPN      AS "orderCompn"    -- 발주사
-      ,CTRCT_COMPN      AS "ctrctCompn"    -- 계약사
-      ,PRJCT_NM         AS "prjctNm"       -- 프로젝트명
-      ,PRJCT_CONTN      AS "prjctContn"    -- 프로젝트내용
-      ,TOTAL_CTRCT_PRC  AS "totalCtrctPrc" -- 총계약금
-      ,CTRCT_TYPE_CD    AS "ctrctTypeCd"   -- 계약유형코드
-      ,CHNG_YN          AS "chngYn"        -- 변경여부
-      ,PAY_GB_CD        AS "payGbCd"       -- 지급구분코드
-      ,ISSUE_SCHD_GB_CD AS "issueSchdGbCd" -- 발행일구분코드
-      ,ISSUE_SCHD_DAY   AS "issueSchdDay"  -- 발행예정일
-      ,RVRS_ISSUE_YN    AS "rvrsIssueYn"   -- 역발행여부
-      ,DPST_SCHD_DAY    AS "dpstSchdDay"   -- 입금예정일
-      ,CTRCT_START_DT   AS "ctrctStartDt"  -- 계약시작일자
-      ,CTRCT_END_DT     AS "ctrctEndDt"    -- 계약종료일자
+SELECT SEQ_NO         AS "seqNo"         -- [01] 순번
+      ,ISSUE_SCHD_DT  AS "issueSchdDt"   -- [02] 발행예정일자
+      ,ISSUE_SCHD_PRC AS "issueSchdPrc"  -- [03] 발행예정금액
+      ,DPST_SCHD_DT   AS "dpstSchdDt"    -- [04] 입금예정일자
+      ,MEMO           AS "memo"          -- [05] 메모
+      ,STAT_GB_CD     AS "statGbCd"      -- [06] 상태구분코드
 
-  FROM SL001M1
+  FROM SL001L1
         `
         + 
         SqlUtil.AddWhere(input, [
-            ['ctrctStartDt', '>'],
-            ['ctrctEndDt'  , '<'],
-            ['ctrctCompn'  , 'LIKE'],
-            ['orderCompn'  , 'LIKE'],
-            ['prjctNm'     , 'LIKE'],
-            ['payGbCd'     , '='],
-            ['ctrctTypeCd' , '='],
-        ]);
+            ['ctrctNo', '='],
+        ])
+        +
+        `
+ORDER BY 1 ASC    -- 순번
+        `
+        ;
 
-        // console.log(queryString);
-
+        console.log(queryString);
         const qr = (await pgCurrent.query<ApiOutput>(queryString)).rows;
 
         return wrapApiResponse('Many', qr);

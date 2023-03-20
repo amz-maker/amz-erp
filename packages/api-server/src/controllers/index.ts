@@ -13,6 +13,9 @@ import { getUserComplex } from "./test/get-user-complex";
 import { testJwt } from "./test/test-jwt";
 
 import { findSalesCtrctInfo } from "./sales/find-sales-ctrct-info";
+import { findSalesIssueDpstSchd } from "./sales/find-sales-issue-dpst-schd";
+import { findSalesIssueDpstCheck } from "./sales/find-sales-issue-dpst-check";
+
 import { userLogin } from "./user/user-login";
 import { userLogout } from "./user/user-logout";
 import { reissueAccessToken } from "./user/reissue-access-token";
@@ -23,8 +26,8 @@ export
     getUserFind, getUserSearch, putUserModify, getUserComplex, 
     testJwt,
 
-    // ctrct
-    findSalesCtrctInfo, 
+    // sales
+    findSalesCtrctInfo, findSalesIssueDpstSchd, findSalesIssueDpstCheck,
     
     // user
     userLogin, userLogout, reissueAccessToken

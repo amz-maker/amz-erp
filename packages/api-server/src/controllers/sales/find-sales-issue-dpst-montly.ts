@@ -1,12 +1,13 @@
 // ===========================================================
-//  매출계약기본정보 조회
+//  매출발행/입금내역 월별 조회
 // ===========================================================
-// - 작성일: 2023. 03. 06
+// - 작성일: 2023. 03. 20.
 // - 작성자: 홍사민
 // ===========================================================
+// [설명]
+// - 요건: 매출발행 입금내역관리 - 우상단
+// ===========================================================
 // [기록]
-// 2023. 03. 09.
-// - JWT 인증 절차 추가
 // ===========================================================
 import { pgCurrent } from '../../config/db-config';
 import { makeFarestFrame } from '../../common/make-farest';
@@ -18,13 +19,18 @@ import SqlUtil from '../../utils/sql.util';
 //  API I/O 정의
 // =================================================================
 type ApiInput = {
-    ctrctStartDt?: string; // 계약기간 시작
-    ctrctEndDt?: string; // 계약기간 종료
-    orderCompn?: string;// 발주사
-    ctrctCompn?: string;// 계약사
-    prjctNm?: string;// 프로젝트명
-    ctrctTypeCd?: string;// 계약유형
-    payGbCd?: string; // 지급구분
+    ctrctStartDt?: string; // 계약기간 시작(YYYYMMDD)
+    ctrctEndDt?  : string; // 계약기간 종료(YYYYMMDD)
+    orderCompn?  : string; // 발주사
+    ctrctCompn?  : string; // 계약사
+    prjctNm?     : string; // 프로젝트명
+    ctrctTypeCd? : string; // 계약유형
+    payGbCd?     : string; // 지급구분
+
+    issueStartDt?: string; // 발행일기준 시작(YYYYMMDD)
+    issueEndDt?  : string; // 발행일기준 종료(YYYYMMDD)
+    dpstStartDt? : string; // 입금일기준 시작(YYYYMMDD)
+    dpstEndDt?   : string; // 입금일기준 종료(YYYYMMDD)
 };
 
 type ApiOutput = {
@@ -47,7 +53,7 @@ type ApiOutput = {
 };
 
 // =================================================================
-export const findSalesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
+export const findSalesIssueDpstSchd = makeFarestFrame<ApiInput, ApiOutput>(
     'Get-query', 
     async (input, headers) => 
     {
@@ -85,7 +91,7 @@ SELECT CTRCT_NO         AS "ctrctNo"       -- 계약번호
             ['ctrctTypeCd' , '='],
         ]);
 
-        console.log(queryString);
+        // console.log(queryString);
 
         const qr = (await pgCurrent.query<ApiOutput>(queryString)).rows;
 
