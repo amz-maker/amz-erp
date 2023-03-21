@@ -15,6 +15,7 @@ import { testJwt } from "./test/test-jwt";
 import { findSalesCtrctInfo } from "./sales/find-sales-ctrct-info";
 import { findSalesIssueDpstSchd } from "./sales/find-sales-issue-dpst-schd";
 import { findSalesIssueDpstCheck } from "./sales/find-sales-issue-dpst-check";
+import { findSalesIssueDpstMontly } from "./sales/find-sales-issue-dpst-montly"
 
 import { userLogin } from "./user/user-login";
 import { userLogout } from "./user/user-logout";
@@ -27,7 +28,7 @@ export
     testJwt,
 
     // sales
-    findSalesCtrctInfo, findSalesIssueDpstSchd, findSalesIssueDpstCheck,
+    findSalesCtrctInfo, findSalesIssueDpstSchd, findSalesIssueDpstCheck, findSalesIssueDpstMontly,
     
     // user
     userLogin, userLogout, reissueAccessToken

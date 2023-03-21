@@ -9,6 +9,7 @@
 import "dotenv/config";
 import { StringUtil } from "./string.util";
 
+type OP = '=' | '<=' | '>=' | '<' | '>' | 'LIKE';
 export default class SqlUtil {
 
     /**
@@ -38,16 +39,21 @@ export default class SqlUtil {
         input: Input, 
         conds: [
             keyof Input & string,     // 컬럼(스네이크)
-            '=' | '<' | '>' | 'LIKE', // 연산자
-            ('Quot' | 'No Quot')?      // 값에 따옴표 적용 여부
+            OP, // 연산자
+            ('Quot' | 'No Quot')?,    // 값에 따옴표 적용 여부
+            string?,                  // 컬럼명: 내부 컬럼명이 다른경우
         ][],
-        tabSize: number = 6,
+        tabSize: number = 7,
     ) {
         const bucket = [] as string[];
         for(const e of conds) {
+            if(e[0] === undefined || input[e[0]] === undefined) {
+                continue;
+            }
             const key  = e[0];
             const op   = e[1];
             const quot = e[2]; // 'NUM'으로 값을 준 경우 따옴표 X, 기본값 or 'STR' => 따옴표 O
+            const colName = e[3];
 
             const valPart = 
                 op === 'LIKE' ? `'%${input[key]}%'` : 
@@ -56,9 +62,9 @@ export default class SqlUtil {
                     `'${input[key]}'`
             ;
 
-            bucket.push(`${' '.repeat(tabSize)}${StringUtil.camelToLargeSnake(key)} ${op} ${valPart}`);
+            bucket.push(`${' '.repeat(tabSize)}${StringUtil.camelToLargeSnake(colName ?? key)} ${op} ${valPart}`);
         }
-        const strWhere = '\n WHERE \n' + bucket.join('AND \n') + '\n';
+        const strWhere = bucket.length > 0 ? ('\n WHERE \n' + bucket.join(' AND \n') + '\n') : ('');
 
         return strWhere;
     }

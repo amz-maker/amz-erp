@@ -16,9 +16,10 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   routeFarest(server, '/user/reissue-access-token',  Controllers.reissueAccessToken);
 
   // == sales ==
-  routeFarest(server, '/sales/find-sales-ctrct-info',       Controllers.findSalesCtrctInfo);      // 매출계약기본정보조회
-  routeFarest(server, '/sales/find-sales-issue-dpst-schd',  Controllers.findSalesIssueDpstSchd);  // 매출발행입금예정내역조회
-  routeFarest(server, '/sales/find-sales-issue-dpst-check', Controllers.findSalesIssueDpstCheck); // 매출발행입금체크조회
+  routeFarest(server, '/sales/find-sales-ctrct-info',        Controllers.findSalesCtrctInfo);       // 매출계약기본정보조회
+  routeFarest(server, '/sales/find-sales-issue-dpst-schd',   Controllers.findSalesIssueDpstSchd);   // 매출발행입금예정내역조회
+  routeFarest(server, '/sales/find-sales-issue-dpst-check',  Controllers.findSalesIssueDpstCheck);  // 매출발행입금체크조회
+  routeFarest(server, '/sales/find-sales-issue-dpst-montly', Controllers.findSalesIssueDpstMontly); // 매출발행입금내역월별조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증
