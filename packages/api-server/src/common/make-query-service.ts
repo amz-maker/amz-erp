@@ -12,7 +12,7 @@ import { ArrayOfKeys, GenColumnStmts, Join } from "../common-types/utility";
 type InputStrArr<T> = ArrayOfKeys<T>;
 // @ts-ignore
 type ColumnsArrDefine<T> = GenColumnStmts<InputStrArr<T>>;
-type BaseQueryDefine<T> = Join<ColumnsArrDefine<T>, `,`>;
+export type StrictQuery<T> = Join<ColumnsArrDefine<T>, `,`>;
 // type SelectQueryDefine<T> = `${string}SELECT${BaseQueryDefine<T>}FROM${string}${('WHERE') | ''}${string}`;
 
 // Override 1
@@ -23,25 +23,25 @@ type BaseQueryDefine<T> = Join<ColumnsArrDefine<T>, `,`>;
  */
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'MustOne',
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): ((input: I) => (Promise<O>)); // MustOne
 
 // Override 2
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'ZeroOrOne',
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): ((input: I) => (Promise<undefined | O>)); // ZeroOrOne
 
 // Override 3
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'Many',
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): ((input: I) => (Promise<O[]>)); // Many
 
 // Implement
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: ReturnCardinality,
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): 
 | ((input: I) => (Promise<O>)) // MustOne
 | ((input: I) => (Promise<undefined | O>)) // ZeroOrOne

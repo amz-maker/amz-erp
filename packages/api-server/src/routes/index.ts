@@ -20,6 +20,9 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   routeFarest(server, '/sales/find-sales-issue-dpst-schd',   Controllers.findSalesIssueDpstSchd);   // 매출발행입금예정내역조회
   routeFarest(server, '/sales/find-sales-issue-dpst-check',  Controllers.findSalesIssueDpstCheck);  // 매출발행입금체크조회
   routeFarest(server, '/sales/find-sales-issue-dpst-montly', Controllers.findSalesIssueDpstMontly); // 매출발행입금내역월별조회
+
+  // == mnpr ==
+  routeFarest(server, '/mnpr/find-mnpr-schd', Controllers.findMnprSchd); // 인력투입계획조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증
