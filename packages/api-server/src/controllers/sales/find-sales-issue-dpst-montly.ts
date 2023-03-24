@@ -111,7 +111,7 @@ export const findSalesIssueDpstMontly = makeFarestFrame<ApiInput, ApiOutput>(
         JwtRestService.verifyAccessTokenFromHeader(headers);
 
         const qs1 = 
-        `
+`
 WITH CTE AS (
     SELECT CTRCT_NO
           ,ISSUE_DT
@@ -158,7 +158,8 @@ SqlUtil.AddWhere(input, [
 }
 WINDOW W AS (PARTITION BY CTRCT_NO)
 ORDER BY CTRCT_NO ASC
-        `
+`
+        ;
         const qr1 = (await pgCurrent.query<QueryOutput1>(qs1)).rows;
         const ctrctNoList = qr1.map((v: QueryOutput1) => ( `'${v.ctrctNo}'` )).join(', ')
 

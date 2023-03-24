@@ -18,6 +18,7 @@ import { findSalesIssueDpstCheck } from "./sales/find-sales-issue-dpst-check";
 import { findSalesIssueDpstMontly } from "./sales/find-sales-issue-dpst-montly"
 
 import { findMnprSchd } from "./mnpr/find-mnpr-schd";
+import { findMnprCmtmtInfo } from "./mnpr/find-mnpr-cmtmt-info";
 
 import { userLogin } from "./user/user-login";
 import { userLogout } from "./user/user-logout";
@@ -33,7 +34,7 @@ export
     findSalesCtrctInfo, findSalesIssueDpstSchd, findSalesIssueDpstCheck, findSalesIssueDpstMontly,
     
     // mnpr
-    findMnprSchd,
+    findMnprSchd, findMnprCmtmtInfo,
 
     // user
     userLogin, userLogout, reissueAccessToken

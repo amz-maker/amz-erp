@@ -19,12 +19,12 @@ import SqlUtil from '../../utils/sql.util';
 // =================================================================
 type ApiInput = {
     ctrctStartDt?: string; // 계약기간 시작
-    ctrctEndDt?: string; // 계약기간 종료
-    orderCompn?: string;// 발주사
-    ctrctCompn?: string;// 계약사
-    prjctNm?: string;// 프로젝트명
-    ctrctTypeCd?: string;// 계약유형
-    payGbCd?: string; // 지급구분
+    ctrctEndDt?  : string; // 계약기간 종료
+    orderCompn?  : string; // 발주사
+    ctrctCompn?  : string; // 계약사
+    prjctNm?     : string; // 프로젝트명
+    ctrctTypeCd? : string; // 계약유형
+    payGbCd?     : string; // 지급구분
 };
 
 type ApiOutput = {

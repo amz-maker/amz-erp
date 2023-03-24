@@ -23,6 +23,7 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
 
   // == mnpr ==
   routeFarest(server, '/mnpr/find-mnpr-schd', Controllers.findMnprSchd); // 인력투입계획조회
+  routeFarest(server, '/mnpr/find-mnpr-cmtmt-info', Controllers.findMnprCmtmtInfo); // 인력투입실적기본정보조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증
