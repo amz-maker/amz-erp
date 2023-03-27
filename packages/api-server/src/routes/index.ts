@@ -31,6 +31,7 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   routeFarest(server, '/pchs/find-staff-payrl', Controllers.findStaffPayrl); // 임직원급여대장조회
   routeFarest(server, '/pchs/find-frlnc-salry-info', Controllers.findFrlncSalryInfo); // 계약직원급여기본정보조회
   routeFarest(server, '/pchs/find-frlnc-payrl', Controllers.findFrlncPayrl); // 계약직원급여대장조회
+  routeFarest(server, '/pchs/find-etc-prchs-info', Controllers.findEtcPrchsInfo); // 기타매입정보조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증
