@@ -27,7 +27,10 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   routeFarest(server, '/mnpr/find-mnpr-cmtmt-detl', Controllers.findMnprCmtmtDetl); // 인력투입실적상세정보조회
 
   // == pchs ==
-  routeFarest(server, '/pchs/find-staff-salry-info', Controllers.findStaffSalryInfo); // 임직원급여기본정보
+  routeFarest(server, '/pchs/find-staff-salry-info', Controllers.findStaffSalryInfo); // 임직원급여기본정보조회
+  routeFarest(server, '/pchs/find-staff-payrl', Controllers.findStaffPayrl); // 임직원급여대장조회
+  routeFarest(server, '/pchs/find-frlnc-salry-info', Controllers.findFrlncSalryInfo); // 계약직원급여기본정보조회
+  routeFarest(server, '/pchs/find-frlnc-payrl', Controllers.findFrlncPayrl); // 계약직원급여대장조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증

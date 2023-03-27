@@ -44,7 +44,8 @@ export const findMnprSchd = makeFarestFrame<ApiInput, ApiOutput>(
     {
         JwtRestService.verifyAccessTokenFromHeader(headers);
 
-        let queryString: StrictQuery<ApiOutput> = 
+        // let queryString: StrictQuery<ApiOutput> = 
+        let queryString = 
         `
 SELECT SEQ_NO                        AS "seqNo"         -- [01] 순번 (계약번호 내 순번)
       ,LV1                           AS "lv1"           -- [02] 레벨1
