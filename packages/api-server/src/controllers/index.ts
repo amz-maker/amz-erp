@@ -12,6 +12,10 @@ import { putUserModify } from "./test/put-user-modify";
 import { getUserComplex } from "./test/get-user-complex";
 import { testJwt } from "./test/test-jwt";
 
+import { userLogin } from "./user/user-login";
+import { userLogout } from "./user/user-logout";
+import { reissueAccessToken } from "./user/reissue-access-token";
+
 import { findSalesCtrctInfo } from "./sales/find-sales-ctrct-info";
 import { findSalesIssueDpstSchd } from "./sales/find-sales-issue-dpst-schd";
 import { findSalesIssueDpstCheck } from "./sales/find-sales-issue-dpst-check";
@@ -21,9 +25,7 @@ import { findMnprSchd } from "./mnpr/find-mnpr-schd";
 import { findMnprCmtmtInfo } from "./mnpr/find-mnpr-cmtmt-info";
 import { findMnprCmtmtDetl } from "./mnpr/find-mnpr-cmtmt-detl";
 
-import { userLogin } from "./user/user-login";
-import { userLogout } from "./user/user-logout";
-import { reissueAccessToken } from "./user/reissue-access-token";
+import { findStaffSalryInfo } from "./pchs/find-staff-salry-info";
 
 export 
 {
@@ -31,14 +33,18 @@ export
     getUserFind, getUserSearch, putUserModify, getUserComplex, 
     testJwt,
 
+    // user
+    userLogin, userLogout, reissueAccessToken,
+
     // sales
     findSalesCtrctInfo, findSalesIssueDpstSchd, findSalesIssueDpstCheck, findSalesIssueDpstMontly,
     
     // mnpr
     findMnprSchd, findMnprCmtmtInfo, findMnprCmtmtDetl,
 
-    // user
-    userLogin, userLogout, reissueAccessToken
+    // pchs
+    findStaffSalryInfo,
+
 };
 
 
