@@ -10,28 +10,33 @@ import { routeFarest} from "../common/make-farest";
 
 export default function routes(server: FastifyInstance, opts: any, next: any) {
   
-  // == user ==
-  routeFarest(server, '/user/login',  Controllers.userLogin);
-  routeFarest(server, '/user/logout',  Controllers.userLogout);
-  routeFarest(server, '/user/reissue-access-token',  Controllers.reissueAccessToken);
+  let group = '';
+  
+  group = 'user';
+  routeFarest(server, `/${group}/login`,   Controllers.userLogin);
+  routeFarest(server, `/${group}/logout`,  Controllers.userLogout);
+  routeFarest(server, `/${group}/reissue-access-token`,  Controllers.reissueAccessToken);
 
-  // == sales ==
-  routeFarest(server, '/sales/find-sales-ctrct-info',        Controllers.findSalesCtrctInfo);       // 매출계약기본정보조회
-  routeFarest(server, '/sales/find-sales-issue-dpst-schd',   Controllers.findSalesIssueDpstSchd);   // 매출발행입금예정내역조회
-  routeFarest(server, '/sales/find-sales-issue-dpst-check',  Controllers.findSalesIssueDpstCheck);  // 매출발행입금체크조회
-  routeFarest(server, '/sales/find-sales-issue-dpst-montly', Controllers.findSalesIssueDpstMontly); // 매출발행입금내역월별조회
+  group = 'sales';
+  routeFarest(server, `/${group}/find-sales-ctrct-info`       , Controllers.findSalesCtrctInfo);       // 매출계약기본정보조회
+  routeFarest(server, `/${group}/find-sales-issue-dpst-schd`  , Controllers.findSalesIssueDpstSchd);   // 매출발행입금예정내역조회
+  routeFarest(server, `/${group}/find-sales-issue-dpst-check` , Controllers.findSalesIssueDpstCheck);  // 매출발행입금체크조회
+  routeFarest(server, `/${group}/find-sales-issue-dpst-montly`, Controllers.findSalesIssueDpstMontly); // 매출발행입금내역월별조회
 
-  // == mnpr ==
-  routeFarest(server, '/mnpr/find-mnpr-schd', Controllers.findMnprSchd); // 인력투입계획조회
-  routeFarest(server, '/mnpr/find-mnpr-cmtmt-info', Controllers.findMnprCmtmtInfo); // 인력투입실적기본정보조회
-  routeFarest(server, '/mnpr/find-mnpr-cmtmt-detl', Controllers.findMnprCmtmtDetl); // 인력투입실적상세정보조회
+  group = 'mnpr';
+  routeFarest(server, `/${group}/find-mnpr-schd`      , Controllers.findMnprSchd); // 인력투입계획조회
+  routeFarest(server, `/${group}/find-mnpr-cmtmt-info`, Controllers.findMnprCmtmtInfo); // 인력투입실적기본정보조회
+  routeFarest(server, `/${group}/find-mnpr-cmtmt-detl`, Controllers.findMnprCmtmtDetl); // 인력투입실적상세정보조회
 
-  // == pchs ==
-  routeFarest(server, '/pchs/find-staff-salry-info', Controllers.findStaffSalryInfo); // 임직원급여기본정보조회
-  routeFarest(server, '/pchs/find-staff-payrl', Controllers.findStaffPayrl); // 임직원급여대장조회
-  routeFarest(server, '/pchs/find-frlnc-salry-info', Controllers.findFrlncSalryInfo); // 계약직원급여기본정보조회
-  routeFarest(server, '/pchs/find-frlnc-payrl', Controllers.findFrlncPayrl); // 계약직원급여대장조회
-  routeFarest(server, '/pchs/find-etc-prchs-info', Controllers.findEtcPrchsInfo); // 기타매입정보조회
+  group = 'pchs';
+  routeFarest(server, `/${group}/find-staff-salry-info`, Controllers.findStaffSalryInfo); // 임직원급여기본정보조회
+  routeFarest(server, `/${group}/find-staff-payrl`     , Controllers.findStaffPayrl);     // 임직원급여대장조회
+  routeFarest(server, `/${group}/find-frlnc-salry-info`, Controllers.findFrlncSalryInfo); // 계약직원급여기본정보조회
+  routeFarest(server, `/${group}/find-frlnc-payrl`     , Controllers.findFrlncPayrl);     // 계약직원급여대장조회
+  routeFarest(server, `/${group}/find-etc-prchs-info`  , Controllers.findEtcPrchsInfo);   // 기타매입정보조회
+
+  group = 'sttstc';
+  routeFarest(server, `/${group}/find-montly-prchs`, Controllers.findMontlyPrchs); // 월별매입내역조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증
