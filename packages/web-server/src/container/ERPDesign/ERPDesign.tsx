@@ -132,7 +132,7 @@ namespace ERPDesign {
     );
   }
 
-  type Row = {
+  export type Row = {
     checkbox: boolean;
     text: string | null;
     int: number | null;
@@ -142,61 +142,25 @@ namespace ERPDesign {
     percent: number | null;
     custom: string | null;
   };
-  interface TableProps {}
+  interface TableProps {
+    columns?: Column<Row>[];
+    data?: {
+      row: Row[];
+      set: React.Dispatch<React.SetStateAction<Row[]>>;
+    };
+  }
+
   export function Table(props: TableProps) {
-    const [data, setData] = React.useState<Row[]>([
-      { checkbox: true, text: 'text 1', int: 1, float: 1.0, date: new Date(), isoDate: '2022-01-01', percent: 0.1, custom: '커스텀(이메일)' },
-      { checkbox: false, text: 'text 2', int: 2, float: 2.0, date: new Date(), isoDate: '2022-01-01', percent: 0.2, custom: null },
-    ]);
-
-    // 사용자 지정 Colum
-    const emailColum = createTextColumn<string | null>({
-      placeholder: '이메일을 입력해 주세요',
-
-      // alignRight: true
-    });
-
-    const columns: Column<Row>[] = [
-      {
-        ...keyColumn<Row, 'checkbox'>('checkbox', checkboxColumn),
-        title: '체크박스',
-        grow: 1,
-        minWidth: 50, // 최소 width
-        maxWidth: 100, // 최대 width
+    const {
+      columns = [],
+      data = {
+        row: [],
+        set: (value) => {},
       },
-      {
-        ...keyColumn<Row, 'text'>('text', textColumn),
-        title: '텍스트',
-        grow: 2, // 넓이 증가 비율 (Default: 1), "grow: 0" -> 증가율 0
-      },
-      {
-        ...keyColumn<Row, 'int'>('int', intColumn),
-        title: '정수',
-      },
-      {
-        ...keyColumn<Row, 'float'>('float', floatColumn),
-        title: '실수',
-      },
-      {
-        ...keyColumn<Row, 'date'>('date', dateColumn),
-        title: '날짜',
-      },
-      {
-        ...keyColumn<Row, 'isoDate'>('isoDate', isoDateColumn),
-        title: 'ISO 날짜',
-      },
-      {
-        ...keyColumn<Row, 'percent'>('percent', percentColumn),
-        title: '퍼센트',
-      },
-      {
-        ...keyColumn<Row, 'custom'>('custom', emailColum),
-        title: '커스텀',
-      },
-    ];
+    } = props;
 
     const ref = React.useRef<DataSheetGridRef>(null);
-    return <DataSheetGrid ref={ref} value={data} onChange={setData} columns={columns}></DataSheetGrid>;
+    return <DataSheetGrid ref={ref} value={data.row} onChange={data.set} columns={columns}></DataSheetGrid>;
   }
 }
 
