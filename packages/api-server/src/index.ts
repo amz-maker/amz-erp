@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
 import routes from "./routes";
+import "dotenv/config";
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
   fastify({
@@ -13,14 +14,10 @@ server.get("/", (request, reply) => {
   reply.send({ heart: "beats" });
 });
 
-// server.get("/test", (request, reply) => {
-//   reply.send({ test: "SS", id:"1234567" });
-// });
-
 const start = async () => {
   try {
     await server.listen({
-      port: 8001,
+      port: Number(process.env.PORT_NUMBER!),
     });
   } catch (err) {
     server.log.error(err);

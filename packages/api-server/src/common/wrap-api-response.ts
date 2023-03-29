@@ -4,7 +4,7 @@
 // - 작성일: 2023. 02. 22
 // - 작성자: 홍사민
 // ===========================================================
-import { ApiResponse, ReturnCardinality } from "./common-types";
+import { ApiResponse, ReturnCardinality } from "../common-types/common";
 
 // Overrides
 /**
@@ -73,22 +73,32 @@ export function wrapApiResponse<T>(dataCardinality: ReturnCardinality, data: T |
             // 0
             if(data === undefined) {
                 return {
+                    resultCount: 0,
                     results: [],
                 };
             }
             // 1
             else if (!Array.isArray(data)) {
                 return {
+                    resultCount: 1,
                     results: [data],
                 }
             } 
             // Array
             else {
                 return {
+                    resultCount: data.length,
                     results: data,
                 };
             }
         }
     }
 
+}
+
+export function wrapErrorResponse(msg: string): ApiResponse<any> {
+    return {
+        result: undefined,
+        error: msg,
+    }
 }

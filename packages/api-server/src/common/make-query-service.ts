@@ -4,15 +4,15 @@
 // - 작성일: 2023. 02. 21
 // - 작성자: 홍사민
 // ===========================================================
-import { QueryResultRow } from "pg";
+import { QueryResult, QueryResultRow } from "pg";
 import { pgCurrent } from "../config/db-config";
-import { ReturnCardinality } from "./common-types";
-import { ArrayOfKeys, GenColumnStmts, Join } from "./utility-types";
+import { ReturnCardinality } from "../common-types/common";
+import { ArrayOfKeys, GenColumnStmts, Join } from "../common-types/utility";
 
 type InputStrArr<T> = ArrayOfKeys<T>;
 // @ts-ignore
 type ColumnsArrDefine<T> = GenColumnStmts<InputStrArr<T>>;
-type BaseQueryDefine<T> = Join<ColumnsArrDefine<T>, `,`>;
+export type StrictQuery<T> = Join<ColumnsArrDefine<T>, `,`>;
 // type SelectQueryDefine<T> = `${string}SELECT${BaseQueryDefine<T>}FROM${string}${('WHERE') | ''}${string}`;
 
 // Override 1
@@ -23,30 +23,43 @@ type BaseQueryDefine<T> = Join<ColumnsArrDefine<T>, `,`>;
  */
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'MustOne',
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): ((input: I) => (Promise<O>)); // MustOne
 
 // Override 2
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'ZeroOrOne',
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): ((input: I) => (Promise<undefined | O>)); // ZeroOrOne
 
 // Override 3
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: 'Many',
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): ((input: I) => (Promise<O[]>)); // Many
 
 // Implement
 export function makeQueryService<I extends {}, O extends QueryResultRow>(
     returnCardinality: ReturnCardinality,
-    query: BaseQueryDefine<O>
+    query: StrictQuery<O>
 ): 
 | ((input: I) => (Promise<O>)) // MustOne
 | ((input: I) => (Promise<undefined | O>)) // ZeroOrOne
 | ((input: I) => (Promise<O[]>)) // Many
 {
+    // // 내부 쿼리호출 공통 함수
+    // async function localFunc<I extends {}, O extends QueryResultRow>(input: I): Promise<QueryResult<O>> {
+    //     const inputKeys = Object.keys(input);
+    //     let queryString = query as string;
+
+    //     inputKeys.map((v) => {
+    //         queryString = queryString.replaceAll(`{${v}}`, (input as any)[v]);
+    //     });
+
+    //     const qr = await pgCurrent.query<O>(queryString);
+    //     return qr;
+    // }
+
     switch(returnCardinality) {
 
         case "MustOne": {
@@ -112,6 +125,7 @@ export function makeQueryService<I extends {}, O extends QueryResultRow>(
 }
 
 // =========================================================================================
+/*
 // example
 // I, O, 실제 입력값 넣으면 쿼리 실행시키고 리턴하는 서비스 함수 생성
 async function example() {
@@ -133,3 +147,4 @@ async function example() {
 
     const ret = await queryService({ id: '123' });
 }
+*/
