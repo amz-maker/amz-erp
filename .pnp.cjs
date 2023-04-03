@@ -6401,7 +6401,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pg", "npm:8.6.5"],\
             ["dotenv", "npm:16.0.3"],\
             ["fastify", "npm:4.11.0"],\
-            ["fastify-cors", "npm:6.1.0"],\
             ["fastify-decorators", "virtual:7bcc6b1230a343dc18339ffd5a4631c208b3afc3a703ea7702b7d517c258b65faf0e046f48b9a221c1acaed2cd24595ab25a0bccda44dbb3b9f5e63052a5ec85#npm:3.15.0"],\
             ["fastify-postgres", "npm:3.7.0"],\
             ["jsonwebtoken", "npm:9.0.0"],\

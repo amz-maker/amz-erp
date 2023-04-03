@@ -14,8 +14,7 @@
     "run-test-script": "cd packages/api-server && ts-node src/test-scripts/index.ts",
     "------- Docker -------": "",
     "docker-up": "docker compose -p amz-erp up -d",
-    "docker-down": "docker compose -p amz-erp down",
-    "docker-down-img": "docker compose -p amz-erp down --rmi all",
+    "docker-down": "docker compose -p amz-erp down --rmi all",
     "docker-down-imgandvol": "docker compose -p amz-erp down --rmi all -v"
   },
   "devDependencies": {
