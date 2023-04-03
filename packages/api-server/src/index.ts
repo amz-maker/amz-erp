@@ -9,19 +9,19 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     logger: true,
 });
 
-// server.register(cors, { origin: '*' });
+server.register(cors, { origin: '*', allowHeaders: 'content-type' });
 
-server.register(cors, (instance) => {
-  return (req: any, callback: any) => {
-    const corsOptions = {
-      // This is NOT recommended for production as it enables reflection exploits
-      origin: true
-    };
+// server.register(cors, (instance) => {
+//   return (req: any, callback: any) => {
+//     const corsOptions = {
+//       // This is NOT recommended for production as it enables reflection exploits
+//       origin: true
+//     };
 
-    // callback expects two parameters: error and options
-    callback(null, corsOptions)
-  }
-})
+//     // callback expects two parameters: error and options
+//     callback(null, corsOptions)
+//   }
+// })
 
 server.register(routes);
 
