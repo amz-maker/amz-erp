@@ -2,6 +2,8 @@
   "name": "api-server",
   "packageManager": "yarn@3.2.3",
   "dependencies": {
+    "@fastify/cors": "^8.2.1",
+    "@types/fastify-cors": "^2.1.0",
     "@types/pg": "^8.6.5",
     "dotenv": "^16.0.3",
     "fastify": "^4.11.0",

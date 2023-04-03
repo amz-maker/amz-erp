@@ -2,13 +2,15 @@ import fastify, { FastifyInstance } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
 import routes from "./routes";
 import "dotenv/config";
+import cors from '@fastify/cors';
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
   fastify({
     logger: true,
   });
 
-server.register(routes, { origin: '*' });
+  server.register(routes);
+  server.register(cors, { origin: '*' });
 
 server.get("/", (request, reply) => {
   reply.send({ heart: "beats" });

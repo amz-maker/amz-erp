@@ -3658,6 +3658,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@fastify/cors", [\
+        ["npm:8.2.1", {\
+          "packageLocation": "./.yarn/cache/@fastify-cors-npm-8.2.1-605ff6c2bc-219edf11ad.zip/node_modules/@fastify/cors/",\
+          "packageDependencies": [\
+            ["@fastify/cors", "npm:8.2.1"],\
+            ["fastify-plugin", "npm:4.5.0"],\
+            ["mnemonist", "npm:0.39.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@fastify/deepmerge", [\
         ["npm:1.3.0", {\
           "packageLocation": "./.yarn/cache/@fastify-deepmerge-npm-1.3.0-72eb1f634c-33ec927905.zip/node_modules/@fastify/deepmerge/",\
@@ -5027,6 +5038,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/fastify-cors", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/@types-fastify-cors-npm-2.1.0-9a0c777993-b4e4270216.zip/node_modules/@types/fastify-cors/",\
+          "packageDependencies": [\
+            ["@types/fastify-cors", "npm:2.1.0"],\
+            ["fastify-cors", "npm:6.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/filesystem", [\
         ["npm:0.0.32", {\
           "packageLocation": "./.yarn/cache/@types-filesystem-npm-0.0.32-f9e6035fd6-4b9079d200.zip/node_modules/@types/filesystem/",\
@@ -6374,6 +6395,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/api-server/",\
           "packageDependencies": [\
             ["api-server", "workspace:packages/api-server"],\
+            ["@fastify/cors", "npm:8.2.1"],\
+            ["@types/fastify-cors", "npm:2.1.0"],\
             ["@types/jsonwebtoken", "npm:9.0.1"],\
             ["@types/pg", "npm:8.6.5"],\
             ["dotenv", "npm:16.0.3"],\
@@ -10766,6 +10789,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fastify-plugin", "npm:4.4.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:4.5.0", {\
+          "packageLocation": "./.yarn/cache/fastify-plugin-npm-4.5.0-c81347eaa5-3cc36a43ec.zip/node_modules/fastify-plugin/",\
+          "packageDependencies": [\
+            ["fastify-plugin", "npm:4.5.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["fastify-postgres", [\
@@ -14405,6 +14435,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["mnemonist", [\
+        ["npm:0.39.5", {\
+          "packageLocation": "./.yarn/cache/mnemonist-npm-0.39.5-cbd4ee161e-6669d687a4.zip/node_modules/mnemonist/",\
+          "packageDependencies": [\
+            ["mnemonist", "npm:0.39.5"],\
+            ["obliterator", "npm:2.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["mock-fs", [\
         ["npm:4.14.0", {\
           "packageLocation": "./.yarn/cache/mock-fs-npm-4.14.0-c51913d559-dccd976a8d.zip/node_modules/mock-fs/",\
@@ -14891,6 +14931,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["call-bind", "npm:1.0.2"],\
             ["define-properties", "npm:1.1.4"],\
             ["es-abstract", "npm:1.20.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["obliterator", [\
+        ["npm:2.0.4", {\
+          "packageLocation": "./.yarn/cache/obliterator-npm-2.0.4-b21b355294-f28ad35b6d.zip/node_modules/obliterator/",\
+          "packageDependencies": [\
+            ["obliterator", "npm:2.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\

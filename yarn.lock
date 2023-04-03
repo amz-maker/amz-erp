@@ -2057,6 +2057,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/cors@npm:^8.2.1":
+  version: 8.2.1
+  resolution: "@fastify/cors@npm:8.2.1"
+  dependencies:
+    fastify-plugin: ^4.0.0
+    mnemonist: 0.39.5
+  checksum: 219edf11ad8397c7c00ac605c2c084f7dd929a13d95255013612275d195971bd23de1a8cf23304ded8bbe0066e2ea3c7f3c5b7ee0b14af2daed2071f0ed5609a
+  languageName: node
+  linkType: hard
+
 "@fastify/deepmerge@npm:^1.0.0":
   version: 1.3.0
   resolution: "@fastify/deepmerge@npm:1.3.0"
@@ -3166,6 +3176,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/fastify-cors@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@types/fastify-cors@npm:2.1.0"
+  dependencies:
+    fastify-cors: "*"
+  checksum: b4e4270216f0f6c4e5700e6f7f3f4868614d03b35c746ca6336c4a51964c9be484b26d80d7f0423fd5432a4ef5d81d4cce98c5b39a4ccb47252f271d22fd4391
+  languageName: node
+  linkType: hard
+
 "@types/filesystem@npm:*":
   version: 0.0.32
   resolution: "@types/filesystem@npm:0.0.32"
@@ -4219,6 +4238,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "api-server@workspace:packages/api-server"
   dependencies:
+    "@fastify/cors": ^8.2.1
+    "@types/fastify-cors": ^2.1.0
     "@types/jsonwebtoken": ^9.0.1
     "@types/pg": ^8.6.5
     dotenv: ^16.0.3
@@ -7698,7 +7719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify-cors@npm:^6.1.0":
+"fastify-cors@npm:*, fastify-cors@npm:^6.1.0":
   version: 6.1.0
   resolution: "fastify-cors@npm:6.1.0"
   dependencies:
@@ -7731,6 +7752,13 @@ __metadata:
   version: 3.0.1
   resolution: "fastify-plugin@npm:3.0.1"
   checksum: 131ba0a388f777829c3fb0fd5b75cf057688ce6d0ca354fb1ebf829767a8c853b0825762b9185b5200097454df0ede2f3095da2efe1aa1b3736d07f194e6d374
+  languageName: node
+  linkType: hard
+
+"fastify-plugin@npm:^4.0.0":
+  version: 4.5.0
+  resolution: "fastify-plugin@npm:4.5.0"
+  checksum: 3cc36a43ec72ee9974d3cd1989027e77b277b0994e4fc02ed4e6492aabd83a0be66f14fdec56e60d9a41911ea1ff1ea70c9d957a87e46bcdb8fedd859f4988fe
   languageName: node
   linkType: hard
 
@@ -10953,6 +10981,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mnemonist@npm:0.39.5":
+  version: 0.39.5
+  resolution: "mnemonist@npm:0.39.5"
+  dependencies:
+    obliterator: ^2.0.1
+  checksum: 6669d687a434226924b2c84ee6eb7ce7d0f83dfc5caad8bcc164c73c0c11fb6d43cbe32636e710f068046f4b40a56c3032532554e93e02640aafc6ca3dd222e6
+  languageName: node
+  linkType: hard
+
 "mock-fs@npm:^4.1.0":
   version: 4.14.0
   resolution: "mock-fs@npm:4.14.0"
@@ -11390,6 +11427,13 @@ __metadata:
     define-properties: ^1.1.3
     es-abstract: ^1.19.1
   checksum: 0f17e99741ebfbd0fa55ce942f6184743d3070c61bd39221afc929c8422c4907618c8da694c6915bc04a83ab3224260c779ba37fc07bb668bdc5f33b66a902a4
+  languageName: node
+  linkType: hard
+
+"obliterator@npm:^2.0.1":
+  version: 2.0.4
+  resolution: "obliterator@npm:2.0.4"
+  checksum: f28ad35b6d812089315f375dc3e6e5f9bebf958ebe4b10ccd471c7115cbcf595e74bdac4783ae758e5b1f47e3096427fdb37cfa7bed566b132df92ff317b9a7c
   languageName: node
   linkType: hard
 
