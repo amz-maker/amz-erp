@@ -11,38 +11,102 @@ import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
 import { DatePicker, DatePickerProps, Input } from 'antd';
+import {
+  checkboxColumn,
+  Column,
+  createTextColumn,
+  dateColumn,
+  floatColumn,
+  intColumn,
+  isoDateColumn,
+  keyColumn,
+  percentColumn,
+  textColumn,
+} from 'react-datasheet-grid';
 
 interface SalesCtrctInfoMangntProps {}
 
 function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
-  /* Props ――――― */
   const {} = props;
-  /* State ――――― */
-  /* Const ――――― */
-  /* API ――――――― */
+  const erpDesing = ERPDesign.useERPDesign(
+    (values) => {
+      console.log('[Values]', values);
+    },
+    () => {},
+  );
+
+  const [rowData, setRowData] = React.useState<ERPDesign.Row[]>([]);
+
+  // 사용자 지정 Colum
+  const emailColum = createTextColumn<string | null>({
+    placeholder: '이메일을 입력해 주세요',
+
+    // alignRight: true
+  });
+
+  const columns: Column<ERPDesign.Row>[] = [
+    {
+      ...keyColumn<ERPDesign.Row, 'checkbox'>('checkbox', checkboxColumn),
+      title: '체크박스',
+      grow: 1,
+      minWidth: 50, // 최소 width
+      maxWidth: 100, // 최대 width
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'text'>('text', textColumn),
+      title: '텍스트',
+      grow: 2, // 넓이 증가 비율 (Default: 1), "grow: 0" -> 증가율 0
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'int'>('int', intColumn),
+      title: '정수',
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'float'>('float', floatColumn),
+      title: '실수',
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'date'>('date', dateColumn),
+      title: '날짜',
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'isoDate'>('isoDate', isoDateColumn),
+      title: 'ISO 날짜',
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'percent'>('percent', percentColumn),
+      title: '퍼센트',
+    },
+    {
+      ...keyColumn<ERPDesign.Row, 'custom'>('custom', emailColum),
+      title: '커스텀',
+    },
+  ];
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
-  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    // 와
-  };
 
   /* ―――――――――――――― Use Effect ―――――――――――――― */
+  React.useEffect(() => {
+    // Row Data 설정
+    setRowData([
+      { checkbox: true, text: 'text 1', int: 1, float: 1.0, date: new Date(), isoDate: '2022-01-01', percent: 0.1, custom: '커스텀(이메일)' },
+      { checkbox: false, text: 'text 2', int: 2, float: 2.0, date: new Date(), isoDate: '2022-01-01', percent: 0.2, custom: null },
+    ]);
+  }, []);
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt">
+    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={3}>
-        <ERPDesign.Condition title="계약기간">
-          <DatePicker onChange={onChange} />
-          <em>~</em>
-          <DatePicker onChange={onChange} />
+        <ERPDesign.Condition label="계약기간" name="a">
+          <DatePicker.RangePicker />
         </ERPDesign.Condition>
-        <ERPDesign.Condition title="계약사">
+        <ERPDesign.Condition label="계약사" name="b">
           <Input />
         </ERPDesign.Condition>
-        <ERPDesign.Condition title="프로젝트명"></ERPDesign.Condition>
+        <ERPDesign.Condition label="프로젝트명" name="c"></ERPDesign.Condition>
       </ERPDesign.ConditionArea>
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>
@@ -51,7 +115,13 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
       </ERPDesign.ControlArea>
       {/* 테이블 영역 */}
       <ERPDesign.TableArea>
-        <ERPDesign.Table />
+        <ERPDesign.Table
+          columns={columns}
+          data={{
+            row: rowData,
+            set: setRowData,
+          }}
+        />
       </ERPDesign.TableArea>
     </ERPDesign>
   );

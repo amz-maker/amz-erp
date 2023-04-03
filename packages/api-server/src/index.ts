@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
 import routes from "./routes";
+import "dotenv/config";
 
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
   fastify({
@@ -10,11 +11,7 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
 server.register(routes);
 
 server.get("/", (request, reply) => {
-  reply.send({ hello: "world@" });
-});
-
-server.get("/test", (request, reply) => {
-  reply.send({ test: "SS", id:"1234567" });
+  reply.send({ heart: "beats" });
 });
 
 const start = async () => {
