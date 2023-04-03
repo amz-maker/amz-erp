@@ -7,10 +7,23 @@ import cors from '@fastify/cors';
 const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
   fastify({
     logger: true,
-  });
+});
 
-  server.register(routes);
-  server.register(cors, { origin: '*' });
+// server.register(cors, { origin: '*' });
+
+server.register(cors, (instance) => {
+  return (req: any, callback: any) => {
+    const corsOptions = {
+      // This is NOT recommended for production as it enables reflection exploits
+      origin: true
+    };
+
+    // callback expects two parameters: error and options
+    callback(null, corsOptions)
+  }
+})
+
+server.register(routes);
 
 server.get("/", (request, reply) => {
   reply.send({ heart: "beats" });
