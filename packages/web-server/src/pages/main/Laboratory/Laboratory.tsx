@@ -132,6 +132,44 @@ function Lab01(props: Lab01) {
       });
   }
 
+  function axiosPostTest(uri: string, params: object) {
+    axios
+      .post(`${API_URL}${uri}`, params)
+      .then((res) => {
+        console.log(res);
+        setAxiosData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function axiosPutTest(uri: string, params: object) {
+    axios
+      .put(`${API_URL}${uri}`, params)
+      .then((res) => {
+        console.log(res);
+        setAxiosData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function axiosDeleteTest(uri: string, params: object) {
+    axios
+      .delete(`${API_URL}${uri}`, {
+        params,
+      })
+      .then((res) => {
+        console.log(res);
+        setAxiosData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   React.useEffect(() => {}, []);
 
   return (
