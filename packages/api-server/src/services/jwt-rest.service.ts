@@ -51,34 +51,35 @@ export default class JwtRestService {
      */
     public static verifyAccessTokenFromHeader(header: any): JwtPayload 
     {
-        console.log(header);
+        return null as any;
+        // console.log(header);
 
-        const accessToken = JwtRestService.getAccessTokenFromHeader(header);
-        if(accessToken === undefined) {
-            throw new Error("No Access Token in Header")
-        }
+        // const accessToken = JwtRestService.getAccessTokenFromHeader(header);
+        // if(accessToken === undefined) {
+        //     throw new Error("No Access Token in Header")
+        // }
 
-        // 리프레시 토큰을 받음
-        if(JwtUtil.isRefreshToken(accessToken)) {
-            throw new Error("Given Token is Refresh Token");
-        }
+        // // 리프레시 토큰을 받음
+        // if(JwtUtil.isRefreshToken(accessToken)) {
+        //     throw new Error("Given Token is Refresh Token");
+        // }
 
-        // 알 수 없는 토큰을 받음
-        if(!JwtUtil.isAccessToken(accessToken)) {
-            throw new Error("Given Token is NOT Access Token");
-        }
+        // // 알 수 없는 토큰을 받음
+        // if(!JwtUtil.isAccessToken(accessToken)) {
+        //     throw new Error("Given Token is NOT Access Token");
+        // }
 
-        // 액세스 토큰을 받음
-        switch(JwtUtil.checkTokenValidation(accessToken)) {
-            case 'Valid': 
-                return JwtUtil.decodeToken(accessToken);
+        // // 액세스 토큰을 받음
+        // switch(JwtUtil.checkTokenValidation(accessToken)) {
+        //     case 'Valid': 
+        //         return JwtUtil.decodeToken(accessToken);
                 
-            case 'Expired':
-                throw new Error("Expired Access Token");
+        //     case 'Expired':
+        //         throw new Error("Expired Access Token");
             
-            default:
-                throw new Error("Invalid Access Token");
-        }
+        //     default:
+        //         throw new Error("Invalid Access Token");
+        // }
     }
 
     /**
