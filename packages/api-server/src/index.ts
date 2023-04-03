@@ -17,7 +17,8 @@ server.get("/", (request, reply) => {
 const start = async () => {
   try {
     await server.listen({
-      port: Number(process.env.PORT_NUMBER!),
+      host: "0.0.0.0",
+      port: 8001,
     });
   } catch (err) {
     server.log.error(err);

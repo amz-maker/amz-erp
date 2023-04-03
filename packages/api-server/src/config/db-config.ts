@@ -23,6 +23,15 @@ const pgRemote = new Pool({
   port: 14003,
 });
 
+// amz-erp
+const pgRemote2 = new Pool({
+  host: "172.30.1.53",
+  user: "root",
+  password: "1q2w3e4r!",
+  database: "root",
+  port: 14003,
+});
+
 // rito local
 const pgLocal = new Pool({
   host: "localhost",
@@ -33,4 +42,4 @@ const pgLocal = new Pool({
 });
 
 // 현재 연결
-export const pgCurrent = pgLocal;
+export const pgCurrent = pgRemote2;

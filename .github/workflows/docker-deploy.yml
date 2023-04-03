@@ -1,0 +1,26 @@
+name: docker-deploy
+
+on: 
+  pull_request:            
+    branches:
+      - main
+
+jobs:
+  docker-ssh-action:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4        
+        with:
+          host: ${{ secrets.SSH_HOST }}          
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          timeout: 30s        
+          script: |
+            cd ~/git/amz-erp
+            git pull
+            docker compose -p amz-erp down --rmi all -v
+            docker compose -p amz-erp up -d
+            
