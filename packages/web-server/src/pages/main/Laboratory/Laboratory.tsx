@@ -24,6 +24,7 @@ import {
 
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren } from 'module/AmzPack/interface';
+import axios from 'axios';
 
 interface LaboratoryProps {}
 
@@ -114,12 +115,45 @@ function Lab01(props: Lab01) {
 
   const ref = React.useRef<DataSheetGridRef>(null);
 
+  const [axiosData, setAxiosData] = React.useState<object>({});
+  const API_URL = 'https://api.erp.koreaats.com';
+  const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
+  function axiosGetTest(uri: string, params: object) {
+    axios
+      .get(`${API_URL}${uri}`, {
+        params,
+      })
+      .then((res) => {
+        console.log(res);
+        setAxiosData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   React.useEffect(() => {}, []);
 
   return (
-    <Laboratory.Lab title="Vanilla Datasheet">
-      <DataSheetGrid ref={ref} value={data} onChange={setData} columns={columns}></DataSheetGrid>
-    </Laboratory.Lab>
+    <>
+      <Laboratory.Lab title="Vanilla Datasheet">
+        <DataSheetGrid ref={ref} value={data} onChange={setData} columns={columns}></DataSheetGrid>
+      </Laboratory.Lab>
+      <Laboratory.Lab title="Axios Test">
+        <button
+          onClick={() =>
+            axiosGetTest(FUND_SALES_CTRCT_INFO, {
+              ctrctStartDt: 20221201,
+              ctrctEndDt: 20240202,
+              payGbCd: 'PA01',
+              ctrctTypeCd: 'CT10',
+            })
+          }
+        >
+          Axios Test
+        </button>
+      </Laboratory.Lab>
+    </>
   );
 }
 
