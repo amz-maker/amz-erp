@@ -4223,6 +4223,7 @@ __metadata:
     "@types/pg": ^8.6.5
     dotenv: ^16.0.3
     fastify: ^4.11.0
+    fastify-cors: ^6.1.0
     fastify-decorators: ^3.15.0
     fastify-postgres: ^3.7.0
     jsonwebtoken: ^9.0.0
@@ -7684,6 +7685,26 @@ __metadata:
   version: 2.2.0
   resolution: "fast-uri@npm:2.2.0"
   checksum: edac64d50628f21d562cdc19ea86f5af00902dbb09d2f96fff5974e5317157825e9aa163af9defd11a0818aac6ea2e9958597bed98dd041200a08a976809d08b
+  languageName: node
+  linkType: hard
+
+"fastify-cors-deprecated@npm:fastify-cors@6.0.3":
+  version: 6.0.3
+  resolution: "fastify-cors@npm:6.0.3"
+  dependencies:
+    fastify-plugin: ^3.0.0
+    vary: ^1.1.2
+  checksum: 054cf4e1cf0b20778ac24d9995a99f44e9b026ca9a028db0cbb6093922bcc931dff5f5bb185d19e881014392bb5886a8b5f9da6af3d3ab5e62b7a68f4eca33c4
+  languageName: node
+  linkType: hard
+
+"fastify-cors@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "fastify-cors@npm:6.1.0"
+  dependencies:
+    fastify-cors-deprecated: "npm:fastify-cors@6.0.3"
+    process-warning: ^1.0.0
+  checksum: dca7c39b4e515ea896aa07ad5c05c70100f427e4c92e3e0fae7cab7d8ccfc824c946723a7e90b4859a5802244932d0af5ee70d753f686092e8c47fca6700e370
   languageName: node
   linkType: hard
 
@@ -16138,7 +16159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vary@npm:^1, vary@npm:~1.1.2":
+"vary@npm:^1, vary@npm:^1.1.2, vary@npm:~1.1.2":
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: ae0123222c6df65b437669d63dfa8c36cee20a504101b2fcd97b8bf76f91259c17f9f2b4d70a1e3c6bbcee7f51b28392833adb6b2770b23b01abec84e369660b

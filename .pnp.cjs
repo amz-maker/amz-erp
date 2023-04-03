@@ -6378,6 +6378,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pg", "npm:8.6.5"],\
             ["dotenv", "npm:16.0.3"],\
             ["fastify", "npm:4.11.0"],\
+            ["fastify-cors", "npm:6.1.0"],\
             ["fastify-decorators", "virtual:7bcc6b1230a343dc18339ffd5a4631c208b3afc3a703ea7702b7d517c258b65faf0e046f48b9a221c1acaed2cd24595ab25a0bccda44dbb3b9f5e63052a5ec85#npm:3.15.0"],\
             ["fastify-postgres", "npm:3.7.0"],\
             ["jsonwebtoken", "npm:9.0.0"],\
@@ -10699,6 +10700,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["secure-json-parse", "npm:2.6.0"],\
             ["semver", "npm:7.3.7"],\
             ["tiny-lru", "npm:10.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["fastify-cors", [\
+        ["npm:6.0.3", {\
+          "packageLocation": "./.yarn/cache/fastify-cors-npm-6.0.3-006af662e1-054cf4e1cf.zip/node_modules/fastify-cors/",\
+          "packageDependencies": [\
+            ["fastify-cors", "npm:6.0.3"],\
+            ["fastify-plugin", "npm:3.0.1"],\
+            ["vary", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:6.1.0", {\
+          "packageLocation": "./.yarn/cache/fastify-cors-npm-6.1.0-7d1a281ed7-dca7c39b4e.zip/node_modules/fastify-cors/",\
+          "packageDependencies": [\
+            ["fastify-cors", "npm:6.1.0"],\
+            ["fastify-cors-deprecated", [\
+              "fastify-cors",\
+              "npm:6.0.3"\
+            ]],\
+            ["process-warning", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\

@@ -8,7 +8,7 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> =
     logger: true,
   });
 
-server.register(routes);
+server.register(routes, { origin: '*' });
 
 server.get("/", (request, reply) => {
   reply.send({ heart: "beats" });
