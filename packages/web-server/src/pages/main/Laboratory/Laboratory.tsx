@@ -116,7 +116,7 @@ function Lab01(props: Lab01) {
   const ref = React.useRef<DataSheetGridRef>(null);
 
   const [axiosData, setAxiosData] = React.useState<object>({});
-  const API_URL = 'https://api.erp.koreaats.com';
+  const API_URL = 'https://apierp.koreaats.com';
   const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
 
   function axiosCall(method: 'get' | 'post' | 'put' | 'delete', uri: string, params: object) {
