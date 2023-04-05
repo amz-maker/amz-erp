@@ -26,6 +26,17 @@ import {
 
 interface SalesCtrctInfoMangntProps {}
 
+type Row = {
+  checkbox: boolean;
+  text: string | null;
+  int: number | null;
+  float: number | null;
+  date: Date | null;
+  isoDate: string | null;
+  percent: number | null;
+  custom: string | null;
+};
+
 function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   const {} = props;
@@ -36,7 +47,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
     () => {},
   );
 
-  const [rowData, setRowData] = React.useState<ERPDesign.Row[]>([]);
+  const [rowData, setRowData] = React.useState<Row[]>([]);
 
   // 사용자 지정 Colum
   const emailColum = createTextColumn<string | null>({
@@ -45,41 +56,41 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
     // alignRight: true
   });
 
-  const columns: Column<ERPDesign.Row>[] = [
+  const columns: Column<Row>[] = [
     {
-      ...keyColumn<ERPDesign.Row, 'checkbox'>('checkbox', checkboxColumn),
+      ...keyColumn<Row, 'checkbox'>('checkbox', checkboxColumn),
       title: '체크박스',
       grow: 1,
       minWidth: 50, // 최소 width
       maxWidth: 100, // 최대 width
     },
     {
-      ...keyColumn<ERPDesign.Row, 'text'>('text', textColumn),
+      ...keyColumn<Row, 'text'>('text', textColumn),
       title: '텍스트',
       grow: 2, // 넓이 증가 비율 (Default: 1), "grow: 0" -> 증가율 0
     },
     {
-      ...keyColumn<ERPDesign.Row, 'int'>('int', intColumn),
+      ...keyColumn<Row, 'int'>('int', intColumn),
       title: '정수',
     },
     {
-      ...keyColumn<ERPDesign.Row, 'float'>('float', floatColumn),
+      ...keyColumn<Row, 'float'>('float', floatColumn),
       title: '실수',
     },
     {
-      ...keyColumn<ERPDesign.Row, 'date'>('date', dateColumn),
+      ...keyColumn<Row, 'date'>('date', dateColumn),
       title: '날짜',
     },
     {
-      ...keyColumn<ERPDesign.Row, 'isoDate'>('isoDate', isoDateColumn),
+      ...keyColumn<Row, 'isoDate'>('isoDate', isoDateColumn),
       title: 'ISO 날짜',
     },
     {
-      ...keyColumn<ERPDesign.Row, 'percent'>('percent', percentColumn),
+      ...keyColumn<Row, 'percent'>('percent', percentColumn),
       title: '퍼센트',
     },
     {
-      ...keyColumn<ERPDesign.Row, 'custom'>('custom', emailColum),
+      ...keyColumn<Row, 'custom'>('custom', emailColum),
       title: '커스텀',
     },
   ];

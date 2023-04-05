@@ -12,6 +12,9 @@ function App() {
         <Route element={<WithMenuLayout />}>
           <Route path="" element={<Pages.Main.Root />} />
           <Route path="/sales" element={<Pages.Main.SalesCtrctInfoMangnt />} />
+          <Route path="/order" element={<Pages.Main.OrderInfoMangnt />} />
+          <Route path='/ctrct' element={<Pages.Main.CtrctInfoMangnt/>}/>
+          
         </Route>
         <Route path="/laboratory" element={<Pages.Main.Laboratory />} />
       </Routes>

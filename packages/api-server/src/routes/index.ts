@@ -37,6 +37,9 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
 
   group = 'sttstc';
   routeFarest(server, `/${group}/find-montly-prchs`, Controllers.findMontlyPrchs); // 월별매입내역조회
+
+  group = 'order';
+  routeFarest(server, `/${group}/find-order_list`, Controllers.findOrderList); // 발주내역조회
   
   // == test ==
   routeFarest(server, '/test/jwt',  Controllers.testJwt); // 헤더 JWT 토큰 검증

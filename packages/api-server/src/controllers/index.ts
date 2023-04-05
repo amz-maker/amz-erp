@@ -31,6 +31,11 @@ import { findFrlncSalryInfo } from "./pchs/find-frlnc-salry-info";
 import { findFrlncPayrl } from "./pchs/find-frlnc-payrl";
 import { findEtcPrchsInfo } from "./pchs/find-etc-prchs-info";
 
+import { findOrderList } from "./order/find-order_list";
+
+
+
+
 import { findMontlyPrchs } from "./sttstc/find-montly-prchs";
 
 export 
@@ -50,6 +55,9 @@ export
 
     // pchs
     findStaffSalryInfo, findStaffPayrl,findFrlncSalryInfo, findFrlncPayrl, findEtcPrchsInfo,
+
+    // order
+    findOrderList,
 
     // sttstc
     findMontlyPrchs,

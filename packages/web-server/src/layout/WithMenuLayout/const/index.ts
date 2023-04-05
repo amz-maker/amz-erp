@@ -10,6 +10,22 @@ export const menuInfo: IMenuInfo[] = [
     uri: '/sales',
   },
   {
+    name: '발주 정보 관리',
+    icon: {
+      name: 'pen-to-square',
+      type: 'solid',
+    },
+    uri: '/order',
+  },
+  {
+    name: '계약 정보 관리',
+    icon: {
+      name: 'pen',
+      type: 'solid',
+    },
+    uri: '/ctrct',
+  },
+  {
     name: '매출 발행/입금내역 관리',
     icon: {
       name: 'wallet',

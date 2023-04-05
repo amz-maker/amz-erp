@@ -132,21 +132,11 @@ namespace ERPDesign {
     );
   }
 
-  export type Row = {
-    checkbox: boolean;
-    text: string | null;
-    int: number | null;
-    float: number | null;
-    date: Date | null;
-    isoDate: string | null;
-    percent: number | null;
-    custom: string | null;
-  };
   interface TableProps {
-    columns?: Column<Row>[];
+    columns?: Column<any>[];
     data?: {
-      row: Row[];
-      set: React.Dispatch<React.SetStateAction<Row[]>>;
+      row: any[];
+      set: React.Dispatch<React.SetStateAction<any[]>>;
     };
   }
 
