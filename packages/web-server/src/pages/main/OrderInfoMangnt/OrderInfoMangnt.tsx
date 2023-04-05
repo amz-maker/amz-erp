@@ -46,6 +46,7 @@ function OrderInfoMangnt (props: OrderInfoMangntProps) {
   );
   
 };
+// 주석
 
 /* Ord-01 */
 type Row = {
