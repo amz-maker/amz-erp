@@ -38,10 +38,15 @@ ul {
 
 .dsg-cell-header-container
 {
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
+  align-content: center;
 }
 
 [data-special="divisionBox"].nodata .dsg-container {
   height: initial !important;
 }
+[data-special="divisionBox"].data .dsg-container {
+  height: max-content !important;
+}
+
