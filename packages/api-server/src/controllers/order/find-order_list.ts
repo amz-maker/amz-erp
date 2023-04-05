@@ -69,38 +69,38 @@ export const findOrderList = makeFarestFrame<ApiInput, ApiOutput>(
 
         const qs = 
 `
-SELECT SEQ_NO             AS seqNo            -- [01] 순번 (발주정보 FK)
-      ,BSNTYP             AS bsntyp           -- [02] 업종
-      ,ORDER_COMPN        AS orderCompn       -- [03] 발주사
-      ,BIDDN              AS biddn            -- [04] 입찰
-      ,CTRCT_COMPN        AS ctrctCompn       -- [05] 계약회사
-      ,PRJ_NM             AS prjNm            -- [06] 프로젝트명
-      ,BUSNSS_CONTN       AS busnssContn      -- [07] 사업내용
-      ,DEV_ENV            AS devEnv           -- [08] 개발환경
-      ,ORDER_SCHD_DT      AS orderSchdDt      -- [09] 발주예정일자
-      ,PRGS_STAT_INFO     AS prgsStatInfo     -- [10] 진행상태정보
-      ,START_SCHD_DT      AS startSchdDt      -- [11] 시작예정일자 (착수예정일자)
-      ,EXPCT_PRJ_PERD     AS expctPrjPerd     -- [12] 예상프로젝트기간
-      ,EXPCT_CMTMT_NUMPPL AS expctCmtmtNumppl -- [13] 예상투입인원수
-      ,EXPCT_MEMMN        AS expctMemmn       -- [14] 예상투입공수
-      ,MAIN_CMTMT_MEM     AS mainCmtmtMem     -- [15] 주요투입인력
-      ,EXPCT_SALES_PRC    AS expctSalesPrc    -- [16] 예상매출금액
-      ,SUBCN_FORM         AS subcnForm        -- [17] 하도급형태
-      ,MANGR              AS mangr            -- [18] 담당자
-      ,MANGR_TEL          AS mangrTel         -- [19] 담당자연락처
-      ,SALES_REPRS        AS salesReprs       -- [20] 영업대표
-      ,CTRCT_GB           AS ctrctGb          -- [21] 계약구분
-      ,ACTCMT_MEM         AS actcmtMem        -- [22] 실투입인력
-      ,CTRCT_PRC          AS ctrctPrc         -- [23] 계약금액
-      ,CTRCT_START_DT     AS ctrctStartDt     -- [24] 계약시작일자
-      ,CTRCT_END_DT       AS ctrctEndDt       -- [25] 계약+종료일자
-      ,CTRCT_PERD         AS ctrctPerd        -- [26] 계약기간
-      ,CTRCT_FORM         AS ctrctForm        -- [27] 계약형태
-      ,CTRCT_ATTCH        AS ctrctAttch       -- [28] 계약서첨부
-      ,FINAL_CORRC_DT     AS finalCorrcDt     -- [29] 최종수정일자
-      ,FINAL_MODFR        AS finalModfr       -- [30] 최종수정자
-      ,FINAL_REGST        AS finalRegst       -- [31] 최종등록자
-      ,KIND               AS kind             -- [32] 종류
+SELECT SEQ_NO             AS "seqNo"            -- [01] 순번 (발주정보 FK)
+      ,BSNTYP             AS "bsntyp"           -- [02] 업종
+      ,ORDER_COMPN        AS "orderCompn"       -- [03] 발주사
+      ,BIDDN              AS "biddn"            -- [04] 입찰
+      ,CTRCT_COMPN        AS "ctrctCompn"       -- [05] 계약회사
+      ,PRJ_NM             AS "prjNm"            -- [06] 프로젝트명
+      ,BUSNSS_CONTN       AS "busnssContn"      -- [07] 사업내용
+      ,DEV_ENV            AS "devEnv"           -- [08] 개발환경
+      ,ORDER_SCHD_DT      AS "orderSchdDt"      -- [09] 발주예정일자
+      ,PRGS_STAT_INFO     AS "prgsStatInfo"     -- [10] 진행상태정보
+      ,START_SCHD_DT      AS "startSchdDt"      -- [11] 시작예정일자 (착수예정일자)
+      ,EXPCT_PRJ_PERD     AS "expctPrjPerd"     -- [12] 예상프로젝트기간
+      ,EXPCT_CMTMT_NUMPPL AS "expctCmtmtNumppl" -- [13] 예상투입인원수
+      ,EXPCT_MEMMN        AS "expctMemmn"       -- [14] 예상투입공수
+      ,MAIN_CMTMT_MEM     AS "mainCmtmtMem"     -- [15] 주요투입인력
+      ,EXPCT_SALES_PRC    AS "expctSalesPrc"    -- [16] 예상매출금액
+      ,SUBCN_FORM         AS "subcnForm"        -- [17] 하도급형태
+      ,MANGR              AS "mangr"            -- [18] 담당자
+      ,MANGR_TEL          AS "mangrTel"         -- [19] 담당자연락처
+      ,SALES_REPRS        AS "salesReprs"       -- [20] 영업대표
+      ,CTRCT_GB           AS "ctrctGb"          -- [21] 계약구분
+      ,ACTCMT_MEM         AS "actcmtMem"        -- [22] 실투입인력
+      ,CTRCT_PRC          AS "ctrctPrc"         -- [23] 계약금액
+      ,CTRCT_START_DT     AS "ctrctStartDt"     -- [24] 계약시작일자
+      ,CTRCT_END_DT       AS "ctrctEndDt"       -- [25] 계약+종료일자
+      ,CTRCT_PERD         AS "ctrctPerd"        -- [26] 계약기간
+      ,CTRCT_FORM         AS "ctrctForm"        -- [27] 계약형태
+      ,CTRCT_ATTCH        AS "ctrctAttch"       -- [28] 계약서첨부
+      ,FINAL_CORRC_DT     AS "finalCorrcDt"     -- [29] 최종수정일자
+      ,FINAL_MODFR        AS "finalModfr"       -- [30] 최종수정자
+      ,FINAL_REGST        AS "finalRegst"       -- [31] 최종등록자
+      ,KIND               AS "kind"             -- [32] 종류
 
   FROM OC001M1 
 ${
