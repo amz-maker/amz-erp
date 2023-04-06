@@ -14,6 +14,7 @@ function App() {
           <Route path="/sales" element={<Pages.Main.SalesCtrctInfoMangnt />} />
           <Route path="/order" element={<Pages.Main.OrderInfoMangnt />} />
           <Route path='/ctrct' element={<Pages.Main.CtrctInfoMangnt/>}/>
+          <Route path='/mnpr' element={<Pages.Main.MnprCmtmtInfoMangnt/>}/>
           
         </Route>
         <Route path="/laboratory" element={<Pages.Main.Laboratory />} />

@@ -39,7 +39,7 @@ export const menuInfo: IMenuInfo[] = [
       name: 'person',
       type: 'solid',
     },
-    uri: '/',
+    uri: '/mnpr',
   },
   {
     name: '임직원 급여관리',
