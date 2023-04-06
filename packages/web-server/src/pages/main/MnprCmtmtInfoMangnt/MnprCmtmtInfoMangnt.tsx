@@ -176,6 +176,14 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
       });
   }
 
+  function selectTest(){
+    console.log("------------------- selectTest ------------")
+    axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
+      let rowData = response.data.results;
+      setRowData(rowData);
+    },{})
+  }
+
   /* ―――――――――――――― Use Effect ―――――――――――――― */
   React.useEffect(() => {
     // Row Data 설정
@@ -206,6 +214,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
       </ERPDesign.ConditionArea>
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>
+        {/* <ERPDesign.Submit onClick={selectTest}>조회</ERPDesign.Submit> */}
         <ERPDesign.Submit>조회</ERPDesign.Submit>
         <ERPDesign.Submit>저장</ERPDesign.Submit>
       </ERPDesign.ControlArea>

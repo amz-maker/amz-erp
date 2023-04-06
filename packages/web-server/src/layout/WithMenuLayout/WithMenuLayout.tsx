@@ -8,10 +8,12 @@
 --------------------------------------------------------------------------------------------------------------------------------------------*/
 import SideMenu from 'container/SideMenu';
 import { IListInfo } from 'container/SideMenu/define';
+import { SideMenuStateSelector } from 'container/SideMenu/store/selector';
 import TopMenu from 'container/TopMenu';
 import { DivisionBox, Icon } from 'module/AmzPack/component';
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { menuInfo } from './const';
 
 interface WithMenuLayoutProps {}
@@ -20,6 +22,7 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   const {} = props;
   const navigate = useNavigate();
+  const mode = useRecoilValue(SideMenuStateSelector.modeSelector('sideMenu'));
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
 
@@ -50,6 +53,9 @@ function WithMenuLayout(props: WithMenuLayoutProps) {
         />
       </div>
       <div className="contents-area">
+        <div className="contents-title">
+          {menuInfo[mode].name}
+        </div>
         <Outlet />
       </div>
     </DivisionBox>
