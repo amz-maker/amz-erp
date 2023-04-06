@@ -121,12 +121,14 @@ namespace ERPDesign {
   }
 
   // Table Area
-  interface TableAreaProps extends IChildren {}
+  interface TableAreaProps extends IChildren {
+    className?: string;
+  }
   export function TableArea(props: TableAreaProps) {
-    const { children } = props;
+    const { children, className } = props;
 
     return (
-      <DivisionBox data-container="erpDesign.tableArea" template={'100%'} gap={5} repeat>
+      <DivisionBox data-container="erpDesign.tableArea" template={'100%'} gap={5} repeat className={className}>
         {children}
       </DivisionBox>
     );
