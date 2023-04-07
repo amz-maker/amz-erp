@@ -27,6 +27,7 @@ import {
 } from 'react-datasheet-grid';
 
 import { apiConfig } from 'config/api-config'
+import Util from 'common/util';
 
 interface MnprCmtmtInfoMangntProps {}
 function MnprCmtmtInfoMangnt(props: MnprCmtmtInfoMangntProps) {
@@ -170,10 +171,17 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
   }
 
   function selectEvent(){
+    let dateSet = formRef.current?.getFieldsValue().date
+
     axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
       let rowData = response.data.results;
       setRowData(rowData);
-    },{})
+    },{
+      orderCompn:formRef.current?.getFieldsValue().orderCompn,
+      ctrctCompn:formRef.current?.getFieldsValue().ctrctCompn,
+      ctrctStartDt:dateSet? Util.format.date(dateSet[0].toDate(),'YMD') : undefined,
+      ctrctEndDt:dateSet? Util.format.date(dateSet[1].toDate(),'YMD') : undefined
+    })
   }
 
   /* ―――――――――――――― Use Effect ―――――――――――――― */
@@ -184,13 +192,12 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
     //   { checkbox: false, text: 'text 2', int: 2, float: 2.0, date: new Date(), isoDate: '2022-01-01', percent: 0.2, custom: null },
     // ]);
 
-    console.log("Test Log Form Data");
-    // console.log(typeof formRef.current?.getFieldsValue())
+    // console.log("Test Log Form Data");
     
-      // axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
-      //   let rowData = response.data.results;
-      //   setRowData(rowData);
-      // },{})
+      axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
+        let rowData = response.data.results;
+        setRowData(rowData);
+      },{})
   }, []);
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
@@ -198,10 +205,13 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
     <ERPDesign data-page="mnprCmtmtInfoMangnt" formref={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={3}>
-        <ERPDesign.Condition label="계약기간" name="a">
+        <ERPDesign.Condition label="계약기간" name="date">
           <DatePicker.RangePicker />
         </ERPDesign.Condition>
-        <ERPDesign.Condition label="계약사" name="b">
+        <ERPDesign.Condition label="발주사" name="orderCompn">
+          <Input />
+        </ERPDesign.Condition>
+        <ERPDesign.Condition label="계약사" name="ctrctCompn">
           <Input />
         </ERPDesign.Condition>
         <ERPDesign.Condition label="프로젝트명" name="c"></ERPDesign.Condition>
