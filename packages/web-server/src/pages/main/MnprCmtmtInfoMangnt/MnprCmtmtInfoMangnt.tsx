@@ -184,18 +184,18 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
     //   { checkbox: false, text: 'text 2', int: 2, float: 2.0, date: new Date(), isoDate: '2022-01-01', percent: 0.2, custom: null },
     // ]);
 
-    // console.log("Test Log Form Data", formRef.current?.getFieldsValue());
+    console.log("Test Log Form Data");
     // console.log(typeof formRef.current?.getFieldsValue())
     
-      axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
-        let rowData = response.data.results;
-        setRowData(rowData);
-      },{})
+      // axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
+      //   let rowData = response.data.results;
+      //   setRowData(rowData);
+      // },{})
   }, []);
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="mnprCmtmtInfoMangnt" formRef={formRef}>
+    <ERPDesign data-page="mnprCmtmtInfoMangnt" formref={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={3}>
         <ERPDesign.Condition label="계약기간" name="a">

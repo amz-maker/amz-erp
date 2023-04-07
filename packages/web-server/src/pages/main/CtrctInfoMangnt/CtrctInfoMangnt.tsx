@@ -35,7 +35,7 @@ function CtrctInfoMangnt (props: CtrctInfoMangntProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing} formRef={formRef}>
+    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing} formref={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={'1fr 2fr 2fr 1fr'}>
         <ERPDesign.Condition label="계약기간" name="a">

@@ -304,7 +304,7 @@ function Ord01(props: Ord01){
 
   
   return (
-    <ERPDesign data-page="orderInfoManagement" {...erpDesing} formRef={formRef}>
+    <ERPDesign data-page="orderInfoManagement" {...erpDesing} formref={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={'1fr 1fr 2fr'}>
         <ERPDesign.Condition label="프로젝트명" name="prjNm">

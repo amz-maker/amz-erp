@@ -33,11 +33,11 @@ import { NamePath } from 'antd/es/form/interface';
 interface ERPDesignProps<T extends object> extends IChildren, IDataPage {
   onFinish?: ((values: T) => void) | undefined;
   onFinishFailed?: ((errorInfo: any) => void) | undefined;
-  formRef: React.RefObject<FormInstance<any>>;
+  formref: React.RefObject<FormInstance<any>>;
 }
 function ERPDesign<T extends object>(props: ERPDesignProps<T>) {
   /* ――――――――――――――― Variable ――――――――――――――― */
-  const { 'data-page': dataPage, formRef, children } = props;
+  const { 'data-page': dataPage, formref, children } = props;
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
 
@@ -46,7 +46,7 @@ function ERPDesign<T extends object>(props: ERPDesignProps<T>) {
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
     <RecoilRoot>
-      <Form {...props} ref={formRef}>
+      <Form {...props} ref={formref}>
         <div data-page={dataPage} data-container="erpDesign">
           {children}
         </div>
