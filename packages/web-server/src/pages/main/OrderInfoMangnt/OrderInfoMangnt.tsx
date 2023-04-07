@@ -10,7 +10,7 @@ import React from 'react';
 import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
-import { DatePicker, DatePickerProps, Input, Select } from 'antd';
+import { DatePicker, DatePickerProps, FormInstance, Input, Select } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import {
   Column,
@@ -123,6 +123,7 @@ function Ord01(props: Ord01){
 
     // alignRight: true
   });
+  const formRef = React.useRef<FormInstance>(null);
   const erpDesing = ERPDesign.useERPDesign(
     (values: searchValue) => {
       console.log('[Values]', values);
@@ -303,7 +304,7 @@ function Ord01(props: Ord01){
 
   
   return (
-    <ERPDesign data-page="orderInfoManagement" {...erpDesing}>
+    <ERPDesign data-page="orderInfoManagement" {...erpDesing} formRef={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={'1fr 1fr 2fr'}>
         <ERPDesign.Condition label="프로젝트명" name="prjNm">

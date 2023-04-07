@@ -10,7 +10,7 @@ import React from 'react';
 import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
-import { DatePicker, DatePickerProps, Input } from 'antd';
+import { DatePicker, DatePickerProps, FormInstance, Input } from 'antd';
 import {
   checkboxColumn,
   Column,
@@ -47,6 +47,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
     () => {},
   );
 
+  const formRef = React.useRef<FormInstance>(null);
   const [rowData, setRowData] = React.useState<Row[]>([]);
 
   // 사용자 지정 Colum
@@ -108,7 +109,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing}>
+    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing} formRef={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={3}>
         <ERPDesign.Condition label="계약기간" name="a">

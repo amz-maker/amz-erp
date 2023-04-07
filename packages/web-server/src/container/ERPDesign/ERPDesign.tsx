@@ -8,7 +8,7 @@
 --------------------------------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import { Button, Form } from 'antd';
-import { Rule } from 'antd/es/form';
+import { FormInstance, Rule } from 'antd/es/form';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IChildrenElement, IDataPage } from 'module/AmzPack/interface';
 import { useERPDesign as _useERPDesign } from './hook/useERPDesign';
@@ -33,10 +33,11 @@ import { NamePath } from 'antd/es/form/interface';
 interface ERPDesignProps<T extends object> extends IChildren, IDataPage {
   onFinish?: ((values: T) => void) | undefined;
   onFinishFailed?: ((errorInfo: any) => void) | undefined;
+  formRef: React.RefObject<FormInstance<any>>;
 }
 function ERPDesign<T extends object>(props: ERPDesignProps<T>) {
   /* ――――――――――――――― Variable ――――――――――――――― */
-  const { 'data-page': dataPage, children } = props;
+  const { 'data-page': dataPage, formRef, children } = props;
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
 
@@ -45,7 +46,7 @@ function ERPDesign<T extends object>(props: ERPDesignProps<T>) {
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
     <RecoilRoot>
-      <Form {...props}>
+      <Form {...props} ref={formRef}>
         <div data-page={dataPage} data-container="erpDesign">
           {children}
         </div>
@@ -116,8 +117,10 @@ namespace ERPDesign {
     onClick?: () => void;
   }
   export function Submit(props: SubmitProps) {
-    const { children } = props;
-    return <Button htmlType="submit">{children}</Button>;
+    const { onClick = () => {}, children } = props;
+
+
+    return <Button onClick={(e) => onClick()}>{children}</Button>;
   }
 
   // Table Area

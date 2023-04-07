@@ -10,7 +10,7 @@ import React from 'react';
 import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
-import { DatePicker, DatePickerProps, Input } from 'antd';
+import { DatePicker, DatePickerProps, FormInstance, Input } from 'antd';
 import axios, { AxiosResponse } from 'axios';
 import {
   checkboxColumn,
@@ -72,17 +72,8 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
   const {} = props;
   const API_URL = apiConfig.url;
   const FUND_MNPR_CMTMT_INFO = '/mnpr/find-mnpr-cmtmt-info';
-  const erpDesing = ERPDesign.useERPDesign(
-    (values) => {
-      console.log('[Values]', values);
 
-      axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
-        let rowData = response.data.results;
-        setRowData(rowData);
-      },{...values})
-    },
-    () => {},
-  );
+  const formRef = React.useRef<FormInstance>(null);
 
   const [rowData, setRowData] = React.useState<Row[]>([]);
 
@@ -178,8 +169,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
       });
   }
 
-  function selectTest(){
-    console.log("------------------- selectTest ------------")
+  function selectEvent(){
     axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
       let rowData = response.data.results;
       setRowData(rowData);
@@ -193,17 +183,19 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
     //   { checkbox: true, text: 'text 1', int: 1, float: 1.0, date: new Date(), isoDate: '2022-01-01', percent: 0.1, custom: '커스텀(이메일)' },
     //   { checkbox: false, text: 'text 2', int: 2, float: 2.0, date: new Date(), isoDate: '2022-01-01', percent: 0.2, custom: null },
     // ]);
+
+    // console.log("Test Log Form Data", formRef.current?.getFieldsValue());
+    // console.log(typeof formRef.current?.getFieldsValue())
     
       axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
         let rowData = response.data.results;
         setRowData(rowData);
       },{})
-      console.log("-------------------------------React.useEffect---------------------------------------")
   }, []);
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="mnprCmtmtInfoMangnt" {...erpDesing}>
+    <ERPDesign data-page="mnprCmtmtInfoMangnt" formRef={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={3}>
         <ERPDesign.Condition label="계약기간" name="a">
@@ -216,8 +208,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
       </ERPDesign.ConditionArea>
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>
-        {/* <ERPDesign.Submit onClick={selectTest}>조회</ERPDesign.Submit> */}
-        <ERPDesign.Submit>조회</ERPDesign.Submit>
+        <ERPDesign.Submit onClick={selectEvent}>조회</ERPDesign.Submit>
         <ERPDesign.Submit>저장</ERPDesign.Submit>
       </ERPDesign.ControlArea>
       {/* 테이블 영역 */}

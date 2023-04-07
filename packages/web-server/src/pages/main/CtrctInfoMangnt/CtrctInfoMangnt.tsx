@@ -10,7 +10,7 @@ import React from 'react';
 import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
-import { DatePicker, DatePickerProps, Input } from 'antd';
+import { DatePicker, DatePickerProps, FormInstance, Input } from 'antd';
 
 interface CtrctInfoMangntProps {}
 
@@ -20,6 +20,7 @@ function CtrctInfoMangnt (props: CtrctInfoMangntProps) {
   const {} = props;
   /* State ――――― */
   /* Const ――――― */
+  const formRef = React.useRef<FormInstance>(null);
   const erpDesing = ERPDesign.useERPDesign(
     (values) => {
       console.log('[Values]', values);
@@ -34,7 +35,7 @@ function CtrctInfoMangnt (props: CtrctInfoMangntProps) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing}>
+    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing} formRef={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={'1fr 2fr 2fr 1fr'}>
         <ERPDesign.Condition label="계약기간" name="a">
