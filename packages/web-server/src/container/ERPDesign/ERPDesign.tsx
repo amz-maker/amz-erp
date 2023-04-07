@@ -85,18 +85,21 @@ namespace ERPDesign {
     label: string;
     name: NamePath | undefined;
     rules?: Rule[] | undefined;
+    rowSpan?: number;
+    colSpan?: number;
   }
   export function Condition(props: ConditionProps) {
-    const { label, name, rules, children } = props;
+    const { label, name, rules, children, rowSpan = 1, colSpan = 1 } = props;
+    const divisionProps = { rowSpan, colSpan };
     return (
-      <DivisionBox className="condition-box" template="max-content auto" verticalAlign={'center'} gap={10}>
+      <DivisionBox.Span className="condition-box" template="max-content auto" verticalAlign={'center'} gap={10} {...divisionProps}>
         <span className="label-box">
           <em>{label}</em>
         </span>
         <Form.Item name={name} rules={rules}>
           {children}
         </Form.Item>
-      </DivisionBox>
+      </DivisionBox.Span>
     );
   }
 
