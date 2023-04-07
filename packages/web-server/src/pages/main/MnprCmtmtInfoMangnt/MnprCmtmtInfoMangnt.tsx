@@ -26,6 +26,8 @@ import {
   textColumn,
 } from 'react-datasheet-grid';
 
+import { apiConfig } from 'config/api-config'
+
 interface MnprCmtmtInfoMangntProps {}
 function MnprCmtmtInfoMangnt(props: MnprCmtmtInfoMangntProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
@@ -68,7 +70,7 @@ interface MnprCmtmtInfoGrid {}
 function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   const {} = props;
-  const API_URL = 'http://localhost:8001';
+  const API_URL = apiConfig.url;
   const FUND_MNPR_CMTMT_INFO = '/mnpr/find-mnpr-cmtmt-info';
   const erpDesing = ERPDesign.useERPDesign(
     (values) => {
