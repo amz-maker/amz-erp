@@ -20,6 +20,7 @@ import { findSalesCtrctInfo } from "./sales/find-sales-ctrct-info";
 import { findSalesIssueDpstSchd } from "./sales/find-sales-issue-dpst-schd";
 import { findSalesIssueDpstCheck } from "./sales/find-sales-issue-dpst-check";
 import { findSalesIssueDpstMontly } from "./sales/find-sales-issue-dpst-montly"
+import { updtSalesCtrctInfo } from "./sales/updt-sales-ctrct-info";
 
 import { findMnprSchd } from "./mnpr/find-mnpr-schd";
 import { findMnprCmtmtInfo } from "./mnpr/find-mnpr-cmtmt-info";
@@ -49,6 +50,7 @@ export
 
     // sales
     findSalesCtrctInfo, findSalesIssueDpstSchd, findSalesIssueDpstCheck, findSalesIssueDpstMontly,
+    updtSalesCtrctInfo,
     
     // mnpr
     findMnprSchd, findMnprCmtmtInfo, findMnprCmtmtDetl,

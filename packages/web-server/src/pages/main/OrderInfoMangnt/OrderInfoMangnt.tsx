@@ -298,13 +298,26 @@ function Ord01(props: Ord01){
       });
   }
 
+  
+  function selectEvent(){
+    let dateSet = formRef.current?.getFieldsValue().date
+
+    axiosCall('get', FUND_ORDER_INFO, (response) => {
+      let rowData = response.data.results;
+      setRowData(rowData);
+    },{
+      prjNm:formRef.current?.getFieldsValue().prjNm || undefined,
+      ctrctGb:formRef.current?.getFieldsValue().ctrctGb || undefined,
+    })
+  }
+
 /* ―――――――――――――― Use Effect ―――――――――――――― */
    React.useEffect(() => {}, []);
 /* ―――――――――――――――― Return ―――――――――――――――― */
 
   
   return (
-    <ERPDesign data-page="orderInfoManagement" {...erpDesing} formref={formRef}>
+    <ERPDesign data-page="orderInfoManagement" formref={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={'1fr 1fr 2fr'}>
         <ERPDesign.Condition label="프로젝트명" name="prjNm">
@@ -320,7 +333,7 @@ function Ord01(props: Ord01){
       </ERPDesign.ConditionArea>
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>
-        <ERPDesign.Submit>조회</ERPDesign.Submit>
+        <ERPDesign.Submit onClick={selectEvent}>조회</ERPDesign.Submit>
         <ERPDesign.Submit>저장</ERPDesign.Submit>
       </ERPDesign.ControlArea>
       {/* 테이블 영역 */}

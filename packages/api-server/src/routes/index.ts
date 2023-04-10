@@ -22,6 +22,7 @@ export default function routes(server: FastifyInstance, opts: any, next: any) {
   routeFarest(server, `/${group}/find-sales-issue-dpst-schd`  , Controllers.findSalesIssueDpstSchd);   // 매출발행입금예정내역조회
   routeFarest(server, `/${group}/find-sales-issue-dpst-check` , Controllers.findSalesIssueDpstCheck);  // 매출발행입금체크조회
   routeFarest(server, `/${group}/find-sales-issue-dpst-montly`, Controllers.findSalesIssueDpstMontly); // 매출발행입금내역월별조회
+  routeFarest(server, `/${group}/updt-sales-ctrct-info`       , Controllers.updtSalesCtrctInfo);       // 매출계약기본정보수정
 
   group = 'mnpr';
   routeFarest(server, `/${group}/find-mnpr-schd`      , Controllers.findMnprSchd); // 인력투입계획조회

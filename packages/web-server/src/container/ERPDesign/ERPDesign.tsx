@@ -6,7 +6,7 @@
  * TYPE : Container
  * 개정이력 :
 --------------------------------------------------------------------------------------------------------------------------------------------*/
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button, Form } from 'antd';
 import { FormInstance, Rule } from 'antd/es/form';
 import { DivisionBox } from 'module/AmzPack/component';
@@ -27,8 +27,10 @@ import {
   percentColumn,
   textColumn,
 } from 'react-datasheet-grid';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil';
 import { NamePath } from 'antd/es/form/interface';
+import Util from 'common/util';
+import { TableStateSelector } from './store/selector';
 
 interface ERPDesignProps<T extends object> extends IChildren, IDataPage {
   onFinish?: ((values: T) => void) | undefined;
@@ -45,13 +47,13 @@ function ERPDesign<T extends object>(props: ERPDesignProps<T>) {
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <RecoilRoot>
+    // <RecoilRoot>
       <Form {...props} ref={formref}>
         <div data-page={dataPage} data-container="erpDesign">
           {children}
         </div>
       </Form>
-    </RecoilRoot>
+    // </RecoilRoot>
   );
 }
 
@@ -146,6 +148,10 @@ namespace ERPDesign {
       row: any[];
       set: React.Dispatch<React.SetStateAction<any[]>>;
     };
+    createdRowIds?: Set<any>;
+    updatedRowIds?: Set<any>;
+    deletedRowIds?: Set<any>;
+    tableName?: string;
   }
 
   export function Table(props: TableProps) {
@@ -155,10 +161,83 @@ namespace ERPDesign {
         row: [],
         set: (value) => {},
       },
+      tableName = "",
     } = props;
+    
+    const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(tableName));
+    const [updateRowsArr,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(tableName));
+    const updateRows = updateRowsArr[0] as Map<number,string>
 
     const ref = React.useRef<DataSheetGridRef>(null);
-    return <DataSheetGrid ref={ref} value={data.row} onChange={data.set} columns={columns}></DataSheetGrid>;
+    const counter = useRef(1)
+    const genId = () => counter.current++
+
+    return (<DataSheetGrid 
+      ref={ref} 
+      value={table}
+      // onChange={data.set} 
+      columns={columns}
+      rowClassName={({ rowData }) => {
+        if(updateRows.get(rowData.id) == "C"){
+          return "row-created"
+        }
+        if(updateRows.get(rowData.id)== "U"){
+          return "row-updated"
+        }
+        if(updateRows.get(rowData.id) == "D"){
+          return "row-deleted"
+        }
+
+      }}
+      onChange={(newValue, operations) => {
+        for (const operation of operations) {
+          if (operation.type === 'CREATE') {
+            newValue
+              .slice(operation.fromRowIndex, operation.toRowIndex)
+              .forEach((data) => {
+                if(data.id == undefined){
+                  data.id = genId()
+                }
+                setUpdateRows([data.id,"C"])
+              })
+          }
+          if (operation.type === 'UPDATE') {
+            newValue
+              .slice(operation.fromRowIndex, operation.toRowIndex)
+              .forEach((data) => {
+                if(data.id == undefined){
+                  data.id = genId()
+                }
+                setUpdateRows([data.id,"U"])
+              })
+          }
+          if (operation.type === 'DELETE') {
+            let keptRows = 0
+
+            table
+              .slice(operation.fromRowIndex, operation.toRowIndex)
+              .forEach((data) => {
+                // data의 id가 없을경우 새로운 id를 할당시켜주기위한 임시변수
+                let newId = undefined
+                if(data.id == undefined || updateRows.get(data.id) == "U"){
+                  newValue.splice(
+                    operation.fromRowIndex + keptRows++,
+                    0,
+                    {
+                      ...data,
+                      // data.id가 존재할경우 그대로 사용하고, 존재하지않으면 newId에 genId()의 값을 적용시켜 사용합니다.
+                      id:data.id || (newId=genId())
+                    }
+                  )
+                }
+                
+                setUpdateRows([data.id||newId,"D"])
+              })
+          }
+        }
+        setTable(newValue);
+      }}
+      ></DataSheetGrid>);
   }
 }
 

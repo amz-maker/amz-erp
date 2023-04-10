@@ -4,9 +4,9 @@
  * DATE : 2023-02-14
  * DISCRIPTION : 
  * TYPE : Page
- * 개정이력 :
+ * 개정이력 : 2023-04-10(박건률)
 --------------------------------------------------------------------------------------------------------------------------------------------*/
-import React from 'react';
+import React, { useMemo } from 'react';
 import ERPDesign from 'container/ERPDesign';
 import { DivisionBox } from 'module/AmzPack/component';
 import { IChildren, IDataPage } from 'module/AmzPack/interface';
@@ -26,7 +26,8 @@ import {
 import { apiConfig } from 'config/api-config';
 import axios, { AxiosResponse } from 'axios';
 import Util from 'common/util';
-import { IsEmpty } from '../../../../../api-server/src/common-types/utility';
+import { TableStateSelector } from 'container/ERPDesign/store/selector';
+import { useRecoilState } from 'recoil';
 
 interface SalesCtrctInfoMangntProps {}
 
@@ -55,6 +56,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   const {} = props;
   const API_URL = apiConfig.url;
   const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
+  const UPDT_SALES_CTRCT_INFO = '/sales/updt-sales-ctrct-info';
   
   const erpDesing = ERPDesign.useERPDesign(
     (values) => {
@@ -65,6 +67,11 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
   const formRef = React.useRef<FormInstance>(null);
   const [rowData, setRowData] = React.useState<Row[]>([]);
+  
+  const [table,setTable] = useRecoilState(TableStateSelector.tableSelector("SL001M1"));
+  // const createdRowIds = useMemo(() => new Set(), []);
+  // const updatedRowIds = useMemo(() => new Set(), []);
+  // const deletedRowIds = useMemo(() => new Set(), []);
 
   // 사용자 지정 Colum
   const emailColum = createTextColumn<string | null>({
@@ -205,7 +212,12 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
     axiosCall('get', FUND_SALES_CTRCT_INFO, (response) => {
       let rowData = response.data.results;
-      setRowData(rowData);
+      // setRowData(rowData);
+      setTable(rowData)
+      console.log(table)
+      // createdRowIds.clear()
+      // updatedRowIds.clear()
+      // deletedRowIds.clear()
     },{
       ctrctStartDt:dateSet? Util.format.date(dateSet[0].toDate(),'YMD') : undefined,
       ctrctEndDt:dateSet? Util.format.date(dateSet[1].toDate(),'YMD') : undefined,
@@ -215,6 +227,11 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
       ctrctTypeCd:formRef.current?.getFieldsValue().ctrctTypeCd || undefined,
       payGbCd:formRef.current?.getFieldsValue().payGbCd || undefined,
     })
+  }
+
+
+  function updateEvent(){
+    // axiosCall('post',)
   }
 
 
@@ -228,13 +245,14 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
     
     axiosCall('get', FUND_SALES_CTRCT_INFO, (response) => {
       let rowData = response.data.results;
-      setRowData(rowData);
+      // setRowData(rowData);
+      setTable(rowData)
     },{})
   }, []);
 
   /* ―――――――――――――――― Return ―――――――――――――――― */
   return (
-    <ERPDesign data-page="salesCtrctInfoMangnt" {...erpDesing} formref={formRef}>
+    <ERPDesign data-page="salesCtrctInfoMangnt" formref={formRef}>
       {/* 조회조건 영역 */}
       <ERPDesign.ConditionArea size={4}>
         <ERPDesign.Condition label="계약기간" name="date">
@@ -260,7 +278,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>
         <ERPDesign.Submit onClick={selectEvent}>조회</ERPDesign.Submit>
-        <ERPDesign.Submit>저장</ERPDesign.Submit>
+        <ERPDesign.Submit onClick={updateEvent}>저장</ERPDesign.Submit>
       </ERPDesign.ControlArea>
       {/* 테이블 영역 */}
       <ERPDesign.TableArea>
@@ -270,6 +288,10 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
             row: rowData,
             set: setRowData,
           }}
+          tableName="SL001M1"
+          // createdRowIds={createdRowIds}
+          // updatedRowIds={updatedRowIds}
+          // deletedRowIds={deletedRowIds}
         />
       </ERPDesign.TableArea>
     </ERPDesign>

@@ -177,8 +177,8 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
       let rowData = response.data.results;
       setRowData(rowData);
     },{
-      orderCompn:formRef.current?.getFieldsValue().orderCompn,
-      ctrctCompn:formRef.current?.getFieldsValue().ctrctCompn,
+      orderCompn:formRef.current?.getFieldsValue().orderCompn || undefined,
+      ctrctCompn:formRef.current?.getFieldsValue().ctrctCompn || undefined,
       ctrctStartDt:dateSet? Util.format.date(dateSet[0].toDate(),'YMD') : undefined,
       ctrctEndDt:dateSet? Util.format.date(dateSet[1].toDate(),'YMD') : undefined
     })
