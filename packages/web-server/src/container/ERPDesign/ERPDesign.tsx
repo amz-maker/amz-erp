@@ -166,7 +166,7 @@ namespace ERPDesign {
     
     const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(tableName));
     const [updateRowsArr,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(tableName));
-    const updateRows = updateRowsArr[0] as Map<number,string>
+    const updateRows = updateRowsArr[0] as Map<number,any>
 
     const ref = React.useRef<DataSheetGridRef>(null);
     const counter = useRef(1)
@@ -178,13 +178,13 @@ namespace ERPDesign {
       // onChange={data.set} 
       columns={columns}
       rowClassName={({ rowData }) => {
-        if(updateRows.get(rowData.id) == "C"){
+        if(rowData.event === "C"){
           return "row-created"
         }
-        if(updateRows.get(rowData.id)== "U"){
+        else if(rowData.event === "U"){
           return "row-updated"
         }
-        if(updateRows.get(rowData.id) == "D"){
+        else if(rowData.event === "D"){
           return "row-deleted"
         }
 
@@ -197,8 +197,9 @@ namespace ERPDesign {
               .forEach((data) => {
                 if(data.id == undefined){
                   data.id = genId()
+                  data.event = "C"
                 }
-                setUpdateRows([data.id,"C"])
+                setUpdateRows([data.id,{...data, event:"C"}])
               })
           }
           if (operation.type === 'UPDATE') {
@@ -207,8 +208,9 @@ namespace ERPDesign {
               .forEach((data) => {
                 if(data.id == undefined){
                   data.id = genId()
+                  data.event = "U"
                 }
-                setUpdateRows([data.id,"U"])
+                setUpdateRows([data.id,{...data, event:"U"}])
               })
           }
           if (operation.type === 'DELETE') {
@@ -219,20 +221,23 @@ namespace ERPDesign {
               .forEach((data) => {
                 // data의 id가 없을경우 새로운 id를 할당시켜주기위한 임시변수
                 let newId = undefined
-                if(data.id == undefined || updateRows.get(data.id) == "U"){
+                if(data.id === undefined || updateRows.get(data.id).event === "U" || updateRows.get(data.id).event === "D"){
+                  // datasheetgrid 특성상 삭제 액션을 취하면 행 자체를 지워버리기때문에 해당 행을 남기고 플래그를 추가하기위해 해당 행을 다시 추가합니다.
                   newValue.splice(
                     operation.fromRowIndex + keptRows++,
                     0,
                     {
                       ...data,
                       // data.id가 존재할경우 그대로 사용하고, 존재하지않으면 newId에 genId()의 값을 적용시켜 사용합니다.
-                      id:data.id || (newId=genId())
+                      id:data.id || (newId=genId()),
+                      event:"D"
                     }
                   )
                 }
                 
-                setUpdateRows([data.id||newId,"D"])
+                setUpdateRows([data.id,{...data, event:"D"}])
               })
+              
           }
         }
         setTable(newValue);

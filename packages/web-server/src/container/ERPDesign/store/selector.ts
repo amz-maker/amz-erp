@@ -85,7 +85,7 @@ export namespace TableStateSelector {
               s.updateRows.set(newValue[0],newValue[1])
             }
             // 기존 데이터가 C 인데 D가 들어오면 그대로 데이터를 삭제합니다.
-            else if(s.updateRows.get(newValue[0]) == "C" && newValue[1] == "D"){
+            else if(s.updateRows.get(newValue[0]).event == "C" && newValue[1] == "D"){
               s.updateRows.delete(newValue[0])
             }
             // 기존 데이터가 C 인데 U가 들어오면 아무행동 하지 않습니다.
