@@ -39,4 +39,8 @@ export namespace StringUtil {
             .replace(/-([a-z])/g, match => match[1].toUpperCase())
             .replace(/\b([a-z])/, match => match[0].toUpperCase());
     }
+
+    export function snakeToCamel(str: string) : string {
+        return str.replace(/_([a-z])/g, match => match[1].toUpperCase());
+    }
 }

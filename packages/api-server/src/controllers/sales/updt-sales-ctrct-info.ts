@@ -5,17 +5,26 @@
 // - 작성자: 박건률
 // ===========================================================
 
+import { pgCurrent } from '../../config/db-config';
 import { makeFarestFrame } from '../../common/make-farest';
 import { wrapApiResponse, wrapErrorResponse } from "../../common/wrap-api-response";
 import { AccessToken, RefreshToken, TokenSet } from '../../common-types/jwt-auth';
 import JwtRestService from '../../services/jwt-rest.service';
 import JwtAuthService from '../../services/jwt-auth.service';
 import SqlUtil from '../../utils/sql.util';
+import PgUtil from '../../utils/pg.util';
 
 // =================================================================
 //  API I/O 정의
 // =================================================================
 type ApiInput = {
+    tableName  : string;
+    createData : TableColumn[];
+    updateData : TableColumn[];
+    deleteData : TableColumn[];
+};
+
+type TableColumn = {
     ctrctNo       : string; // 계약번호
     bsntypNm      : string; // 업종명
     orderCompn    : string; // 발주사
@@ -32,11 +41,10 @@ type ApiInput = {
     dpstSchdDay   : string; // 입금예정일
     ctrctStartDt  : string; // 계약시작일자
     ctrctEndDt    : string; // 계약종료일자
-    evnet         : string; // update이벤트(C,U,D)
-};
+}
 
 type ApiOutput = {
-    success: string
+    success: any
 };
 
 // =================================================================
@@ -44,18 +52,8 @@ type ApiOutput = {
 // =================================================================
 type QueryInput = ApiInput;
 type QueryOutput = ApiOutput;
-
-
-function getCreateSql(input : ApiInput){
-    const queryString = "";
-}
-
-function getUpdateSql(){
-
-}
-
-function getDeleteSql(){
-
+type PkOutput = {
+    attname : string;
 }
 
 // =================================================================
@@ -65,11 +63,38 @@ export const updtSalesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     {
         JwtRestService.verifyAccessTokenFromHeader(headers);
 
-        const sql = getCreateSql(input)
+        // const pkQr = SqlUtil.findTablePrimaryKeySql("test.m_test")
+        const pkQr = SqlUtil.findTablePrimaryKeySql("SL001M1")
+        const pk = (await pgCurrent.query<PkOutput>(pkQr)).rows;
+        const pkNames = pk.map(item => item.attname);
+
+        // PgUtil.insertObjectIntoTable({
+        //     tableName: input.tableName,
+        //     data: input.createData
+        // })
+        // PgUtil.updateObjectIntoTable({tableName:"SL001M1",pkNames:pkNames,data:{a:1,b:2,c:3,ctrctNo:"1234"}})
         
+        
+        // const cRes = input['create'] ? (await pgCurrent.query<PkOutput>(SqlUtil.getCreateSql(input["create"],pkList))).rows : [];
+        
+        // const uRes = input['update'] ? (await pgCurrent.query<PkOutput>(SqlUtil.getUpdateSql(input["update"],pkList))).rows : [];
+        
+        // const dRes = input['delete'] ? (await pgCurrent.query<PkOutput>(SqlUtil.getDeleteSql(input["delete"],pkList))).rows : [];
+//         `
+//         SELECT a.attname
+// FROM pg_index i
+// JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
+// WHERE i.indrelid = 'SL001M1'::regclass AND i.indisprimary;`
+
+        // const qr = (await pgCurrent.query<ApiOutput>(sql_1)).rows;
+
+        // if(input.rowEvent == "U")
+        //     update(prikey = qr)
+        // else if(input.rowEvent == "D")
+        //     delete(prikey = qr)
 
         return wrapApiResponse('MustOne', {
-            success: input.ctrctNo
+            success: true
         });
     }, 
 );

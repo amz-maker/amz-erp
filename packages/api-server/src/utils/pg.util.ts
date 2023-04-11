@@ -54,6 +54,7 @@ await PgUtil.insertObjectIntoTable({
 */
 // ===========================================================
 import { pgCurrent } from "../config/db-config";
+import { StringUtil } from "./string.util";
 
 export default class PgUtil {
 
@@ -127,5 +128,75 @@ export default class PgUtil {
             data: rows,
         });
     }
+
+
+
+
+
+    
+    public static async updateSetTable(args: {
+        tableName: string, 
+        columnNames: string[],
+        data: any[][],
+        pkNames: string[]
+    })
+    {
+        const data = args.data;
+
+        if(data === undefined || data === null || data.length === 0) {
+            
+            console.log('\n===================== WARNING: updateSetTable() =====================');
+            console.log(` - Argument 'data' is empty or null`);
+            console.log(data);
+            return;
+        }
+
+        const tableName = args.tableName;
+
+        for(let i = 0; i < args.pkNames.length; i++)
+        {
+            args.pkNames[i] = StringUtil.snakeToCamel(args.pkNames[i]);
+        }
+
+        const updateColumns = args.columnNames.map((item, index) => `${item} = \$${index}`).join(', ');
+
+        const conditionColumns = args.columnNames.map((item, index) => (args.pkNames.indexOf(item) > -1 ? `${item} = \$${index}` : '-')).filter((v) => v !== '-').join(' AND ');
+
+        try {
+            await pgCurrent.query('BEGIN');
+
+            for(const elm of data) {
+                const query = `UPDATE ${tableName} SET ${updateColumns} WHERE ${conditionColumns}`;
+                const qr = await pgCurrent.query(query, elm);
+            }
+            
+            await pgCurrent.query('COMMIT');
+        } catch(err) {
+            await pgCurrent.query('ROLLBACK');
+            console.log('\n===================== ERROR: insertIntoTable() =====================');
+            console.log(err);
+        }
+    }
+
+
+    public static async updateObjectIntoTable<T extends Record<string, any>>(args: {
+        tableName: string, 
+        pkNames: string[],
+        data: T[] | T
+    }) {
+        const data = (Array.isArray(args.data) ? args.data : [args.data]) as any as T[];
+
+        const columnNames = Object.keys(data[0]);
+        const rows = data.map((v) => (Object.values(v)));
+
+        await this.updateSetTable({
+            tableName: args.tableName,
+            columnNames: columnNames,
+            pkNames: args.pkNames,
+            data: rows,
+        });
+    }
+
+
 }
 
