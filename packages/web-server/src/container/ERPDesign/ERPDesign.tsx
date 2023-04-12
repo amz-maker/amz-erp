@@ -61,6 +61,34 @@ namespace ERPDesign {
   // Hook
   export const useERPDesign = _useERPDesign;
 
+  // Util Function
+  // CRUD가 포함된 데이터들을 해당 함수를통해 C,U,D 각각의 배열로 분리해서 반환합니다.
+  export function dataDivider(updateRows:Map<number,any>){
+    // const updateRows = updateRowsArr[0] as Map<number,any>
+    const createData: any[] = []
+    const updateData: any[] = []
+    const deleteData: any[] = []
+    
+    updateRows.forEach((value,key)=>{
+      if(value.rowEvent == "C"){
+        createData.push(value)
+      }else if(value.rowEvent == "U"){
+        updateData.push(value)
+      }else if(value.rowEvent == "D"){
+        deleteData.push(value)
+      }}
+    )
+
+    return {
+      createData,
+      updateData,
+      deleteData
+    }
+    // return updateRowsArr
+  }
+
+
+
   // Condition Area
   interface ConditionArea extends IChildren {
     size: number | string;

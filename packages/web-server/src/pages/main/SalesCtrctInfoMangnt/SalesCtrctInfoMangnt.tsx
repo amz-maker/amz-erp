@@ -27,7 +27,7 @@ import { apiConfig } from 'config/api-config';
 import axios, { AxiosResponse } from 'axios';
 import Util from 'common/util';
 import { TableStateSelector } from 'container/ERPDesign/store/selector';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface SalesCtrctInfoMangntProps {}
 
@@ -57,6 +57,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   const API_URL = apiConfig.url;
   const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
   const UPDT_SALES_CTRCT_INFO = '/sales/updt-sales-ctrct-info';
+  const TABLE_NAME = "SL001M1"
   
   const erpDesing = ERPDesign.useERPDesign(
     (values) => {
@@ -68,7 +69,8 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   const formRef = React.useRef<FormInstance>(null);
   const [rowData, setRowData] = React.useState<Row[]>([]);
   
-  const [table,setTable] = useRecoilState(TableStateSelector.tableSelector("SL001M1"));
+  const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(TABLE_NAME));
+  const updateRowsArr = useRecoilValue(TableStateSelector.updateRowsSelector(TABLE_NAME));
   // const createdRowIds = useMemo(() => new Set(), []);
   // const updatedRowIds = useMemo(() => new Set(), []);
   // const deletedRowIds = useMemo(() => new Set(), []);
@@ -192,12 +194,13 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
   
-  function axiosCall(method: 'get' | 'post' | 'put' | 'delete', uri: string, callback: (response: AxiosResponse<any, any>) => void, params: object) {
-    axios
+  function axiosCall(method: 'get' | 'post' | 'put' | 'delete', uri: string, callback: (response: AxiosResponse<any, any>) => void, params: object,data?: object) {
+  axios
       .request({
         url: `${API_URL}${uri}`,
         method,
         params,
+        data
       })
       .then((res) => {
         callback(res);
@@ -230,8 +233,55 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   }
 
 
+  // api에 넣을때 타입체크를 하기 위함
+  type ApiInput = {
+    tableName  : string;
+    createData : TableColumn[];
+    updateData : TableColumn[];
+    deleteData : TableColumn[];
+  };
+
+  type TableColumn = {
+      ctrctNo       : string; // 계약번호
+      bsntypNm      : string; // 업종명
+      orderCompn    : string; // 발주사
+      ctrctCompn    : string; // 계약사
+      prjctNm       : string; // 프로젝트명
+      prjctContn    : string; // 프로젝트내용
+      totalCtrctPrc : number; // 총계약금
+      ctrctTypeCd   : string; // 계약유형코드
+      chngYn        : string; // 변경여부
+      payGbCd       : string; // 지급구분코드
+      issueSchdGbCd : string; // 발행일구분코드
+      issueSchdDay  : string; // 발행예정일
+      rvrsIssueYn   : string; // 역발행여부
+      dpstSchdDay   : string; // 입금예정일
+      ctrctStartDt  : string; // 계약시작일자
+      ctrctEndDt    : string; // 계약종료일자
+  }
+
   function updateEvent(){
-    // axiosCall('post',)
+    const updateRows = updateRowsArr[0] as Map<number,any>
+    const result:ApiInput = {
+      ...ERPDesign.dataDivider(updateRows),
+      tableName:TABLE_NAME
+    }
+    console.log(updateRows)
+    console.log(result)
+    
+    axiosCall('post', UPDT_SALES_CTRCT_INFO, (response) => {
+      // let rowData = response.data.results;
+      // setRowData(rowData);
+      // setTable(rowData)
+      console.log(response)
+      // createdRowIds.clear()
+      // updatedRowIds.clear()
+      // deletedRowIds.clear()
+    },{}
+    ,{...result})
+    // PgUtil.updateObjectIntoTable({
+
+    // })
   }
 
 
@@ -288,10 +338,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
             row: rowData,
             set: setRowData,
           }}
-          tableName="SL001M1"
-          // createdRowIds={createdRowIds}
-          // updatedRowIds={updatedRowIds}
-          // deletedRowIds={deletedRowIds}
+          tableName={TABLE_NAME}
         />
       </ERPDesign.TableArea>
     </ERPDesign>

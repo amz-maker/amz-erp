@@ -63,10 +63,17 @@ export const updtSalesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     {
         JwtRestService.verifyAccessTokenFromHeader(headers);
 
+        console.log("updtSalesCtrctInfo",input)
         // const pkQr = SqlUtil.findTablePrimaryKeySql("test.m_test")
-        const pkQr = SqlUtil.findTablePrimaryKeySql("SL001M1")
+        const pkQr = SqlUtil.findTablePrimaryKeySql(input.tableName)
         const pk = (await pgCurrent.query<PkOutput>(pkQr)).rows;
+        console.log(pk)
         const pkNames = pk.map(item => item.attname);
+        PgUtil.updateObjectIntoTable({
+            tableName:input.tableName,
+            data:input.updateData,
+            pkNames:pkNames
+        })
 
         // PgUtil.insertObjectIntoTable({
         //     tableName: input.tableName,
