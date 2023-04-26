@@ -71,10 +71,19 @@ namespace ERPDesign {
     
     updateRows.forEach((value,key)=>{
       if(value.rowEvent == "C"){
+        delete value.rowEvent;
+        delete value.checkbox;
+        delete value.rowId;
         createData.push(value)
       }else if(value.rowEvent == "U"){
+        delete value.rowEvent;
+        delete value.checkbox;
+        delete value.rowId;
         updateData.push(value)
       }else if(value.rowEvent == "D"){
+        delete value.rowEvent;
+        delete value.checkbox;
+        delete value.rowId;
         deleteData.push(value)
       }}
     )
@@ -194,7 +203,6 @@ namespace ERPDesign {
     
     const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(tableName));
     const [updateRowsArr,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(tableName));
-    const updateRows = updateRowsArr[0] as Map<number,any>
 
     const ref = React.useRef<DataSheetGridRef>(null);
     const counter = useRef(1)
@@ -223,11 +231,12 @@ namespace ERPDesign {
             newValue
               .slice(operation.fromRowIndex, operation.toRowIndex)
               .forEach((data) => {
-                if(data.rowId == undefined){
-                  data.rowId = genId()
-                  data.rowEvent = "C"
-                }
+                // if(data.rowId == undefined){
+                data.rowId = genId()
+                data.rowEvent = "C"
+                // }
                 setUpdateRows([data.rowId,{...data, rowId:data.rowId, rowEvent:"C"}])
+                console.log('CREATE',updateRowsArr[0])
               })
           }
           if (operation.type === 'UPDATE') {
@@ -239,6 +248,7 @@ namespace ERPDesign {
                   data.rowEvent = "U"
                 }
                 setUpdateRows([data.rowId,{...data, rowId:data.rowId, rowEvent:"U"}])
+                console.log('UPDATE',updateRowsArr[0])
               })
           }
           if (operation.type === 'DELETE') {
@@ -249,6 +259,7 @@ namespace ERPDesign {
               .forEach((data) => {
                 // data의 id가 없을경우 새로운 id를 할당시켜주기위한 임시변수
                 let newId = undefined
+                const updateRows = updateRowsArr[0] as Map<number,any>
                 if(data.rowId === undefined || updateRows.get(data.rowId).rowEvent === "U" || updateRows.get(data.rowId).rowEvent === "D"){
                   // datasheetgrid 특성상 삭제 액션을 취하면 행 자체를 지워버리기때문에 해당 행을 남기고 플래그를 추가하기위해 해당 행을 다시 추가합니다.
                   newValue.splice(

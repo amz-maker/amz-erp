@@ -70,7 +70,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   const [rowData, setRowData] = React.useState<Row[]>([]);
   
   const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(TABLE_NAME));
-  const updateRowsArr = useRecoilValue(TableStateSelector.updateRowsSelector(TABLE_NAME));
+  const [updateRowsArr,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(TABLE_NAME));
   // const createdRowIds = useMemo(() => new Set(), []);
   // const updatedRowIds = useMemo(() => new Set(), []);
   // const deletedRowIds = useMemo(() => new Set(), []);
@@ -217,7 +217,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
       let rowData = response.data.results;
       // setRowData(rowData);
       setTable(rowData)
-      console.log(table)
+      // console.log(table)
       // createdRowIds.clear()
       // updatedRowIds.clear()
       // deletedRowIds.clear()
@@ -235,7 +235,6 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
   // api에 넣을때 타입체크를 하기 위함
   type ApiInput = {
-    tableName  : string;
     createData : TableColumn[];
     updateData : TableColumn[];
     deleteData : TableColumn[];
@@ -262,23 +261,32 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
 
   function updateEvent(){
     const updateRows = updateRowsArr[0] as Map<number,any>
-    const result:ApiInput = {
-      ...ERPDesign.dataDivider(updateRows),
-      tableName:TABLE_NAME
+    // 업데이트하는 행이 없다면 업데이트 진행하지않음.
+    if(updateRows == undefined || updateRows.size == 0){
+      return;
     }
-    console.log(updateRows)
-    console.log(result)
+    const apiInput:ApiInput = {
+      ...ERPDesign.dataDivider(updateRows),
+    }
+    console.log("updateRows - ",updateRows)
+    console.log("apiInput - ",apiInput)
     
+    // 업데이트 후에 updateRows 초기화
+    setUpdateRows([])
     axiosCall('post', UPDT_SALES_CTRCT_INFO, (response) => {
       // let rowData = response.data.results;
       // setRowData(rowData);
       // setTable(rowData)
-      console.log(response)
+      console.log("response - ", response)
+      selectEvent()
       // createdRowIds.clear()
       // updatedRowIds.clear()
       // deletedRowIds.clear()
     },{}
-    ,{...result})
+    ,{...apiInput})
+
+
+    
     // PgUtil.updateObjectIntoTable({
 
     // })

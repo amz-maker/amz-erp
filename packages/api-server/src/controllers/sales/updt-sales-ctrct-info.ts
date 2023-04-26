@@ -18,7 +18,6 @@ import PgUtil from '../../utils/pg.util';
 //  API I/O 정의
 // =================================================================
 type ApiInput = {
-    tableName  : string;
     createData : TableColumn[];
     updateData : TableColumn[];
     deleteData : TableColumn[];
@@ -44,7 +43,9 @@ type TableColumn = {
 }
 
 type ApiOutput = {
-    success: any
+    resInsert: number,
+    resUpdate: number,
+    resDelete: number,
 };
 
 // =================================================================
@@ -61,37 +62,36 @@ export const updtSalesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
     'Post', 
     async (input, headers) => 
     {
+        const tableName = "SL001M1"
         JwtRestService.verifyAccessTokenFromHeader(headers);
 
-        console.log("updtSalesCtrctInfo",input)
+        // console.log("updtSalesCtrctInfo - ",input)
         // const pkQr = SqlUtil.findTablePrimaryKeySql("test.m_test")
-        const pkQr = SqlUtil.findTablePrimaryKeySql(input.tableName)
+        const pkQr = SqlUtil.findTablePrimaryKeySql(tableName)
         const pk = (await pgCurrent.query<PkOutput>(pkQr)).rows;
-        console.log(pk)
+        // console.log("pk - ", pk)
         const pkNames = pk.map(item => item.attname);
-        PgUtil.updateObjectIntoTable({
-            tableName:input.tableName,
-            data:input.updateData,
-            pkNames:pkNames
+
+        const resInsert = await PgUtil.insertObjectIntoTable({
+            tableName: tableName,
+            data: input.createData ?? []
         })
 
-        // PgUtil.insertObjectIntoTable({
-        //     tableName: input.tableName,
-        //     data: input.createData
-        // })
+        const resUpdate = await PgUtil.updateObjectSetTable({
+            tableName: tableName,
+            data:input.updateData ?? [],
+            pkNames: pkNames
+        })
+        
+        const resDelete = await PgUtil.deleteObjectFromTable({
+            tableName: tableName,
+            data: input.deleteData ?? [],
+            pkNames: pkNames
+        })
+
+
         // PgUtil.updateObjectIntoTable({tableName:"SL001M1",pkNames:pkNames,data:{a:1,b:2,c:3,ctrctNo:"1234"}})
         
-        
-        // const cRes = input['create'] ? (await pgCurrent.query<PkOutput>(SqlUtil.getCreateSql(input["create"],pkList))).rows : [];
-        
-        // const uRes = input['update'] ? (await pgCurrent.query<PkOutput>(SqlUtil.getUpdateSql(input["update"],pkList))).rows : [];
-        
-        // const dRes = input['delete'] ? (await pgCurrent.query<PkOutput>(SqlUtil.getDeleteSql(input["delete"],pkList))).rows : [];
-//         `
-//         SELECT a.attname
-// FROM pg_index i
-// JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey)
-// WHERE i.indrelid = 'SL001M1'::regclass AND i.indisprimary;`
 
         // const qr = (await pgCurrent.query<ApiOutput>(sql_1)).rows;
 
@@ -101,7 +101,9 @@ export const updtSalesCtrctInfo = makeFarestFrame<ApiInput, ApiOutput>(
         //     delete(prikey = qr)
 
         return wrapApiResponse('MustOne', {
-            success: true
+            resInsert,
+            resUpdate,
+            resDelete,
         });
     }, 
 );

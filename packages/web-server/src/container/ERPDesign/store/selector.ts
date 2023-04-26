@@ -94,6 +94,10 @@ export namespace TableStateSelector {
             else if(s.updateRows.get(newValue[0]).rowEvent == "C" && newValue[1].rowEvent == "U"){
               s.updateRows.set(newValue[0],{...newValue[1],rowEvent:"C"})
             }
+            // 기존 데이터가 U 인데 U가 들어오면 rowEvent를 U로 그대로 두고, 데이터만 업데이트합니다.
+            else if(s.updateRows.get(newValue[0]).rowEvent == "U" && newValue[1].rowEvent == "U"){
+              s.updateRows.set(newValue[0],newValue[1])
+            }
             // 기존 데이터가 U 인데 D가 들어오면 삭제될 데이터임을 표시합니다
             else if(s.updateRows.get(newValue[0]).rowEvent == "U" && newValue[1].rowEvent == "D"){
               s.updateRows.set(newValue[0],newValue[1])
