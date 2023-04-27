@@ -59,7 +59,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   const FUND_SALES_CTRCT_PK = '/sales/find-sales-ctrct-pk';
   const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
   const UPDT_SALES_CTRCT_INFO = '/sales/updt-sales-ctrct-info';
-  const TABLE_NAME = "SL001M1"
+  const TABLE_NAME = "salesCtrctInfo"
   
   const erpDesing = ERPDesign.useERPDesign(
     (values) => {

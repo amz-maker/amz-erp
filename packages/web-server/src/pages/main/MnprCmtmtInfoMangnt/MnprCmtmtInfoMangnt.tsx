@@ -28,6 +28,8 @@ import {
 
 import { apiConfig } from 'config/api-config'
 import Util from 'common/util';
+import { useRecoilState } from 'recoil';
+import { TableStateSelector } from 'container/ERPDesign/store/selector';
 
 interface MnprCmtmtInfoMangntProps {}
 function MnprCmtmtInfoMangnt(props: MnprCmtmtInfoMangntProps) {
@@ -73,84 +75,33 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
   const {} = props;
   const API_URL = apiConfig.url;
   const FUND_MNPR_CMTMT_INFO = '/mnpr/find-mnpr-cmtmt-info';
+  const TABLE_NAME = "mnprCmtmtInfo"
 
   const formRef = React.useRef<FormInstance>(null);
 
   const [rowData, setRowData] = React.useState<Row[]>([]);
+  const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(TABLE_NAME));
+  const [updateRows,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(TABLE_NAME));
 
   const columns: Column<Row>[] = [
-    {
-      ...keyColumn<Row, 'checkbox'>('checkbox', checkboxColumn),
-      title: '체크박스',
+    ERPDesign.defineColumn('checkbox', '체크박스', checkboxColumn, { 
       grow: 1,
       minWidth: 50, // 최소 width
       maxWidth: 100, // 최대 width
-    },
-    {
-      ...keyColumn<Row,'ctrctNo'>('ctrctNo',textColumn),
-      title: '계약번호',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'bsntypNm'>('bsntypNm',textColumn),
-      title: '업종명',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'orderCompn'>('orderCompn',textColumn),
-      title: '발주사',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'ctrctCompn'>('ctrctCompn',textColumn),
-      title: '계약사',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'prjctNm'>('prjctNm',textColumn),
-      title: '프로젝트명',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'prjctContn'>('prjctContn',textColumn),
-      title: '프로젝트내용',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'totalCtrctPrc'>('totalCtrctPrc',textColumn),
-      title: '총계약금',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'ctrctTypeCd'>('ctrctTypeCd',textColumn),
-      title: '계약유형코드',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'chngYn'>('chngYn',textColumn),
-      title: '변경여부',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'ctrctStartDt'>('ctrctStartDt',textColumn),
-      title: '계약시작일자',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'ctrctEndDt'>('ctrctEndDt',textColumn),
-      title: '계약종료일자',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'totalPrchsPrc'>('totalPrchsPrc',textColumn),
-      title: '총매입금액',
-      grow: 2,
-    },
-    {
-      ...keyColumn<Row,'totalMnm'>('totalMnm',textColumn),
-      title: '총계약공수',
-      grow: 2,
-    },
+    }),
+    ERPDesign.defineColumn('ctrctNo'      , '계약번호'    , textColumn, { pk: true }),
+    ERPDesign.defineColumn('bsntypNm'     , '업종명'      , textColumn, { }),
+    ERPDesign.defineColumn('orderCompn'   , '발주사'      , textColumn, { }),
+    ERPDesign.defineColumn('ctrctCompn'   , '계약사'      , textColumn, { }),
+    ERPDesign.defineColumn('prjctNm'      , '프로젝트명'  , textColumn, { }),
+    ERPDesign.defineColumn('prjctContn'   , '프로젝트내용', textColumn, { }),
+    ERPDesign.defineColumn('totalCtrctPrc', '총계약금'    , textColumn, { }),
+    ERPDesign.defineColumn('ctrctTypeCd'  , '계약유형코드', textColumn, { }),
+    ERPDesign.defineColumn('chngYn'       , '변경여부'    , textColumn, { }),
+    ERPDesign.defineColumn('ctrctStartDt' , '계약시작일자', textColumn, { }),
+    ERPDesign.defineColumn('ctrctEndDt'   , '계약종료일자', textColumn, { }),
+    ERPDesign.defineColumn('totalPrchsPrc', '총매입금액'  , textColumn, { }),
+    ERPDesign.defineColumn('totalMnm'     , '총계약공수'  , textColumn, { }),
   ];
 
   /* ―――――――――――――――― Method ―――――――――――――――― */
@@ -175,7 +126,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
 
     axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
       let rowData = response.data.results;
-      setRowData(rowData);
+      setTable(rowData);
     },{
       orderCompn:formRef.current?.getFieldsValue().orderCompn || undefined,
       ctrctCompn:formRef.current?.getFieldsValue().ctrctCompn || undefined,
@@ -196,7 +147,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
     
       axiosCall('get', FUND_MNPR_CMTMT_INFO, (response) => {
         let rowData = response.data.results;
-        setRowData(rowData);
+        setTable(rowData);
       },{})
   }, []);
 
@@ -219,7 +170,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
       {/* 컨트롤 버튼 영역 */}
       <ERPDesign.ControlArea>
         <ERPDesign.Submit onClick={selectEvent}>조회</ERPDesign.Submit>
-        <ERPDesign.Submit>저장</ERPDesign.Submit>
+        {/* <ERPDesign.Submit>저장</ERPDesign.Submit> */}
       </ERPDesign.ControlArea>
       {/* 테이블 영역 */}
       <ERPDesign.TableArea>
@@ -229,6 +180,7 @@ function MnprCmtmtInfoGrid(props: MnprCmtmtInfoGrid) {
             row: rowData,
             set: setRowData,
           }}
+          tableName={TABLE_NAME}
         />
       </ERPDesign.TableArea>
     </ERPDesign>
