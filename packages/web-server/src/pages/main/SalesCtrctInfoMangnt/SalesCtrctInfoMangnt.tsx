@@ -49,12 +49,14 @@ type Row = {
   dpstSchdDay   : string | null;
   ctrctStartDt  : string | null;
   ctrctEndDt    : string | null;
+  rowEvent      : string | null;
 };
 
 function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   /* ――――――――――――――― Variable ――――――――――――――― */
   const {} = props;
   const API_URL = apiConfig.url;
+  const FUND_SALES_CTRCT_PK = '/sales/find-sales-ctrct-pk';
   const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
   const UPDT_SALES_CTRCT_INFO = '/sales/updt-sales-ctrct-info';
   const TABLE_NAME = "SL001M1"
@@ -70,7 +72,7 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   const [rowData, setRowData] = React.useState<Row[]>([]);
   
   const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(TABLE_NAME));
-  const [updateRowsArr,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(TABLE_NAME));
+  const [updateRows,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(TABLE_NAME));
   // const createdRowIds = useMemo(() => new Set(), []);
   // const updatedRowIds = useMemo(() => new Set(), []);
   // const deletedRowIds = useMemo(() => new Set(), []);
@@ -83,84 +85,135 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   });
 
   // 사용자 지정 Colum
-  const textNotNullColumn = createTextColumn<string | null>({
+  const textNotNullColumn = createTextColumn<string>({
     placeholder: 'NOT NULL',
 
     // alignRight: true
   });
 
+  /*
+  make col(colName,colType,title,opt){
+    
+  }
+
+  
+  */
+  // function defineColumn<R extends Record<string, any>> (colName: keyof R, title: string, column: Partial<Column<any, any, string>>, option?: Record<string, any>) {
+
+  //   const pkCheck = option!['pk'] ? {
+  //     // @ts-ignore
+  //     disabled: ({rowData}) => rowData.rowEvent == undefined || rowData.rowEvent !== "C",
+  //   } : undefined;
+
+  //   return {
+  //     ...keyColumn<R, keyof R>(colName, column),
+  //     title,
+  //     ...option,
+  //     ...pkCheck,
+  //   }
+  // }
   const columns: Column<Row>[] = [
-    {
-      ...keyColumn<Row, 'checkbox'>('checkbox', checkboxColumn),
-      title: '체크박스',
+    ERPDesign.defineColumn('checkbox', '체크박스', checkboxColumn, {
       grow: 1,
       minWidth: 50, // 최소 width
-      maxWidth: 100, // 최대 width
-    },
-    {
-      ...keyColumn<Row, 'ctrctNo'>('ctrctNo', textColumn),
-      title : '계약번호',
-    },       
-    {
-      ...keyColumn<Row, 'bsntypNm'>('bsntypNm', textColumn),
-      title : '업종명',
-    },      
-    {
-      ...keyColumn<Row, 'orderCompn'>('orderCompn', textColumn),
-      title : '발주사',
-    },    
-    {
-      ...keyColumn<Row, 'ctrctCompn'>('ctrctCompn', textColumn),
-      title : '계약사',
-    },    
-    {
-      ...keyColumn<Row, 'prjctNm'>('prjctNm', textColumn),
-      title : '프로젝트명',
-    },       
-    {
-      ...keyColumn<Row, 'prjctContn'>('prjctContn', textColumn),
-      title : '프로젝트내용',
-    },    
-    {
-      ...keyColumn<Row, 'totalCtrctPrc'>('totalCtrctPrc', textColumn),
-      title : '총계약금',
-    }, 
-    {
-      ...keyColumn<Row, 'ctrctTypeCd'>('ctrctTypeCd', textNotNullColumn),
-      title : '계약유형코드',
-    },   
-    {
-      ...keyColumn<Row, 'chngYn'>('chngYn', textNotNullColumn),
-      title : '변경여부',
-    },        
-    {
-      ...keyColumn<Row, 'payGbCd'>('payGbCd', textNotNullColumn),
-      title : '지급구분코드',
-    },       
-    {
-      ...keyColumn<Row, 'issueSchdGbCd'>('issueSchdGbCd', textNotNullColumn),
-      title : '발행일구분코드',
-    }, 
-    {
-      ...keyColumn<Row, 'issueSchdDay'>('issueSchdDay', textColumn),
-      title : '발행예정일',
-    },  
-    {
-      ...keyColumn<Row, 'rvrsIssueYn'>('rvrsIssueYn', textNotNullColumn),
-      title : '역발행여부',
-    },   
-    {
-      ...keyColumn<Row, 'dpstSchdDay'>('dpstSchdDay', textColumn),
-      title : '입금예정일',
-    },   
-    {
-      ...keyColumn<Row, 'ctrctStartDt'>('ctrctStartDt', textColumn),
-      title : '계약시작일자',
-    },  
-    {
-      ...keyColumn<Row, 'ctrctEndDt'>('ctrctEndDt', textColumn),
-      title : '계약종료일자',
-    },    
+      maxWidth: 100, // 최대 width 
+    }),
+    ERPDesign.defineColumn('ctrctNo'      , '계약번호'      , textColumn        , { pk: true }),
+    ERPDesign.defineColumn('bsntypNm'     , '업종명'        , textColumn        , { }),
+    ERPDesign.defineColumn('orderCompn'   , '발주사'        , textColumn        , { }),
+    ERPDesign.defineColumn('ctrctCompn'   , '계약사'        , textColumn        , { }),
+    ERPDesign.defineColumn('prjctNm'      , '프로젝트명'    , textColumn        , { }),
+    ERPDesign.defineColumn('prjctContn'   , '프로젝트내용'  , textColumn        , { }),
+    ERPDesign.defineColumn('totalCtrctPrc', '총계약금'      , textColumn        , { }),
+    ERPDesign.defineColumn('ctrctTypeCd'  , '계약유형코드'  , textNotNullColumn , { }),
+    ERPDesign.defineColumn('chngYn'       , '변경여부'      , textNotNullColumn , { }),
+    ERPDesign.defineColumn('payGbCd'      , '지급구분코드'  , textNotNullColumn , { }),
+    ERPDesign.defineColumn('issueSchdGbCd', '발행일구분코드', textNotNullColumn , { }),
+    ERPDesign.defineColumn('issueSchdDay' , '발행예정일'    , textColumn        , { }),
+    ERPDesign.defineColumn('rvrsIssueYn'  , '역발행여부'    , textNotNullColumn , { }),
+    ERPDesign.defineColumn('dpstSchdDay'  , '입금예정일'    , textColumn        , { }),
+    ERPDesign.defineColumn('ctrctStartDt' , '계약시작일자'  , textColumn        , { }),
+    ERPDesign.defineColumn('ctrctEndDt'   , '계약종료일자'  , textColumn        , { }),
+    // {
+    //   ...keyColumn<Row, 'checkbox'>('checkbox', checkboxColumn),
+    //   title: '체크박스',
+    //   grow: 1,
+    //   minWidth: 50, // 최소 width
+    //   maxWidth: 100, // 최대 width
+    // },
+    // {
+    //   ...keyColumn<Row, 'ctrctNo'>('ctrctNo', textColumn),
+    //   // if currentCol in pk :
+    //   // currentCol is disabled
+    //   title : '계약번호',
+    //   disabled : ({rowData}) => rowData.rowEvent == undefined || rowData.rowEvent !== "C",
+    //   // 
+    //   // disabled : ({rowData}) => 'ctrctNo' in pk ? rowData.rowEvent == undefined || rowData.rowEvent !== "C" : false,
+    // },       
+    // {
+    //   ...keyColumn<Row, 'bsntypNm'>('bsntypNm', textColumn),
+    //   title : '업종명',
+    // },      
+    // {
+    //   ...keyColumn<Row, 'orderCompn'>('orderCompn', textColumn),
+    //   title : '발주사',
+    // },    
+    // {
+    //   ...keyColumn<Row, 'ctrctCompn'>('ctrctCompn', textColumn),
+    //   title : '계약사',
+    // },    
+    // {
+    //   ...keyColumn<Row, 'prjctNm'>('prjctNm', textColumn),
+    //   title : '프로젝트명',
+    // },       
+    // {
+    //   ...keyColumn<Row, 'prjctContn'>('prjctContn', textColumn),
+    //   title : '프로젝트내용',
+    // },    
+    // {
+    //   ...keyColumn<Row, 'totalCtrctPrc'>('totalCtrctPrc', textColumn),
+    //   title : '총계약금',
+    // }, 
+    // {
+    //   ...keyColumn<Row, 'ctrctTypeCd'>('ctrctTypeCd', textNotNullColumn),
+    //   title : '계약유형코드',
+    // },   
+    // {
+    //   ...keyColumn<Row, 'chngYn'>('chngYn', textNotNullColumn),
+    //   title : '변경여부',
+    // },        
+    // {
+    //   ...keyColumn<Row, 'payGbCd'>('payGbCd', textNotNullColumn),
+    //   title : '지급구분코드',
+    // },       
+    // {
+    //   ...keyColumn<Row, 'issueSchdGbCd'>('issueSchdGbCd', textNotNullColumn),
+    //   title : '발행일구분코드',
+    // }, 
+    // {
+    //   ...keyColumn<Row, 'issueSchdDay'>('issueSchdDay', textColumn),
+    //   title : '발행예정일',
+    // },  
+    // {
+    //   ...keyColumn<Row, 'rvrsIssueYn'>('rvrsIssueYn', textNotNullColumn),
+    //   title : '역발행여부',
+    // },   
+    // {
+    //   ...keyColumn<Row, 'dpstSchdDay'>('dpstSchdDay', textColumn),
+    //   title : '입금예정일',
+    // },   
+    // {
+    //   ...keyColumn<Row, 'ctrctStartDt'>('ctrctStartDt', textColumn),
+    //   title : '계약시작일자',
+    // },  
+    // {
+    //   ...keyColumn<Row, 'ctrctEndDt'>('ctrctEndDt', textColumn),
+    //   title : '계약종료일자',
+    // },    
+
+
+
+
     // {
     //   ...keyColumn<Row, 'text'>('text', textColumn),
     //   title: '텍스트',
@@ -260,24 +313,23 @@ function SalesCtrctInfoMangnt(props: SalesCtrctInfoMangntProps) {
   }
 
   function updateEvent(){
-    const updateRows = updateRowsArr[0] as Map<number,any>
-    // 업데이트하는 행이 없다면 업데이트 진행하지않음.
+    // 업데이트하는 행이 없다면 api호출 진행하지않음.
     if(updateRows == undefined || updateRows.size == 0){
       return;
     }
     const apiInput:ApiInput = {
       ...ERPDesign.dataDivider(updateRows),
     }
-    console.log("updateRows - ",updateRows)
-    console.log("apiInput - ",apiInput)
+    // console.log("updateRows - ",updateRows)
+    // console.log("apiInput - ",apiInput)
     
     // 업데이트 후에 updateRows 초기화
-    setUpdateRows([])
+    setUpdateRows(null)
     axiosCall('post', UPDT_SALES_CTRCT_INFO, (response) => {
       // let rowData = response.data.results;
       // setRowData(rowData);
       // setTable(rowData)
-      console.log("response - ", response)
+      // console.log("response - ", response)
       selectEvent()
       // createdRowIds.clear()
       // updatedRowIds.clear()

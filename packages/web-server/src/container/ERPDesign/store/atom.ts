@@ -5,7 +5,7 @@ export type ITableStateId = string;
 type rows = (string | number)[]
 export interface ITableState {
   table: any[];
-  updateRows: Map<number,any>;
+  updateRows: Map<number,any> | null;
 }
 const initTableState: ITableState = {
   table: [],

@@ -64,7 +64,7 @@ namespace ERPDesign {
   // Util Function
   // CRUD가 포함된 데이터들을 해당 함수를통해 C,U,D 각각의 배열로 분리해서 반환합니다.
   export function dataDivider(updateRows:Map<number,any>){
-    // const updateRows = updateRowsArr[0] as Map<number,any>
+    // const updateRows = updateRows as Map<number,any>
     const createData: any[] = []
     const updateData: any[] = []
     const deleteData: any[] = []
@@ -94,6 +94,22 @@ namespace ERPDesign {
       deleteData
     }
     // return updateRowsArr
+  }
+
+  // Column을 생성해주는 함수입니다.
+  export function defineColumn<R extends Record<string, any>> (colName: keyof R, title: string, column: Partial<Column<any, any, string>>, option?: Record<string, any>) {
+
+    const pkCheck = option!['pk'] ? {
+      // @ts-ignore
+      disabled: ({rowData}) => rowData.rowEvent == undefined || rowData.rowEvent !== "C",
+    } : undefined;
+
+    return {
+      ...keyColumn<R, keyof R>(colName, column),
+      title,
+      ...option,
+      ...pkCheck,
+    }
   }
 
 
@@ -202,7 +218,7 @@ namespace ERPDesign {
     } = props;
     
     const [table,setTable] = useRecoilState(TableStateSelector.tableSelector(tableName));
-    const [updateRowsArr,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(tableName));
+    const [updateRows,setUpdateRows] = useRecoilState(TableStateSelector.updateRowsSelector(tableName));
 
     const ref = React.useRef<DataSheetGridRef>(null);
     const counter = useRef(1)
@@ -235,8 +251,9 @@ namespace ERPDesign {
                 data.rowId = genId()
                 data.rowEvent = "C"
                 // }
-                setUpdateRows([data.rowId,{...data, rowId:data.rowId, rowEvent:"C"}])
-                console.log('CREATE',updateRowsArr[0])
+                const newRowData = new Map<number, any>()
+                newRowData.set(data.rowId, { ...data, rowId: data.rowId, rowEvent: "C" })
+                setUpdateRows(newRowData)
               })
           }
           if (operation.type === 'UPDATE') {
@@ -247,19 +264,21 @@ namespace ERPDesign {
                   data.rowId = genId()
                   data.rowEvent = "U"
                 }
-                setUpdateRows([data.rowId,{...data, rowId:data.rowId, rowEvent:"U"}])
-                console.log('UPDATE',updateRowsArr[0])
+                const newRowData = new Map<number, any>()
+                newRowData.set(data.rowId, { ...data, rowId: data.rowId, rowEvent: "U" })
+                setUpdateRows(newRowData)
               })
           }
           if (operation.type === 'DELETE') {
+            if(updateRows === null){
+              return;
+            }
             let keptRows = 0
-
             table
               .slice(operation.fromRowIndex, operation.toRowIndex)
               .forEach((data) => {
                 // data의 id가 없을경우 새로운 id를 할당시켜주기위한 임시변수
                 let newId = undefined
-                const updateRows = updateRowsArr[0] as Map<number,any>
                 if(data.rowId === undefined || updateRows.get(data.rowId).rowEvent === "U" || updateRows.get(data.rowId).rowEvent === "D"){
                   // datasheetgrid 특성상 삭제 액션을 취하면 행 자체를 지워버리기때문에 해당 행을 남기고 플래그를 추가하기위해 해당 행을 다시 추가합니다.
                   newValue.splice(
@@ -274,7 +293,9 @@ namespace ERPDesign {
                   )
                 }
                 
-                setUpdateRows([data.rowId || newId,{...data, rowId:data.rowId || newId, rowEvent:"D"}])
+                const newRowData = new Map<number, any>()
+                newRowData.set(data.rowId || newId,{...data, rowId:data.rowId || newId, rowEvent:"D"})
+                setUpdateRows(newRowData)
               })
               
           }
