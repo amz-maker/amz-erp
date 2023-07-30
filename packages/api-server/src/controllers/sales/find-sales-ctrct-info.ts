@@ -76,8 +76,8 @@ SELECT CTRCT_NO         AS "ctrctNo"       -- 계약번호
         `
         + 
         SqlUtil.AddWhere(input, [
-            ['ctrctStartDt', '>'],
-            ['ctrctEndDt'  , '<'],
+            ['ctrctStartDt', '>='],
+            ['ctrctEndDt'  , '<='],
             ['ctrctCompn'  , 'LIKE'],
             ['orderCompn'  , 'LIKE'],
             ['prjctNm'     , 'LIKE'],

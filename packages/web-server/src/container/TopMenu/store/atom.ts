@@ -10,7 +10,7 @@ const initTopMenuState: ITopMenuState = {
 };
 
 const topMenuState = atomFamily<ITopMenuState, ITopMenuStateId>({
-  key: 'State',
+key: 'State',
   default: (id: ITopMenuStateId) => initTopMenuState,
 });
 

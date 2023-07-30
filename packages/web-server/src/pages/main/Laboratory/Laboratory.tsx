@@ -116,49 +116,14 @@ function Lab01(props: Lab01) {
   const ref = React.useRef<DataSheetGridRef>(null);
 
   const [axiosData, setAxiosData] = React.useState<object>({});
-  const API_URL = 'https://api.erp.koreaats.com';
+  const API_URL = 'https://apierp.koreaats.com';
   const FUND_SALES_CTRCT_INFO = '/sales/find-sales-ctrct-info';
-  function axiosGetTest(uri: string, params: object) {
-    axios
-      .get(`${API_URL}${uri}`, {
-        params,
-      })
-      .then((res) => {
-        console.log(res);
-        setAxiosData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
-  function axiosPostTest(uri: string, params: object) {
+  function axiosCall(method: 'get' | 'post' | 'put' | 'delete', uri: string, params: object) {
     axios
-      .post(`${API_URL}${uri}`, params)
-      .then((res) => {
-        console.log(res);
-        setAxiosData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function axiosPutTest(uri: string, params: object) {
-    axios
-      .put(`${API_URL}${uri}`, params)
-      .then((res) => {
-        console.log(res);
-        setAxiosData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function axiosDeleteTest(uri: string, params: object) {
-    axios
-      .delete(`${API_URL}${uri}`, {
+      .request({
+        url: `${API_URL}${uri}`,
+        method,
         params,
       })
       .then((res) => {
@@ -180,7 +145,7 @@ function Lab01(props: Lab01) {
       <Laboratory.Lab title="Axios Test">
         <button
           onClick={() =>
-            axiosGetTest(FUND_SALES_CTRCT_INFO, {
+            axiosCall('get', FUND_SALES_CTRCT_INFO, {
               ctrctStartDt: 20221201,
               ctrctEndDt: 20240202,
               payGbCd: 'PA01',
