@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.scss';
 
 import Pages from 'pages';
+import AssetLinks from 'applinks';
 import WithMenuLayout from 'layout/WithMenuLayout';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           
         </Route>
         <Route path="/laboratory" element={<Pages.Main.Laboratory />} />
+        <Route path="/.well-known/assetlinks.json" element={<AssetLinks/>} />
       </Routes>
     </div>
   );
