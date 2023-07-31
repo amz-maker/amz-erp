@@ -2,11 +2,14 @@ name: docker-deploy
 
 on:
   pull_request:
+    types:
+      - closed
     branches:
       - main
 
 jobs:
   docker-ssh-action:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     name: Build
     steps:
